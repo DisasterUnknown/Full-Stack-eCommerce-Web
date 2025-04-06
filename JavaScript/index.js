@@ -48,8 +48,14 @@ if (document.getElementById('registerForm')) {
             .then(response => response.text())
             .then(data => {
                 // console.log(data);
-                document.getElementById("responce").innerHTML = data[0]['msg'];
-                document.getElementById("responce").innerHTML = data;
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
+
+                // Storing the user role id in section storage for furthor use
+                sessionStorage.setItem('RoleID', data['roleId']);
+                
+                // Debug
+                // document.getElementById("responce").innerHTML = data;
             })
             .catch(error => console.log("Error:", error));
     });
@@ -79,8 +85,14 @@ if (document.getElementById('loginForm')) {
             .then(response => response.text())
             .then(data => {
                 // console.log(data);
-                // document.getElementById("responce").innerHTML = data[0]['msg'];
-                document.getElementById("responce").innerHTML = data;
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
+
+                // Storing the user role id in section storage for furthor use
+                sessionStorage.setItem('RoleID', data['roleId']);
+
+                // Debug
+                // document.getElementById("responce").innerHTML = data;
             })
             .catch(error => console.log("Error:", error));
     });
