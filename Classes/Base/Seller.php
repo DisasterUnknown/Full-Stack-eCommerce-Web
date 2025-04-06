@@ -13,13 +13,6 @@ class Seller extends User {
     }
 
 
-    // Calling the Login method from User class
-    public function SellerLogin()
-    {
-
-    }
-
-
     // Calling the Register method from User class
     public function SellerRegister()
     {

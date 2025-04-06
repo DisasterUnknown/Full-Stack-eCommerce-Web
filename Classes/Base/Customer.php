@@ -14,12 +14,6 @@ class Customer extends User {
     }
 
 
-    // Calling the Login 
-    public function customerLogin() {
-        
-    }
-
-
     // Calling the Edit Profile
     public function customerEditProfile() {
         

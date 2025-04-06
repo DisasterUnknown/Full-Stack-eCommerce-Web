@@ -6,6 +6,8 @@ $routeHeader = "WebProject";
 // Getting the url 
 $routs = array(
     "$routeHeader/index" => "index.php",
+    "$routeHeader/Pages/register" => "Pages/register.php",
+    "$routeHeader/Pages/login" => "Pages/login.php",
 );
 
 foreach ($routs as $key => $value) {

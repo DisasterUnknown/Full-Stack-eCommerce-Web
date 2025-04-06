@@ -13,13 +13,6 @@ class Admin extends User
     }
 
 
-    // Calling the Login method from User class
-    public function AdminLogin()
-    {
-
-    }
-
-
     // Calling the Register method from User class
     public function AdminRegister()
     {
