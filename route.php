@@ -4,16 +4,6 @@ $requestURL = trim($_SERVER['REQUEST_URI'], '/');
 $routeHeader = "WebProject";
 
 // Getting the url 
-if ($requestURL === 'getdata') {
-    $response = getData();
-
-    echo json_encode([
-        "status" => "success",
-        "data" => $response
-    ]);
-    exit;
-}
-
 $routs = array(
     "$routeHeader/index" => "index.php",
 );
