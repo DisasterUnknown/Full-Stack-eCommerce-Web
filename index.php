@@ -30,12 +30,15 @@
                     <td><input type="tel" id="telIN"></td>
                 </tr>
                 <tr>
+                    <td><label>Address:</label></td>
+                    <td><input type="text" id="addressIN"></td>
+                </tr>
+                <tr>
                     <td><label>Role:</label></td>
                     <td>
                         <select id="roleSelect">
                             <option value="customer">Customer</option>
                             <option value="seller">Seller</option>
-                            <option value="admin">Admin</option>
                         </select>
                     </td>
                 </tr>

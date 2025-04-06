@@ -3,7 +3,7 @@ require_once "../Base/Parent/Users.php";
 
 class Customer extends User {
     // Constructor
-    public function __construct($email, $password, $name, $role) {
+    public function __construct($email = 'null', $password = 'null', $name = 'null', $role = 'null') {
         parent::__construct($email, $password, $name, $role);
     }
 

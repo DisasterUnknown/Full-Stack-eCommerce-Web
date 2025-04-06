@@ -13,6 +13,7 @@ class User extends DataBaseHelper
     private $role;
     private $address;
     private $contact;
+    private $NIC;
 
     // Getters and setters
     public function getName()
@@ -39,6 +40,10 @@ class User extends DataBaseHelper
     {
         return $this->contact;
     }
+    public function getNIC()
+    {
+        return $this->NIC;
+    }
 
     public function setName($data)
     {
@@ -64,9 +69,13 @@ class User extends DataBaseHelper
     {
         $this->contact = $data;
     }
+    public function setNIC($data)
+    {
+        $this->NIC = $data;
+    }
 
     // Constructor
-    public function __construct($email, $password, $name = "null", $role = "null", $address = "null", $contact = "null")
+    public function __construct($email, $password, $name, $role, $address = "null", $contact = "null", $NIC = "null")
     {
         $this->name = $name;
         $this->email = $email;
@@ -74,6 +83,7 @@ class User extends DataBaseHelper
         $this->role = $role;
         $this->address = $address;
         $this->contact = $contact;
+        $this->NIC = $NIC;
     }
 
 
@@ -140,7 +150,7 @@ class User extends DataBaseHelper
                 $result3 = $DBHObject3->ExecuteDB();
 
                 if ($result3) {
-                    return "User Registered Sucessfully!";
+                    return "User Registered Sucessfully! $insertedUserID";
                 } else {
                     return "An Error Occured!";
                 }

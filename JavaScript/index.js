@@ -3,6 +3,7 @@ let email = document.getElementById('emailIN');
 let pass = document.getElementById('passIN');
 let contact = document.getElementById('telIN');
 let role = document.getElementById('roleSelect');
+let address = document.getElementById('addressIN');
 
 
 // User Register
@@ -20,28 +21,22 @@ document.getElementById("submitBtn").addEventListener('click', () => {
         formData.append('passIN', pass.value);
         formData.append('roleSelect', role.value);
         formData.append('Register', 1);
+        formData.append('Customer', 1);
     } else if (role.value == "seller") {
         formData.append('nameIN', username.value);
         formData.append('emailIN', email.value.toLowerCase());
         formData.append('passIN', pass.value);
+        formData.append('addressIN', address.value);
         formData.append('telIN', contact.value.replace(/\s+/g, ''));
         formData.append('roleSelect', role.value);
         formData.append('Register', 1);
+        formData.append('Seller', 1);
     }
-
 
 
     // console.log("Ready to send data!!");
 
-    let fetchFile;
-    if (role.value == "customer") {
-        fetchFile = "Classes/Controller/CustomerController.php";
-    } else if (role.value == "seller") {
-        fetchFile = "Classes/Controller/SellerController.php";
-    } else if (role.value == "admin") {
-        fetchFile = "Classes/Controller/AdminController.php";
-    }
-
+    let fetchFile = "Classes/Controller/FrontAndBackEndHandler.php";
     fetch(fetchFile, {
         method: "POST",
         body: formData

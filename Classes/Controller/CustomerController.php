@@ -4,15 +4,15 @@ require_once "../Base/Customer.php";
 class CustomerController extends Customer
 {
     // Constructor with validation
-    public function __construct($email, $password, $name = "null", $role = "null")
+    public function __construct($email = "null", $password = "null", $name = "null", $role = "null")
     {
         if (!($this->validateName($name) or $name == "null")) {
             throw new Exception("Invalid name.");
         }
-        if (!$this->validateEmail($email)) {
+        if (!$this->validateEmail($email) or $email == "null") {
             throw new Exception("Invalid email.");
         }
-        if (!$this->validatePassword($password)) {
+        if (!$this->validatePassword($password) or $password == "null") {
             throw new Exception("Password must be at least 6 characters.");
         }
         if (!($this->validateRole($role) or $role == "null")) {
@@ -38,11 +38,6 @@ class CustomerController extends Customer
         return strlen($password) >= 6;
     }
 
-    private function validateContact($contact)
-    {
-        return preg_match("/^\+?[0-9]{10,13}$/", $contact);  // E.g., validating a phone number format
-    }
-
     private function validateRole($role)
     {
         // Add valid role options
@@ -52,20 +47,4 @@ class CustomerController extends Customer
 }
 
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-// Get Request from the front-end
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // If Register
-    if ($_POST['Register']) {
-        try {
-            // Pass form data to Customer class and validate
-            $customer = new CustomerController($_POST['emailIN'], $_POST['passIN'], $_POST['nameIN'], $_POST['roleSelect']);
-            echo $customer->customerRegister(); // Output user info if valid
 
-        } catch (Exception $e) {
-            // Output validation errors
-            echo "Error: " . $e->getMessage();
-        }
-    }
-}

@@ -1,8 +1,7 @@
 <?php
-require_once "../Base/Users.php";
-require_once "../Base/Product.php";
+require_once "../Base/Admin.php";
 
-class Admin extends User
+class AdminController extends Admin
 {
     
 }
