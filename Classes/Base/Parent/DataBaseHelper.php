@@ -3,7 +3,7 @@
 class DataBaseHelper
 {
     private $host = "localhost";
-    private $dbName = "SSP1Project";
+    private $dbName = "ssp1web_project";
     private $dbUserName = "root";
     private $dbPassword = "";
 
@@ -32,7 +32,8 @@ class DataBaseHelper
     // Database insert method
     protected function DataBind()
     {
-        $stmt = $this->connect()->prepare($this->query);
+        $pdo = $this->connect();
+        $stmt = $pdo->prepare($this->query);
 
         // Seperating the keys and the values
         $keys = array_keys($this->queryValues);
@@ -50,7 +51,11 @@ class DataBaseHelper
     protected function ExecuteDB() {
         $stmt = $this->DataBind();
 
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return true; // Return true exercute
+        } else {
+            return false; // Return false if fail
+        }
     }
 
     // Database insert method

@@ -12,18 +12,27 @@ document.getElementById("submitBtn").addEventListener('click', () => {
     // console.log(pass.value);
     // console.log(contact.value);
     // console.log(role.value);
-    
+
     let formData = new FormData();
-    formData.append('nameIN', username.value);
-    formData.append('emailIN', email.value.toLowerCase());
-    formData.append('passIN', pass.value);
-    formData.append('telIN', contact.value.replace(/\s+/g, ''));
-    formData.append('roleSelect', role.value);
-    formData.append('Register', 1);
-    
+    if (role.value == "customer") {
+        formData.append('nameIN', username.value);
+        formData.append('emailIN', email.value.toLowerCase());
+        formData.append('passIN', pass.value);
+        formData.append('roleSelect', role.value);
+        formData.append('Register', 1);
+    } else if (role.value == "seller") {
+        formData.append('nameIN', username.value);
+        formData.append('emailIN', email.value.toLowerCase());
+        formData.append('passIN', pass.value);
+        formData.append('telIN', contact.value.replace(/\s+/g, ''));
+        formData.append('roleSelect', role.value);
+        formData.append('Register', 1);
+    }
+
+
 
     // console.log("Ready to send data!!");
-    
+
     let fetchFile;
     if (role.value == "customer") {
         fetchFile = "Classes/Controller/CustomerController.php";
@@ -37,10 +46,10 @@ document.getElementById("submitBtn").addEventListener('click', () => {
         method: "POST",
         body: formData
     })
-    .then(response => response.text())
-    .then(data => {
-        // console.log(data);
-        document.getElementById("responce").innerHTML = data;        
-    })
-    .catch(error => console.log("Error:", error));
+        .then(response => response.text())
+        .then(data => {
+            // console.log(data);
+            document.getElementById("responce").innerHTML = data;
+        })
+        .catch(error => console.log("Error:", error));
 });

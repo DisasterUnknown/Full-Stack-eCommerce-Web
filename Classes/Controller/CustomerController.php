@@ -4,7 +4,7 @@ require_once "../Base/Customer.php";
 class CustomerController extends Customer
 {
     // Constructor with validation
-    public function __construct($email, $password, $name = "null", $contact = "null", $role = "null")
+    public function __construct($email, $password, $name = "null", $role = "null")
     {
         if (!($this->validateName($name) or $name == "null")) {
             throw new Exception("Invalid name.");
@@ -15,14 +15,11 @@ class CustomerController extends Customer
         if (!$this->validatePassword($password)) {
             throw new Exception("Password must be at least 6 characters.");
         }
-        if (!($this->validateContact($contact) or $contact == "null")) {
-            throw new Exception("Invalid contact number.");
-        }
         if (!($this->validateRole($role) or $role == "null")) {
             throw new Exception("Invalid role.");
         }
 
-        parent::__construct($email, $password, $name, $contact, $role);
+        parent::__construct($email, $password, $name, $role);
     }
 
     // Validation methods
@@ -63,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST['Register']) {
         try {
             // Pass form data to Customer class and validate
-            $customer = new CustomerController($_POST['emailIN'], $_POST['passIN'], $_POST['nameIN'], $_POST['telIN'], $_POST['roleSelect']);
+            $customer = new CustomerController($_POST['emailIN'], $_POST['passIN'], $_POST['nameIN'], $_POST['roleSelect']);
             echo $customer->customerRegister(); // Output user info if valid
 
         } catch (Exception $e) {
