@@ -48,6 +48,7 @@
             <button type="button" id="registerBtn">Submit</button>
         </form>
 
+        <div id="compleateResponce"></div>
         <div id="responce"></div>
     </div>
 

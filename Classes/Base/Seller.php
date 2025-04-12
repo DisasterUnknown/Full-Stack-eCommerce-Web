@@ -2,21 +2,14 @@
 require_once "../Base/Parent/Users.php";
 
 class Seller extends User {
-    private $address;
-    private $contact;
-
-    public function __construct($email = 'null', $password = 'null', $name = 'null', $role = 'null', $address = 'null', $contact = 'null') {
-        $this->address = $address;
-        $this->contact = $contact;
-        
-        parent::__construct($email, $password, $name, $role, $this->address, $this->contact);
-    }
+    public function __construct() {}
 
 
     // Calling the Register method from User class
-    public function SellerRegister()
+    public function SellerRegister($email = 'null', $password = 'null', $name = 'null', $role = 'null', $address = 'null', $contact = 'null')
     {
-        return $this->UserRegister();
+        $USER = NEW User($email, $password, $name, $role, $address, $contact);
+        return $USER->UserRegister();
     }
 
 

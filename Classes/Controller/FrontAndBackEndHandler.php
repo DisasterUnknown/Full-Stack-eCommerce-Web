@@ -12,13 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If Customer Register
     if (!empty($_POST['Register']) and !empty($_POST['Customer'])) {
         try {
-            // Pass form data to Customer class and validate
-            $customer = new CustomerController($_POST['emailIN'], $_POST['passIN'], $_POST['nameIN'], $_POST['roleSelect']);
-            echo $customer->customerRegister(); // Output user info if valid
+            // Pass form data to Customer controller class and validate
+            $customer = new CustomerController();
+            echo $customer->CustomerControllerRegister($_POST); // Output user info if valid
 
         } catch (Exception $e) {
             // Output validation errors
-            echo "Error: " . $e->getMessage();
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
 
@@ -26,13 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If Seller Register
     if (!empty($_POST['Register']) and !empty($_POST['Seller'])) {
         try {
-            // Pass form data to Customer class and validate
-            $seller = new SellerController($_POST['emailIN'], $_POST['passIN'], $_POST['nameIN'], $_POST['roleSelect'], $_POST['addressIN'], $_POST['telIN']);
-            echo $seller->SellerRegister(); // Output user info if valid
+            // Pass form data to Seller controller class and validate
+            $seller = new SellerController();
+            echo $seller->SellerControllerRegister($_POST); // Output user info if valid
 
         } catch (Exception $e) {
             // Output validation errors
-            echo "Error: " . $e->getMessage();
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
 
@@ -40,16 +40,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ===============================================
     // ===============================================
     // User Login 
-    // If Customer Register
     if (!empty($_POST['Login'])) {
         try {
-            // Pass form data to Customer class and validate
+            // Pass form data to User class and validate
             $user = new User($_POST['emailIN'], $_POST['passIN']);
             echo $user->UserLogin($user); // Output user info if valid
 
         } catch (Exception $e) {
             // Output validation errors
-            echo "Error: " . $e->getMessage();
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // ===============================================
+    // ===============================================
+    // User Login
+    if (!empty($_POST['AddProduct'])) {
+        try {
+            // Pass form data to the Seller controller class and validate 
+            $seller = new SellerController();
+            echo $seller->SellerControllerAddProduct($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    } 
 }
