@@ -48,7 +48,7 @@ if (document.getElementById('registerForm')) {
             .then(response => response.text())
             .then(data => {
                 console.log(data);
-                
+
                 document.getElementById("compleateResponce").innerHTML = data;
 
                 // console.log(data);
@@ -108,38 +108,36 @@ if (document.getElementById('loginForm')) {
 // Seller Add product
 if (document.getElementById('addProductForm')) {
     document.getElementById('addProductBtn').addEventListener('click', () => {
-        let mainImage = document.getElementById('mainImgIN');
+        let mainImage = document.getElementById('mainImageBase64');
         let productName = document.getElementById('productNameIN');
         let price = document.getElementById('priceIN');
         let amount = document.getElementById('amountIN');
         let discount = document.getElementById('discountIN');
         let description = document.getElementById('descriptionIN');
-        let image1 = document.getElementById('imgIN1');
-        let image2 = document.getElementById('imgIN2');
-        let image3 = document.getElementById('imgIN3');
-        let image4 = document.getElementById('imgIN4');
+        let image1 = document.getElementById('image1Base64');
+        let image2 = document.getElementById('image2Base64');
+        let image3 = document.getElementById('image3Base64');
+        let image4 = document.getElementById('image4Base64');
 
         // Getting the seller id from the section storage 
-        const sellerID = sessionStorage.getItem('sellerId');
-
+        let sellerID = sessionStorage.getItem('RoleID') || "";
+        if (!sellerID.startsWith("SE")) {
+            sellerID = "";
+        }
 
         let formData = new FormData();
         formData.append('sellerID', sellerID);
-        formData.append('mainImgIN', mainImage.files[0]);
+        formData.append('mainImgIN', mainImage.innerHTML);
         formData.append('productNameIN', productName.value);
         formData.append('priceIN', price.value);
         formData.append('amountIN', amount.value);
         formData.append('discountIN', discount.value);
         formData.append('descriptionIN', description.value);
-        formData.append('imgIN1', image1.files[0]);
-        formData.append('imgIN2', image2.files[0]);
-        formData.append('imgIN3', image3.files[0]);
-        formData.append('imgIN4', image4.files[0]);
+        formData.append('imgIN1', image1.innerHTML);
+        formData.append('imgIN2', image2.innerHTML);
+        formData.append('imgIN3', image3.innerHTML);
+        formData.append('imgIN4', image4.innerHTML);
         formData.append('AddProduct', 1);
-        console.log(sellerID);
-        
-        
-        
 
         fetch(fetchFile, {
             method: "POST",

@@ -47,10 +47,16 @@
             <button type="button" id="addProductBtn">Submit</button>
         </form>
 
+        <div id="mainImageBase64">null</div>
+        <div id="image1Base64">null</div>
+        <div id="image2Base64">null</div>
+        <div id="image3Base64">null</div>
+        <div id="image4Base64">null</div>
         <div id="compleateResponce"></div>
         <div id="responce"></div>
     </div>
 
+    <script src="/WebProject/JavaScript/addNewProduct.js"></script>
     <script src="/WebProject/JavaScript/index.js"></script>
 </body>
 

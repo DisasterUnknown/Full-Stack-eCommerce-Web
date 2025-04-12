@@ -55,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // ===============================================
     // ===============================================
-    // User Login
+    // Seller Add Product
     if (!empty($_POST['AddProduct'])) {
         try {
-            // Pass form data to the Seller controller class and validate 
+            // Pass form data to the Seller controller class and validate
             $seller = new SellerController();
             echo $seller->SellerControllerAddProduct($_POST);
         } catch (Exception $e) {

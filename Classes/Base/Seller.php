@@ -1,5 +1,6 @@
 <?php
 require_once "../Base/Parent/Users.php";
+require_once "../Base/Parent/Product.php";
 
 class Seller extends User {
     public function __construct() {}
@@ -49,9 +50,10 @@ class Seller extends User {
 
 
     // Calling the add product method from Product class
-    public function SellerAddProduct()
+    public function SellerAddProduct($post)
     {
-
+        $PRODUCT = new Product();
+        return $PRODUCT->AddProduct($post);
     }
 
 
