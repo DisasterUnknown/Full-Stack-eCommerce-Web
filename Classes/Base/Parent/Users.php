@@ -160,10 +160,10 @@ class User extends DataBaseHelper
                         return json_encode(['msg' => 'Incorect Email or Password!!']);
                     }
                 } else {
-                    return json_encode(['msg' => 'User Does not Exist!!']);
+                    return json_encode(['msg' => 'Incorrect Email or Password!!']);
                 }
             } else {
-                return json_encode(['msg' => 'User Does not Exist!!']);
+                return json_encode(['msg' => 'Incorrect Email or Password!!']);
             }
         } catch (Exception $e) {
             return json_encode(['msg' => 'Something Went Wrong!!']);
