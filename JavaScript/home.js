@@ -24,13 +24,13 @@ window.onload = () => {
     } else {
         // Adding the products to the fields of ART 
         for (let i = 1; i < 5; i++) {
-            document.getElementById(`artSectionImg${i}`).style.backgroundImage = "url('assets/temp1.jpg')";
+            document.getElementById(`artSectionImg${i}`).style.backgroundImage = "url('assets/art1.jpg')";
         }
 
 
         // Adding the products to the fields of Collectbiles 
         for (let i = 1; i < 5; i++) {
-            document.getElementById(`collectiblesSectionImg${i}`).style.backgroundImage = "url('assets/temp1.jpg')";
+            document.getElementById(`collectiblesSectionImg${i}`).style.backgroundImage = "url('assets/collectebils1.avif')";
         }
     }
 }

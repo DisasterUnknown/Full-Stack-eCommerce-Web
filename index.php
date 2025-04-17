@@ -59,7 +59,7 @@ $content = <<<HTML
                 </div>
 
                 <div class="relative border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
-                    <img src="assets/temp1.jpg" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
+                    <img src="assets/art1.jpg" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
                     <div class="relative z-10 w-full h-full flex items-center justify-center">
                         <span class="text-lg font-bold text-white">View All</span>
                     </div>
@@ -116,7 +116,7 @@ $content = <<<HTML
                 </div>
 
                 <div class="relative border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
-                    <img src="assets/temp1.jpg" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
+                    <img src="assets/collectebils1.avif" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
                     <div class="relative z-10 w-full h-full flex items-center justify-center">
                         <span class="text-lg font-bold text-white">View All</span>
                     </div>
