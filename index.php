@@ -14,27 +14,113 @@ $content = <<<HTML
         <div>
             <p class="text-2xl text-center font-bold text-white mt-15">Art</p>
             <div class="flex justify-evenly mt-8">
-                <div class="border p-20 rounded">1</div>
-                <div class="border p-20 rounded hidden md:block">2</div>
-                <div class="border p-20 rounded hidden lg:block">3</div>
-                <div class="border p-20 rounded hidden">4</div>
-                <div class="border p-20 rounded hidden">5</div>
-                <div class="border p-20 rounded">6</div>
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden md:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden lg:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden xl:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Collectibles display section -->
-        <!-- <div>
-            <p class="text-2xl text-center font-bold text-white mt-15">Collectibles</p>
-            <div class="flex justify-between ml-20 mr-20 mt-8">
-                <div class="border p-20 rounded"></div>
-                <div class="border p-20 rounded"></div>
-                <div class="border p-20 rounded"></div>
-                <div class="border p-20 rounded"></div>
-                <div class="border p-20 rounded"></div>
-                <div class="border p-20 rounded"></div>
+        <div>
+            <p class="text-2xl text-center font-bold text-white mt-10">Collectibles</p>
+            <div class="flex justify-evenly mt-8">
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden md:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden lg:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hidden xl:block hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
+
+                <div class="border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+                    <div class="relative w-full aspect-w-16 aspect-h-9">    
+                        <img src="assets/temp1.jpg" alt="" class="object-cover rounded-2xl w-full h-full">
+                    </div>
+                    <div class="px-3 py-2 bg-blue-500/10 rounded-xl">
+                        <span>Metal Art</span>
+                        <p>Price:- <span>Rs. 10,000</span></p>
+                    </div>
+                </div>
             </div>
-        </div> -->
+        </div>
     </div>
 HTML;
 include 'Components/layout.php';

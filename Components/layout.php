@@ -12,9 +12,7 @@
 <body class="min-h-screen bg-gradient-to-b from-[#01002e] to-black text-white">
 
     <!-- Hamburger Icon (mobile only) -->
-    <button id="hamburger" class="top-2 left-2 z-50 md:hidden bg-white/10 p-2 pb-0 rounded">
-        <span class="material-symbols-outlined text-white">menu</span>
-    </button>
+    
 
     <!-- Calling the sidebar -->
     <?php include 'Includes/sidebar.php'; ?>
