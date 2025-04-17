@@ -10,12 +10,19 @@
 
 <body class="relative" id="loginPage">
     <div class="bg-cover bg-center h-screen" style="background-image: url('/WebProject/assets/LoginBackground.gif')">
+        <!-- Top Nav Bar      -->
         <div class="flex justify-between absolute top-0 left-0 w-full">
-            <a href="" class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 ml-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">BlueArt</a>
-            <a href="" class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 mr-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">About Us</a>
+            <a href=""
+                class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 ml-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">BlueArt</a>
+            <a href=""
+                class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 mr-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">About
+                Us</a>
         </div>
+
+        <!-- Login Form  -->
         <div class="flex items-center justify-center h-screen">
-            <form class="bg-white bg-opacity-5 backdrop-blur-lg p-8 w-[85%] sm:w-[350px] shadow-lg rounded shadow-lg" id="loginForm">
+            <form class="bg-white bg-opacity-5 backdrop-blur-lg p-8 w-[85%] sm:w-[350px] shadow-lg rounded shadow-lg"
+                id="loginForm">
                 <h1 class="text-3xl text-white text-center font-bold mb-7">Login</h1>
 
                 <div class="flex justify-center mb-2">
@@ -44,7 +51,8 @@
         </div>
 
         <!-- Footer with absolute positioning -->
-        <footer class="absolute bottom-0 left-0 w-full bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 pt-2 pb-2">
+        <footer
+            class="absolute bottom-0 left-0 w-full bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 pt-2 pb-2">
             <p class="text-center text-white">&copy; 2025 BlueArt. All Rights Reserved.</p>
         </footer>
     </div>
