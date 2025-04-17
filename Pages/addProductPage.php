@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
     <title>Document</title>
 </head>
 
@@ -32,8 +32,15 @@
                     <td><input type="text" id="discountIN"></td>
                 </tr>
                 <tr>
+                    <label>Category:</label>
+                    <select id="categorySelect">
+                        <option value="art">Art</option>
+                        <option value="collectibles">Collectibles</option>
+                    </select>
+                </tr>
+                <tr>
                     <td><label>Description:</label></td>
-                    <td><textarea placeholder="Enter product description..." rows="5" cols="30" maxlength="200"
+                    <td><textarea placeholder="Enter product description..." rows="5" cols="30" maxlength="1000"
                             id="descriptionIN"></textarea></td>
                 </tr>
                 <tr>

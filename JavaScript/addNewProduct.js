@@ -12,7 +12,7 @@ let img4_64 = document.getElementById('image4Base64');
 
 function storeImgBase64Data(imgfile, imgDataHtmlTag) {
     const file = imgfile.files[0];
-    const validTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    const validTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
     
     if (file && validTypes.includes(file.type)) {
         const imgData = new FileReader();

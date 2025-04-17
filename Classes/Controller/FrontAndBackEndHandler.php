@@ -4,9 +4,10 @@ require_once "AdminController.php";
 require_once "SellerController.php";
 require_once "CustomerController.php";
 require_once "../Base/Parent/Users.php";
+require_once "../Base/Parent/Product.php";
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-// Get Request from the front-end
+// Get POST Request from the front-end
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If Customer Register
@@ -22,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    
+
     // If Seller Register
     if (!empty($_POST['Register']) and !empty($_POST['Seller'])) {
         try {
@@ -64,5 +65,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (Exception $e) {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
-    } 
+    }
+
+
+    // ===============================================
+    // ===============================================
+}
+
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Get GET Request from the front-end
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Home Page onload
+    if (!empty($_GET['HomePage'])) {
+        try {
+            $product = new Product();
+            echo $product->ViewProduct($product);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }

@@ -36,6 +36,8 @@
 
 
     <script defer src="/WebProject/JavaScript/layout.js"></script>
+    <script defer src=<?= $scriptIndex ?>></script>
+    <script defer src=<?= $scriptPage ?>></script>
 </body>
 
 </html>

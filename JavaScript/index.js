@@ -41,6 +41,7 @@ if (document.getElementById('registerForm')) {
 
         // console.log("Ready to send data!!");
 
+        // Getting the data from the backend
         fetch(fetchFile, {
             method: "POST",
             body: formData
@@ -81,6 +82,7 @@ if (document.getElementById('loginForm')) {
         formData.append('passIN', pass.value);
         formData.append('Login', 1);
 
+        // Getting the data from the backend
         fetch(fetchFile, {
             method: "POST",
             body: formData
@@ -113,6 +115,7 @@ if (document.getElementById('addProductForm')) {
         let price = document.getElementById('priceIN');
         let amount = document.getElementById('amountIN');
         let discount = document.getElementById('discountIN');
+        let category = document.getElementById('categorySelect');
         let description = document.getElementById('descriptionIN');
         let image1 = document.getElementById('image1Base64');
         let image2 = document.getElementById('image2Base64');
@@ -132,6 +135,7 @@ if (document.getElementById('addProductForm')) {
         formData.append('priceIN', price.value);
         formData.append('amountIN', amount.value);
         formData.append('discountIN', discount.value);
+        formData.append('categorySelect', category.value);
         formData.append('descriptionIN', description.value);
         formData.append('imgIN1', image1.innerHTML);
         formData.append('imgIN2', image2.innerHTML);
@@ -139,6 +143,7 @@ if (document.getElementById('addProductForm')) {
         formData.append('imgIN4', image4.innerHTML);
         formData.append('AddProduct', 1);
 
+        // Getting the data from the backend
         fetch(fetchFile, {
             method: "POST",
             body: formData
@@ -152,4 +157,28 @@ if (document.getElementById('addProductForm')) {
             })
             .catch(error => console.log("Error:", error));
     });
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// Home Page
+if (document.getElementById('homePage')) {
+    let params = new URLSearchParams();
+    params.append('HomePage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+            
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
 }
