@@ -22,15 +22,41 @@ window.onload = () => {
             document.getElementById(`collectiblesSectionPrice${i}`).innerHTML = parseInt(documentObjects['msg'][i + (4 - 1)]["Price"]).toLocaleString();
         }
     } else {
-        // Adding the products to the fields of ART 
+        // Adding dumy img to the fields of ART 
         for (let i = 1; i < 5; i++) {
             document.getElementById(`artSectionImg${i}`).style.backgroundImage = "url('assets/art1.jpg')";
         }
 
 
-        // Adding the products to the fields of Collectbiles 
+        // Adding dumy img to the fields of Collectbiles 
         for (let i = 1; i < 5; i++) {
             document.getElementById(`collectiblesSectionImg${i}`).style.backgroundImage = "url('assets/collectebils1.avif')";
         }
+    }
+
+
+    // =================================================
+    // Adding event Listener to the products 
+    for (let i = 1; i <= 4; i++) {
+        let artCard = document.getElementById(`artCard${i}`);
+        let artProductId = document.getElementById(`artSection${i}ProductID`);
+
+        let collectiblesCard = document.getElementById(`collecteblesCard${i}`);
+        let collectiblesProductId = document.getElementById(`collectiblesSection${i}ProductID`);
+
+        artCard.addEventListener('click', () => {
+            GetProductIdAndNavigateUser(artProductId);
+        });
+
+        collectiblesCard.addEventListener('click', () => {
+            GetProductIdAndNavigateUser(collectiblesProductId);
+        });
+    }
+
+    function GetProductIdAndNavigateUser(productID) {
+        console.log(productID.innerHTML);
+        sessionStorage.setItem('ProductID', productID.innerHTML);
+
+        window.location.href = "/WebProject/Pages/viewProductDetails";
     }
 }

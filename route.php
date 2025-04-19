@@ -9,6 +9,7 @@ $routs = array(
     "$routeHeader/Pages/register" => "Pages/register.php",
     "$routeHeader/Pages/login" => "Pages/login.php",
     "$routeHeader/Pages/addProduct" => "Pages/addProductPage.php",
+    "$routeHeader/Pages/viewProductDetails" => "Pages/viewProductDetails.php",
 );
 
 foreach ($routs as $key => $value) {
