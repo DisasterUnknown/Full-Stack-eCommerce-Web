@@ -131,6 +131,39 @@ class Product extends DataBaseHelper
     // Buy product method
     public function BuyProduct()
     {
+        
+    }
 
+
+    // View product Details methos
+    static function ViewProductDetails($productId)
+    {
+        try {
+            $query = "
+                    SELECT 
+                        p.ProductID,
+                        p.SellerID,
+                        p.ProductName,
+                        p.Description,
+                        p.Price,
+                        p.Discount,
+                        i.Content
+                    FROM 
+                        products p
+                    LEFT JOIN 
+                        images i ON p.ProductID = i.ProductID
+                    WHERE 
+                        p.ProductID = :productID
+                    ";
+
+            $values = [":productID" => $productId];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
     }
 }

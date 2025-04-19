@@ -86,4 +86,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+    // View Product Page onload
+    if (!empty($_GET['ViewProductPage'])) {
+        try {
+            $product = new Product();
+            echo $product->ViewProductDetails($_GET['ProductID']);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error' . $e->getMessage()]);
+        }
+    }
 }

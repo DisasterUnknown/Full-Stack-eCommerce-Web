@@ -3,7 +3,7 @@
         <button id="hamburger" class="z-60 md:hidden bg-white/10 p-2 pb-0 rounded">
             <span class="material-symbols-outlined text-white">menu</span>
         </button>
-        <a href="#" class="text-xl py-1 px-3 text-white font-bold">BlueArt</a>
+        <a href="/WebProject/" class="text-xl py-1 px-3 text-white font-bold">BlueArt</a>
     </div>
     <a href="#"
         class="border bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">Cart</a>

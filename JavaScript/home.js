@@ -1,7 +1,16 @@
-window.onload = () => {
+let targetNode = document.getElementById('compleateResponce');
+
+// Configuring observer for changes in child nodes and text content
+const config = { childList: true, subtree: true, characterData: true };
+
+// Exercuting the callback function when changes happen 
+const callback = function(mutationsList, observer) {
+    console.log("home");
+    
     let documentObjects = document.getElementById('compleateResponce').innerHTML;
 
     if (documentObjects != "null") {
+        console.log("Have Content");
         documentObjects = JSON.parse(documentObjects);
 
         // console.log(documentObjects['msg'][0]["ProductID"]);
@@ -10,7 +19,7 @@ window.onload = () => {
             document.getElementById(`artSection${i}ProductID`).innerHTML = documentObjects['msg'][i - 1]["ProductID"];
             document.getElementById(`artSectionImg${i}`).style.backgroundImage = `url(${documentObjects['msg'][i - 1]["Content"]})`;
             document.getElementById(`artSectionName${i}`).innerHTML = documentObjects['msg'][i - 1]["ProductName"].substring(0, 12) + "...";
-            document.getElementById(`artSectionPrice${i}`).innerHTML = parseInt(documentObjects['msg'][i + (4 - 1)]["Price"]).toLocaleString();
+            document.getElementById(`artSectionPrice${i}`).innerHTML = parseInt(documentObjects['msg'][i -1]["Price"]).toLocaleString();
         }
 
 
@@ -60,3 +69,10 @@ window.onload = () => {
         window.location.href = "/WebProject/Pages/viewProductDetails";
     }
 }
+
+
+// Create a MutationObserver with the callback
+const observer = new MutationObserver(callback);
+
+// Start observing the target node with the specified configuration
+observer.observe(targetNode, config);

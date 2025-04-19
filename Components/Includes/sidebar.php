@@ -3,7 +3,7 @@
         <ul class="space-y-5">
             <!-- Menu items -->
             <li>
-                <a href="#"
+                <a href="/WebProject/"
                     class="flex items-center text-gray-300 font-sans rounded-full hover:bg-black transition-colors duration-500">
                     <span class="material-symbols-outlined p-2 text-xl rounded-full bg-black">home</span>
                     <span class="menu-text hidden ml-4">Home</span>
