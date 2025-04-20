@@ -1,4 +1,5 @@
 document.getElementById('noProductCartId').style.display = 'none';
+document.getElementById('noLoginErrorMsg').style.display = "none";
 let targetNode = document.getElementById('compleateResponce');
 
 // Configuring observer for changes in child nodes and text content
@@ -89,6 +90,12 @@ function FillThePageContents(data) {
 
 // Check Out Btn Functions 
 document.getElementById('payBtnDiv').addEventListener('click', () => {
-    // window.location.href = "/WebProject/Pages/viewProductDetails";
+    let userId = sessionStorage.getItem('RoleID') || "null";
+    
+    if (userId == "null") {
+        document.getElementById('noLoginErrorMsg').style.display = "block";
+    } else {
+        // window.location.href = "/WebProject/Pages/viewProductDetails";
+    }
 });
 

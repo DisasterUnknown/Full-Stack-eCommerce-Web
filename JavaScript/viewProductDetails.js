@@ -70,18 +70,21 @@ let userRole = sessionStorage.getItem('RoleID') || "";
 let sellerId = document.getElementById('selledID').innerHTML;
 let productActionBtn = document.getElementById('productActionBtn');
 
-document.getElementById('productActionBtn').addEventListener('click', () => {
-    if (userRole == sellerId) {
-        productActionBtn.innerHTML = "Edit Product";
-        productActionBtn.addEventListener('click', () => {
-            window.location.href = "/WebProject/Pages/editProduct";
-        })
-    } else if (userRole.startsWith("AD")) {
-        productActionBtn.innerHTML = "Remove Product";
-        productActionBtn.addEventListener('click', () => {
-            window.location.href = "/WebProject/Pages/editProduct";
-        })
-    } else {
+
+if (userRole == sellerId) {
+    productActionBtn.innerHTML = "Edit Product";
+    productActionBtn.addEventListener('click', () => {
+        window.location.href = "/WebProject/Pages/editProduct";
+    })
+} else if (userRole.startsWith("AD")) {
+    productActionBtn.innerHTML = "Remove Product";
+    productActionBtn.addEventListener('click', () => {
+        window.location.href = "/WebProject/Pages/editProduct";
+    })
+} else if (userRole.startsWith("SE")) {
+    productActionBtn.style.display = 'none';
+} else {
+    productActionBtn.addEventListener('click', () => {
         let productId = sessionStorage.getItem('ProductID');
         let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || [];
 
@@ -94,5 +97,5 @@ document.getElementById('productActionBtn').addEventListener('click', () => {
             document.getElementById('userIntraction').innerHTML = "Product is already there in your Cart!!";
             document.getElementById('userIntraction').style.color = "red";
         }
-    }
-});
+    });
+}

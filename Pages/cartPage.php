@@ -36,8 +36,9 @@ $content = <<<HTML
 
 
         <!-- Cart Check Out -->
-        <div id="payBtnDiv" class="w-full flex justify-center my-8 mb-40">
-            <button id="payBtn" class="border bg-green-500/20 hover:bg-green-600/60 text-white font-bold px-6 py-3 rounded-xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
+        <div id="payBtnDiv" class="w-full flex flex-col justify-center items-center my-8 mb-40">
+            <p id="noLoginErrorMsg" class="w-fit mx-auto mb-2 text-red-600 font-semibold">Please Login First!!</p>
+            <button id="payBtn" class="border w-fit bg-green-500/20 hover:bg-green-600/60 text-white font-bold px-6 py-3 rounded-xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">
                 Complete Purchase
             </button>
         </div>
