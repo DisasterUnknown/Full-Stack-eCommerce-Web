@@ -131,15 +131,16 @@ class Product extends DataBaseHelper
     // Buy product method
     public function BuyProduct()
     {
-        
+
     }
 
 
-    // View product Details methos
+    // View product Details method
     static function ViewProductDetails($productId)
     {
         try {
-            $query = "
+            if (strpos($productId, '+') == false) {
+                $query = "
                     SELECT 
                         p.ProductID,
                         p.SellerID,
@@ -155,7 +156,19 @@ class Product extends DataBaseHelper
                     WHERE 
                         p.ProductID = :productID
                     ";
-
+            } else {
+                $productId = rtrim($productId, '+');
+                $query = "SELECT p.ProductID, p.ProductName, p.Price, p.Discount, i.Content
+                      FROM products p
+                      JOIN (
+                        SELECT ProductID, MIN(ImageID) AS MinImageID
+                        FROM images
+                        GROUP BY ProductID
+                      ) img_min ON p.ProductID = img_min.ProductID
+                      JOIN images i ON img_min.MinImageID = i.ImageID
+                      WHERE p.ProductID = :productID
+                      LIMIT 1;";
+            }
             $values = [":productID" => $productId];
 
             $DBHObject = new DataBaseHelper($query, $values);

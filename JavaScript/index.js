@@ -211,3 +211,30 @@ if (document.getElementById('viewProductDetails')) {
         })
         .catch(error => console.log("Error:", error));
 }
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// Cart Page
+if (document.getElementById('viewCartDetails')) {
+    let productIDs = localStorage.getItem('cartProducts');
+    
+    let params = new URLSearchParams();
+    params.append('ProductIDs', productIDs);
+    params.append('ViewCartPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+            
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+}

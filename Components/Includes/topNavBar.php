@@ -5,6 +5,6 @@
         </button>
         <a href="/WebProject/" class="text-xl py-1 px-3 text-white font-bold">BlueArt</a>
     </div>
-    <a href="#"
+    <a href="/WebProject/Pages/cartPage"
         class="border bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">Cart</a>
 </div>

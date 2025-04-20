@@ -31,6 +31,12 @@ class CustomerController extends Customer
         $customer = new Customer();
         return $customer->customerRegister($email, $password, $name, $role);
     }
+
+    // View Cart Page
+    public function GetCartProductDetails($get) {
+        $customer = new Customer();
+        return $customer->GetCartProductDetails($get);
+    }
 }
 
 

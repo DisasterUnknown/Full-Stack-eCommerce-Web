@@ -5,6 +5,7 @@ in the view product page add the opptions
 
 Create the user Cart Page 
     Remove products
+    view Product Details (To the above View Product Page)
     And Buy products
 
 Seller Add Products Page

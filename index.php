@@ -46,17 +46,17 @@ for ($i = 1; $i < 5; $i++) {
 
 $content = <<<HTML
     <div class="space-y-4" id="homePage">
-        <!-- Advertisment Section -->
-        <div>
+        <!-- Advertisment Section (TODO if there is extra time) -->
+        <!-- <div>
             <p class="text-2xl text-center font-bold text-white mt-5 mb-8">Sponsored Spotlight!</p>
             <div class="border rounded-2xl w-[90%] md:w-[80%] mx-auto">
                 <img src="assets/banner1.png" alt="" class="rounded-2xl">
             </div>
-        </div>
+        </div> -->
 
         <!-- Art display section -->
         <div>
-            <p class="text-2xl text-center font-bold text-white mt-10 lg:mt-20">Art</p>
+            <p class="text-2xl text-center font-bold text-white mt-20 lg:mt-5">Art</p>
             <div class="flex justify-evenly mt-8">
                 $artCards
                 <div class="relative border w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">

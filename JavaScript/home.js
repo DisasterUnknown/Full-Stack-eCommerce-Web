@@ -63,7 +63,7 @@ const callback = function(mutationsList, observer) {
     }
 
     function GetProductIdAndNavigateUser(productID) {
-        console.log(productID.innerHTML);
+        // console.log(productID.innerHTML);
         sessionStorage.setItem('ProductID', productID.innerHTML);
 
         window.location.href = "/WebProject/Pages/viewProductDetails";

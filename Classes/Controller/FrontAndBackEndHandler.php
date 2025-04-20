@@ -96,4 +96,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error' . $e->getMessage()]);
         }
     }
+
+    // View Cart Page onload
+    if (!empty($_GET['ViewCartPage'])) {
+        try {
+            $customerController = new CustomerController();
+            echo $customerController->GetCartProductDetails($_GET['ProductIDs']);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error' . $e->getMessage()]);
+        }
+    }
 }
