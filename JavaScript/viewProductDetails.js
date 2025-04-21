@@ -9,6 +9,7 @@ const callback = function (mutationsList, observer) {
 
     if (productDetails != 'null') {
         productDetails = JSON.parse(productDetails);
+        let productQuantity = document.getElementById('productQuantity');
 
         // Adding the contets to the sections 
         document.getElementById('productName').innerHTML = productDetails['msg'][0]['ProductName'];
@@ -17,7 +18,7 @@ const callback = function (mutationsList, observer) {
         document.getElementById('productPrice').innerHTML = `Rs. ${parseInt(productDetails['msg'][0]["Price"]).toLocaleString()}`;
         document.getElementById('productDiscount').innerHTML = `${parseFloat(productDetails['msg'][0]['Discount']).toFixed(1)}%`;
         document.getElementById('productDescription').innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${productDetails['msg'][0]['Description']}`;
-        document.getElementById('productSalesPrice').innerHTML = `Rs. ${((parseFloat(productDetails['msg'][0]["Price"]) / 100) * (100 - parseFloat(productDetails['msg'][0]['Discount']))).toLocaleString()}`;
+        document.getElementById('productSalesPrice').innerHTML = `Rs. ${((parseFloat(productDetails['msg'][0]["Price"] * parseInt(productQuantity.innerHTML)) / 100) * (100 - parseFloat(productDetails['msg'][0]['Discount']))).toLocaleString()}`;
 
 
         // ==========================================================================
@@ -139,7 +140,7 @@ document.getElementById('increaseQuantity').addEventListener('click', () => {
         productSalesPrice.innerHTML = newPrice;
     }
 
-    
+
     if (parseInt(productQuantity.innerHTML) > 100) {
         productQuantity.innerHTML = '100';
     }

@@ -40,11 +40,12 @@ function FillThePageContents(data) {
             // console.log(element['msg'][0]['ProductID']);
             elementId++;
 
+            let productCardPrice = (parseFloat(element['msg'][0]['Price']) * productQuantityList[element['msg'][0]['ProductID']])/100 * (100 - element['msg'][0]['Discount']);
             dispalyCartSection.innerHTML += `<div id="cartProductCard${elementId}" class="relative border mb-10 mt-3 mx-3 h-40 md:h-60 lg:h-80 w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">     
                     <img src=${element['msg'][0]['Content']} alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
                     <div class="relative z-10 w-full h-full flex flex-col items-center justify-center">
                         <span class="text-lg text-center font-bold text-white">${element['msg'][0]['ProductName'].substring(0, 10) + "..."}</span>
-                        <span class="text-lg mt-[9%] font-bold text-white">${("Rs. " + parseInt(element['msg'][0]['Price']).toLocaleString()).substring(0, 13)}</span>
+                        <span class="text-lg mt-[9%] font-bold text-white">${("Rs. " + parseInt(productCardPrice).toLocaleString()).substring(0, 13)}</span>
                         <button id="removeProductFromCart${elementId}" class="border bg-white/10 hover:bg-red-500/30 px-4 py-1 mt-[10%] font-semibold rounded-full">
                             Remove
                             <div id="productIdContainer${elementId}" class="hidden">${element['msg'][0]['ProductID']}</div>
@@ -52,11 +53,8 @@ function FillThePageContents(data) {
                     </div>
                 </div>`;
 
-            let productCardPrice = (parseFloat(element['msg'][0]['Price']) * productQuantityList[element['msg'][0]['ProductID']])/100 * (100 - element['msg'][0]['Discount']);
             
-            cartTotalPrice = cartTotalPrice + productCardPrice;
-            console.log(cartTotalPrice);
-            
+            cartTotalPrice = cartTotalPrice + productCardPrice;            
         });
 
         // Adding the Cart total price 
