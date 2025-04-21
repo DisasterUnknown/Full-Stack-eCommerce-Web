@@ -17,6 +17,7 @@ const callback = function (mutationsList, observer) {
         document.getElementById('productPrice').innerHTML = `Rs. ${parseInt(productDetails['msg'][0]["Price"]).toLocaleString()}`;
         document.getElementById('productDiscount').innerHTML = `${parseFloat(productDetails['msg'][0]['Discount']).toFixed(1)}%`;
         document.getElementById('productDescription').innerHTML = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${productDetails['msg'][0]['Description']}`;
+        document.getElementById('productSalesPrice').innerHTML = `Rs. ${((parseFloat(productDetails['msg'][0]["Price"]) / 100) * (100 - parseFloat(productDetails['msg'][0]['Discount']))).toLocaleString()}`;
 
 
         // ==========================================================================
@@ -71,27 +72,47 @@ let sellerId = document.getElementById('selledID').innerHTML;
 let productActionBtn = document.getElementById('productActionBtn');
 
 
+// When the user role is the same as the owner of the product
 if (userRole == sellerId) {
     productActionBtn.innerHTML = "Edit Product";
+    document.getElementById('quantityDiv').style.display = "none";
     productActionBtn.addEventListener('click', () => {
         window.location.href = "/WebProject/Pages/editProduct";
-    })
+    });
+    // When the user is an admin 
 } else if (userRole.startsWith("AD")) {
     productActionBtn.innerHTML = "Remove Product";
+    document.getElementById('quantityDiv').style.display = "none";
     productActionBtn.addEventListener('click', () => {
         window.location.href = "/WebProject/Pages/editProduct";
     })
+    // When the user role is a seller
 } else if (userRole.startsWith("SE")) {
     productActionBtn.style.display = 'none';
+    document.getElementById('quantityDiv').style.display = "none";
+    // When no user role or if the role is customer
 } else {
+    document.getElementById('quantityDiv').style.display = "flex";
+    let productQuanitytInCart = JSON.parse(localStorage.getItem('cartProducts'));
+    let productID = sessionStorage.getItem('ProductID');
+
+    // If the product is already there in the cart
+    if (productQuanitytInCart[productID]) {
+        document.getElementById('productQuantity').innerHTML = productQuanitytInCart[productID];
+        productActionBtn.innerHTML = "Update Product";
+    }
+
     productActionBtn.addEventListener('click', () => {
         let productId = sessionStorage.getItem('ProductID');
-        let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || [];
+        let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || {};
+        let productQuantity = parseInt(document.getElementById('productQuantity').innerHTML);
 
-        if (!cartProducts.includes(productId)) {
-            cartProducts.push(productId);
+
+        if (productQuantity !== cartProducts[productId]) {
+            cartProducts[productId] = productQuantity;
             localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
             document.getElementById('userIntraction').innerHTML = "Product Added To The Cart!!";
+            productActionBtn.innerHTML = "Update Product";
             document.getElementById('userIntraction').style.color = "#28a745";
         } else {
             document.getElementById('userIntraction').innerHTML = "Product is already there in your Cart!!";
@@ -99,3 +120,45 @@ if (userRole == sellerId) {
         }
     });
 }
+
+
+
+// Page quantity interactions
+let productQuantity = document.getElementById('productQuantity');
+let productSalesPrice = document.getElementById('productSalesPrice');
+document.getElementById('increaseQuantity').addEventListener('click', () => {
+    productQuantity.innerHTML = parseInt(productQuantity.innerHTML) + 1;
+
+    if (!(parseInt(productQuantity.innerHTML) > 100)) {
+        let productDetails = document.getElementById('compleateResponce').innerHTML;
+        productDetails = JSON.parse(productDetails);
+        let productPrice = parseFloat(productDetails['msg'][0]["Price"]);
+        let productDiscount = parseFloat(productDetails['msg'][0]['Discount']);
+
+        let newPrice = `Rs. ${(parseFloat(productPrice * productQuantity.innerHTML) / 100 * (100 - productDiscount)).toLocaleString()}`;
+        productSalesPrice.innerHTML = newPrice;
+    }
+
+    
+    if (parseInt(productQuantity.innerHTML) > 100) {
+        productQuantity.innerHTML = '100';
+    }
+});
+
+document.getElementById('reduceQuantity').addEventListener('click', () => {
+    productQuantity.innerHTML = parseInt(productQuantity.innerHTML) - 1;
+
+    if (!(parseInt(productQuantity.innerHTML) < 1)) {
+        let productDetails = document.getElementById('compleateResponce').innerHTML;
+        productDetails = JSON.parse(productDetails);
+        let productPrice = parseFloat(productDetails['msg'][0]["Price"]);
+        let productDiscount = parseFloat(productDetails['msg'][0]['Discount']);
+
+        let newPrice = `Rs. ${(parseFloat(productPrice * productQuantity.innerHTML) / 100 * (100 - productDiscount)).toLocaleString()}`;
+        productSalesPrice.innerHTML = newPrice;
+    }
+
+    if (parseInt(productQuantity.innerHTML) < 1) {
+        productQuantity.innerHTML = '1';
+    }
+});

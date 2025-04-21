@@ -32,6 +32,9 @@ function FillThePageContents(data) {
         let elementId = 0;
         let cartTotalPrice = 0;
 
+        // Getting the product quantity list from the localStorage
+        let productQuantityList = JSON.parse(localStorage.getItem('cartProducts'));
+
         // Adding the product cards to the page 
         data['msg'].forEach(element => {
             // console.log(element['msg'][0]['ProductID']);
@@ -49,7 +52,11 @@ function FillThePageContents(data) {
                     </div>
                 </div>`;
 
-            cartTotalPrice = cartTotalPrice + parseInt(element['msg'][0]['Price']);
+            let productCardPrice = (parseFloat(element['msg'][0]['Price']) * productQuantityList[element['msg'][0]['ProductID']])/100 * (100 - element['msg'][0]['Discount']);
+            
+            cartTotalPrice = cartTotalPrice + productCardPrice;
+            console.log(cartTotalPrice);
+            
         });
 
         // Adding the Cart total price 
@@ -64,16 +71,17 @@ function FillThePageContents(data) {
                 let productID = document.querySelector(`#productIdContainer${i}`).innerHTML;
 
                 let cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
-                cartProducts = JSON.stringify(cartProducts.filter(item => item !== productID));
-                localStorage.setItem('cartProducts', cartProducts);
+                delete cartProducts[productID];
+                localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
 
                 location.reload();
             });
 
             // Adding the product view Page Navigation functions to the page 
             document.getElementById(`cartProductCard${i}`).addEventListener('click', () => {
-                let productID = document.getElementById(`productIdContainer${elementId}`);
+                let productID = document.getElementById(`productIdContainer${i}`);
                 sessionStorage.setItem('ProductID', productID.innerHTML);
+                
                 window.location.href = "/WebProject/Pages/viewProductDetails";
             });
         }

@@ -218,10 +218,11 @@ if (document.getElementById('viewProductDetails')) {
 // =======================================================================================================
 // Cart Page
 if (document.getElementById('viewCartDetails')) {
-    let productIDs = localStorage.getItem('cartProducts');
+    let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || {};
+    let productIDs = Object.keys(cartProducts);
     
     let params = new URLSearchParams();
-    params.append('ProductIDs', productIDs);
+    params.append('ProductIDs', JSON.stringify(productIDs));
     params.append('ViewCartPage', 1);
 
     // Getting the data from the backend using GET
