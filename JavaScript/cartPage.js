@@ -101,7 +101,7 @@ document.getElementById('payBtnDiv').addEventListener('click', () => {
     if (userId == "null") {
         document.getElementById('noLoginErrorMsg').style.display = "block";
     } else {
-        // window.location.href = "/WebProject/Pages/viewProductDetails";
+        window.location.href = "/WebProject/Pages/checkOutPage";
     }
 });
 

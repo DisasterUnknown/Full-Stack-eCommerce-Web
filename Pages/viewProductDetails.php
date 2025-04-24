@@ -30,7 +30,6 @@ $content = <<<HTML
                             <p id="productQuantity">1</p>
                             <button id="reduceQuantity">></button>
                         </div>
-                        <!-- <p id="productSalesPrice" class="border px-5 md:px-5  w-[50%] md:w-[45%] lg:w-[40%] text-center rounded-xl">10%</p> -->
                     </div>
                     <p id="userIntraction" class="text-center"></p>
                     <button id="productActionBtn" class="border hover:bg-white/20 py-2 px-8 mt-5 mb-3 mx-2 md:mx-[10%] md:mt-5 rounded-full transition-colors duration-500">Add To Cart</button>
