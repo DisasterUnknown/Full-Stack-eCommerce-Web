@@ -176,11 +176,11 @@ if (document.getElementById('homePage')) {
         .then(data => {
             document.getElementById("compleateResponce").innerHTML = data;
             // console.log(data);
-            
+
             data = JSON.parse(data);
             document.getElementById("responce").innerHTML = data['msg'];
             console.log("index");
-            
+
         })
         .catch(error => console.log("Error:", error));
 }
@@ -205,7 +205,7 @@ if (document.getElementById('viewProductDetails')) {
         .then(data => {
             document.getElementById("compleateResponce").innerHTML = data;
             // console.log(data);
-            
+
             data = JSON.parse(data);
             document.getElementById("responce").innerHTML = data['msg'];
         })
@@ -220,7 +220,7 @@ if (document.getElementById('viewProductDetails')) {
 if (document.getElementById('viewCartDetails')) {
     let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || {};
     let productIDs = Object.keys(cartProducts);
-    
+
     let params = new URLSearchParams();
     params.append('ProductIDs', JSON.stringify(productIDs));
     params.append('ViewCartPage', 1);
@@ -233,9 +233,56 @@ if (document.getElementById('viewCartDetails')) {
         .then(data => {
             document.getElementById("compleateResponce").innerHTML = data;
             // console.log(data);
-            
+
             data = JSON.parse(data);
             document.getElementById("responce").innerHTML = data['msg'];
         })
         .catch(error => console.log("Error:", error));
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// Check Out Page
+if (document.getElementById('checkOutPage')) {
+    document.getElementById('checkOutBtn').addEventListener('click', () => {
+        let telNumber = document.getElementById('telIN');
+        let address = document.getElementById('addressIN');
+        let shippingMethod = document.getElementById('shipppingMethodSelect');
+        let cardHolderName = document.getElementById('cardHolderNameIN');
+        let cardNumber = document.getElementById('cardNumberIN');
+        let cvc = document.getElementById('cvcIN');
+
+        let productList = localStorage.getItem('cartProducts') || '';
+        let customerID = sessionStorage.getItem('RoleID') || '';
+        console.log(customerID);
+
+
+        let formData = new FormData();
+        formData.append('telNumber', telNumber.value.replace(/\s+/g, ''));
+        formData.append('address', address.value);
+        formData.append('shippingMethod', shippingMethod.value);
+        formData.append('cardHolderName', cardHolderName.value);
+        formData.append('cardNumber', cardNumber.value.replace(/\s+/g, ''));
+        formData.append('cvc', cvc.value);
+        formData.append('productList', productList);
+        formData.append('customerID', customerID);
+        formData.append('UserCheckOut', 1);
+
+        // Getting the data from the backend
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("compleateResponce").innerHTML = data;
+                // console.log(data);
+
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
+            })
+            .catch(error => console.log("Error:", error));
+    });
 }

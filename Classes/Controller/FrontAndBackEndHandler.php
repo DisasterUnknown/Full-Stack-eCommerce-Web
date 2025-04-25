@@ -70,6 +70,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // ===============================================
     // ===============================================
+    // User Check Out
+    if (!empty($_POST['UserCheckOut'])) {
+        try {
+            // Pass form data to the Seller controller class and validate
+            $customerController = new CustomerController();
+            // echo json_encode(['msg' => 'Got the msgs to the backend!!']);
+            echo $customerController->CheckOut($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 

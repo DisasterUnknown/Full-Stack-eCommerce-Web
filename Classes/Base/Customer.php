@@ -53,15 +53,8 @@ class Customer extends User
 
 
     // Calling the Buy Product
-    public function customerBuyProduct()
+    public function customerBuyProduct($post)
     {
-
-    }
-
-
-    // View Cart method 
-    public function ViewCart()
-    {
-
+        return json_encode(['msg' => '$productDetailsList']);
     }
 }

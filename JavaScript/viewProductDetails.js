@@ -94,7 +94,7 @@ if (userRole == sellerId) {
     // When no user role or if the role is customer
 } else {
     document.getElementById('quantityDiv').style.display = "flex";
-    let productQuanitytInCart = JSON.parse(localStorage.getItem('cartProducts'));
+    let productQuanitytInCart = JSON.parse(localStorage.getItem('cartProducts')) || "";
     let productID = sessionStorage.getItem('ProductID');
 
     // If the product is already there in the cart

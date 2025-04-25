@@ -21,6 +21,8 @@ observer.observe(targetNode, config);
 // Page main function 
 function FillThePageContents(data) {
     // If the Cart is not empty
+    console.log(data);
+    
     if (JSON.parse(data)['msg'][0]) {
         // Displaying the Data         
         document.getElementById('containProductCartId').style.display = 'block';
@@ -97,8 +99,9 @@ function FillThePageContents(data) {
 // Check Out Btn Functions 
 document.getElementById('payBtnDiv').addEventListener('click', () => {
     let userId = sessionStorage.getItem('RoleID') || "null";
+    console.log(userId);
     
-    if (userId == "null") {
+    if (userId == "null" || userId == 'undefined') {
         document.getElementById('noLoginErrorMsg').style.display = "block";
     } else {
         window.location.href = "/WebProject/Pages/checkOutPage";
