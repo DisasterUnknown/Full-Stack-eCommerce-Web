@@ -128,13 +128,6 @@ class Product extends DataBaseHelper
     }
 
 
-    // Buy product method
-    public function BuyProduct()
-    {
-
-    }
-
-
     // View product Details method
     static function ViewProductDetails($productId)
     {

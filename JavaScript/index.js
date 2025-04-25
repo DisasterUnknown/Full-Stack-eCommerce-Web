@@ -256,7 +256,7 @@ if (document.getElementById('checkOutPage')) {
 
         let productList = localStorage.getItem('cartProducts') || '';
         let customerID = sessionStorage.getItem('RoleID') || '';
-        console.log(customerID);
+        // console.log(customerID);
 
 
         let formData = new FormData();

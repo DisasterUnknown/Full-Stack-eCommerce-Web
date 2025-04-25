@@ -1,3 +1,6 @@
+// Hiding the error p
+document.getElementById('submitMsgDisplay').style.display = "none";
+
 // Formating the telinput field 
 document.getElementById('telIN').addEventListener('input', () => {
     let telInput = document.getElementById('telIN');
@@ -70,3 +73,49 @@ document.getElementById('cardHolderNameIN').addEventListener('input', () => {
 
     cardHolderNameInput.value = value;
 });
+
+
+
+// =====================================================================================
+// =====================================================================================
+// Error Sucess Message management in the checkout page and remove products from the cart
+let targetNode = document.getElementById('compleateResponce');
+
+// Configuring observer for changes in child nodes and text content
+const config = { childList: true, subtree: true, characterData: true };
+
+// Exercuting the callback function when changes happen 
+const callback = function (mutationsList, observer) {
+    DisplaySubmitMessage(targetNode.innerHTML);    
+}
+
+
+// Create a MutationObserver with the callback
+const observer = new MutationObserver(callback);
+
+// Start observing the target node with the specified configuration
+observer.observe(targetNode, config);
+
+function DisplaySubmitMessage(data) {
+    data = JSON.parse(data);
+    console.log(data['msg']);
+    
+    let submitMsgDisplay = document.getElementById('submitMsgDisplay');
+
+    // Displaying the sucess msg 
+    if (data['msg'] == true) {
+        submitMsgDisplay.style.display = "block";
+        submitMsgDisplay.innerHTML = "Order Placed Successfully!!";
+        submitMsgDisplay.style.color = "#28a745";
+
+        // Removing the data from the Cart 
+        localStorage.removeItem('cartProducts');
+
+
+        // Displaying the error msg 
+    } else {
+        submitMsgDisplay.style.display = "block";
+        submitMsgDisplay.innerHTML = data['msg'];
+        submitMsgDisplay.style.color = "#dc3545";
+    }
+}

@@ -44,16 +44,17 @@ $content = <<<HTML
                             id="cvcIN" minlength="3" maxlength="4">
                 </div>
 
-                <div class="mx-auto">
-                    <button type="button" id="checkOutBtn" class="border font-bold py-1 px-4 mt-5 rounded-xl hover:scale-101 hover:bg-white/10 hover:shadow-[0_0_15px_2px_rgba(100,100,255,0.8)] transition-colors duration-500">Check Out</button>
+                <div class="flex flex-col items-center mx-auto mt-4">
+                    <p id="submitMsgDisplay" class="text-center mb-1">null</p>
+                    <button type="button" id="checkOutBtn" class="border font-bold py-1 px-4 w-[120px] rounded-xl hover:scale-101 hover:bg-white/10 hover:shadow-[0_0_15px_2px_rgba(100,100,255,0.8)] transition-colors duration-500">Check Out</button>
                 </div>
             </Form>
         </div>
     </div>
 
     <!-- Backend replay section -->
-    <div class="" id="compleateResponce">null1</div>
-    <div class="" id="responce">null</div>
+    <div class="hidden" id="compleateResponce">null1</div>
+    <div class="hidden" id="responce">null</div>
 HTML;
 include 'Components/layout.php';
 ?>

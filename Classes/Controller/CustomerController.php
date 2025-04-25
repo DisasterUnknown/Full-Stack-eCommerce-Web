@@ -66,7 +66,7 @@ class CustomerController extends Customer
         if (empty(json_decode($productList))) {
             throw new Exception("There Are No Products In Your Cart!!.");
         }
-        if (empty(json_decode($customerID))) {
+        if (empty($customerID)) {
             throw new Exception("Please Login Before Check Out!!.");
         }
 

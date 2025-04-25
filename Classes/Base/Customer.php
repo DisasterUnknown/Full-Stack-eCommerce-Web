@@ -1,6 +1,7 @@
 <?php
 require_once "../Base/Parent/Users.php";
 require_once "../Base/Parent/Product.php";
+require_once "../Base/Parent/DataBaseHelper.php";
 
 class Customer extends User
 {
@@ -55,6 +56,28 @@ class Customer extends User
     // Calling the Buy Product
     public function customerBuyProduct($post)
     {
-        return json_encode(['msg' => '$productDetailsList']);
+        try {
+            $telNumber = $post['telNumber'];
+            $address = $post['address'];
+            $cardHolderName = $post['cardHolderName'];
+            $shippingMethod = $post['shippingMethod'];
+            $cardNumber = $post['cardNumber'];
+            $cvc = $post['cvc'];
+            $productList = json_decode($post['productList']);
+            $customerID = $post['customerID'];
+
+            // Inserting the product into the sales table
+            foreach ($productList as $key => $value) {
+                $query = "INSERT INTO sales (ProductID, CustomerID, Amount, PhoneNumber, Address, ShippingMethod) VALUES (:productid, :customerid, :amount, :phoneNumber, :address, :shippingMethod);";
+                $values = [":productid" => $key, ":customerid" => $customerID, ":amount" => $value, ":phoneNumber" => $telNumber, ":address" => $address, ":shippingMethod" => $shippingMethod];
+
+                $DBHObject = new DataBaseHelper($query, $values);
+                $result = $DBHObject->ExecuteDB();
+            }
+            
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
     }
 }
