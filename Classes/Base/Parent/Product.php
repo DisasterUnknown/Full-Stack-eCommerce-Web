@@ -82,6 +82,48 @@ class Product extends DataBaseHelper
     }
 
 
+    // Admin Ban product method
+    public function BanProduct($post)
+    {
+        try {
+            $adminID = $post['AdminID'];
+            $productID = $post['ProductID'];
+
+            $query = "
+                        INSERT INTO banProducts (AdminID, ProductID, SellerID, ProductName, Price, Amount, Discount, Description, Category)
+                        SELECT :adminId, ProductID, SellerID, ProductName, Price, Amount, Discount, Description, Category
+                        FROM products
+                        WHERE ProductID = :productId;
+                    ";
+
+            $values = [':adminId' => $adminID, ':productId' => $productID];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->ExecuteDB();
+
+            if ($result == true) {
+                $query1 = "
+                    SET FOREIGN_KEY_CHECKS = 0;
+
+                    DELETE FROM products
+                    WHERE ProductID = :productId;
+
+                    SET FOREIGN_KEY_CHECKS = 1;
+                ";
+
+                $values1 = [':productId' => $productID];
+
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $result1 = $DBHObject1->ExecuteDB();
+
+                return json_encode(['msg' => $result1]);
+            }
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
     // View product method
     static function ViewProduct(Product $product)
     {

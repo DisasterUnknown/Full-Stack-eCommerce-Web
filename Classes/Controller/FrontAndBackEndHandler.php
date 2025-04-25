@@ -81,6 +81,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // ===============================================
+    // ===============================================
+    // Admin Remove Product
+    if (!empty($_POST['AdminRemoveProduct'])) {
+        try {
+            $adminController = new AdminController();
+            echo $adminController->RemoveProduct($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 

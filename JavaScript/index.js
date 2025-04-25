@@ -210,6 +210,36 @@ if (document.getElementById('viewProductDetails')) {
             document.getElementById("responce").innerHTML = data['msg'];
         })
         .catch(error => console.log("Error:", error));
+
+
+
+    // Admin Product Remove
+    let adminID = sessionStorage.getItem('RoleID') || [];
+    if (adminID.startsWith("AD")) {
+
+        document.getElementById('productActionBtn').addEventListener('click', () => {
+            let formData = new FormData();
+            formData.append('ProductID', productID);
+            formData.append('AdminID', adminID);
+            formData.append('AdminRemoveProduct', 1);
+
+            // Getting the data from the backend
+            fetch(fetchFile, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    data = JSON.parse(data);
+                    console.log(data['msg']);
+                    
+                    if (data['msg']) {
+                        window.location.href = "/WebProject/";                        
+                    }
+                })
+                .catch(error => console.log("Error:", error));
+        });
+    }
 }
 
 

@@ -4,9 +4,9 @@ in the view product page add the opptions
     Remove product
 
 Create the user Cart Page 
-    Remove products
-    view Product Details (To the above View Product Page)
-    And Buy products
+    Remove products                                             --> DONE
+    view Product Details (To the above View Product Page)       --> DONE
+    And Buy products                                            --> DONE
 
 Seller Add Products Page
     Add the TailWind to the page

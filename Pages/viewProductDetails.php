@@ -62,6 +62,9 @@ $content = <<<HTML
     <!-- Storing the Seller ID -->
     <div class="hidden" id="selledID">null</div>
 
+    <!-- Getting admin remove sucess msg -->
+    <div class="hidden" id="adminRemoveResponce">null</div>
+
     <!-- Backend replay section -->
     <div class="hidden" id="compleateResponce">null1</div>
     <div class="hidden" id="responce">null</div>

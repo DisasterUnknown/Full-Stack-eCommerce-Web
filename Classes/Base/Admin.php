@@ -1,34 +1,17 @@
 <?php
 require_once "../Base/Parent/Users.php";
+require_once "../Base/Parent/Product.php";
 
 class Admin extends User
 {
-    private $address;
-    private $NIC;
 
-    public function __construct($address, $NIC)
+    public function __construct()
     {
-        $this->address = $address;
-        $this->NIC = $NIC;
-    }
-
-
-    // Calling the Register method from User class
-    public function AdminRegister()
-    {
-
     }
 
 
     // Calling the Edit Profile method from User class
     public function AdminEditProfile()
-    {
-
-    }
-
-
-    // Calling the View Profile method from User class
-    public function AdminViewProfile()
     {
 
     }
@@ -41,17 +24,11 @@ class Admin extends User
     }
 
 
-    // Calling the view product method from Product class
-    public function AdminViewProduct()
-    {
-
-    }
-
-
     // Calling the remove product method from Product class
-    public function AdminRemoveProduct()
+    public function AdminRemoveProduct($post)
     {
-
+        $product = new Product();
+        return $product->BanProduct($post);
     }
 
 

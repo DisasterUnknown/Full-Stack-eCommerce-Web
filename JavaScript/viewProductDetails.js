@@ -84,9 +84,6 @@ if (userRole == sellerId) {
 } else if (userRole.startsWith("AD")) {
     productActionBtn.innerHTML = "Remove Product";
     document.getElementById('quantityDiv').style.display = "none";
-    productActionBtn.addEventListener('click', () => {
-        window.location.href = "/WebProject/Pages/editProduct";
-    })
     // When the user role is a seller
 } else if (userRole.startsWith("SE")) {
     productActionBtn.style.display = 'none';
