@@ -32,3 +32,14 @@ Admin View Users Page
 Admin View Kick users Page
     View all the kick users
     Remove the user Kick
+
+
+
+Tommorrow:
+Add the unBan Products Page
+
+List the users
+Ban the users 
+give admin to the users
+
+unban the users

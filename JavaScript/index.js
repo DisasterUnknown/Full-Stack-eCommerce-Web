@@ -179,7 +179,7 @@ if (document.getElementById('homePage')) {
 
             data = JSON.parse(data);
             document.getElementById("responce").innerHTML = data['msg'];
-            console.log("index");
+            // console.log("index");
 
         })
         .catch(error => console.log("Error:", error));

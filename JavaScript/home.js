@@ -5,12 +5,12 @@ const config = { childList: true, subtree: true, characterData: true };
 
 // Exercuting the callback function when changes happen 
 const callback = function(mutationsList, observer) {
-    console.log("home");
+    // console.log("home");
     
     let documentObjects = document.getElementById('compleateResponce').innerHTML;
 
     if (documentObjects != "null") {
-        console.log("Have Content");
+        // console.log("Have Content");
         documentObjects = JSON.parse(documentObjects);
 
         // console.log(documentObjects['msg'][0]["ProductID"]);

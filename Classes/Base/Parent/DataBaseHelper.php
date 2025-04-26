@@ -3,7 +3,7 @@
 class DataBaseHelper
 {
     private $host = "localhost";
-    private $dbName = "ssp1web_project";
+    private $dbName = "ssp1project";
     private $dbUserName = "root";
     private $dbPassword = "";
 

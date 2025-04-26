@@ -1,5 +1,5 @@
 <?php
-$title = "Home Page";
+$title = "CheckOut Page";
 $scriptIndex = "/WebProject/JavaScript/index.js";
 $scriptPage = "/WebProject/JavaScript/checkOutPage.js";
 
