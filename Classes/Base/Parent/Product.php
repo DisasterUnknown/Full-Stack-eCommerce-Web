@@ -168,12 +168,12 @@ class Product extends DataBaseHelper
                     FROM products 
                     WHERE ProductName = (SELECT ProductName 
                         FROM banproducts 
-                        WHERE BanPID = :banPID) 
+                        WHERE BanPID = :banPID)
+                    ORDER BY ProductID DESC 
                     LIMIT 1)  -- Ensures only one row is returned
                 WHERE ProductID = (SELECT ProductID 
                     FROM banproducts 
-                    WHERE BanPID = :banPID
-                    LIMIT 1); -- Ensures only one row is returned
+                    WHERE BanPID = :banPID);
 
                 DELETE FROM banproducts
                 WHERE BanPID = :banPID;
