@@ -12,6 +12,7 @@ $routs = array(
     "$routeHeader/Pages/viewProductDetails" => "Pages/viewProductDetails.php",
     "$routeHeader/Pages/cartPage" => "Pages/cartPage.php",
     "$routeHeader/Pages/checkOutPage" => "Pages/checkOutPage.php",
+    "$routeHeader/Pages/viewBannedProducts" => "Pages/viewBannedProducts.php",
 );
 
 foreach ($routs as $key => $value) {

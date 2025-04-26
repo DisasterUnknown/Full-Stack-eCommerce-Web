@@ -124,6 +124,16 @@ class Product extends DataBaseHelper
     }
 
 
+    // Admin View Ban Product method
+    public function ViewBanProduct() {
+        try {
+            return json_encode(['msg' => 'fox']);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
     // View product method
     static function ViewProduct(Product $product)
     {

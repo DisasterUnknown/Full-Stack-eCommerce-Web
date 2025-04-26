@@ -32,6 +32,14 @@ class Admin extends User
     }
 
 
+    // Calling the view removed products method from Product class
+    public function GetBanProducts()
+    {
+        $product = new Product();
+        return $product->ViewBanProduct();
+    }
+
+
     // Admin View users method
     public function AdminViewUsers()
     {

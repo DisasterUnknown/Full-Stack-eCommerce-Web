@@ -7,9 +7,15 @@ class AdminController extends Admin
     {
     }
 
+    
     // Remove Product 
     public function RemoveProduct($post) {
-        $admin = new Admin();
-        return $admin->AdminRemoveProduct($post);
+        return parent::AdminRemoveProduct($post);
+    }
+
+
+    // View Ban Product 
+    public function GetBanProducts() {
+        return parent::GetBanProducts();
     }
 }

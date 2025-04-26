@@ -316,3 +316,27 @@ if (document.getElementById('checkOutPage')) {
             .catch(error => console.log("Error:", error));
     });
 }
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View Ban Products Page
+if (document.getElementById('viewBannedProducts')) {
+    let params = new URLSearchParams();
+    params.append('ViewBannedProductsPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+}

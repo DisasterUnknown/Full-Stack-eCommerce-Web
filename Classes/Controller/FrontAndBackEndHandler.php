@@ -130,4 +130,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error' . $e->getMessage()]);
         }
     }
+
+    // View Baned Products Page onload
+    if (!empty($_GET['ViewBannedProductsPage'])) {
+        try {
+            $adminController = new adminController();
+            // echo json_encode(['msg' => 'Wolf']);
+            echo $adminController->GetBanProducts();
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error' . $e->getMessage()]);
+        }
+    }
 }
