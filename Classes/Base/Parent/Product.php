@@ -127,9 +127,67 @@ class Product extends DataBaseHelper
     // Admin View Ban Product method
     public function ViewBanProduct() {
         try {
-            return json_encode(['msg' => 'fox']);
+            $query = "SELECT 
+                        bp.BanPID,
+                        bp.ProductName,
+                        bp.Category,
+                        MIN(i.Content) AS FirstImageContent
+                    FROM 
+                        banproducts bp
+                    LEFT JOIN 
+                        images i ON i.ProductID = bp.ProductID
+                    GROUP BY 
+                        bp.BanPID, bp.ProductName, bp.Category;
+                    ";
+
+            $values = [];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
         } catch (Exception $e) {
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+    // Admin Restore Ban Product 
+    public function RestoreBanProduct($post) {
+        try {
+            $query = "
+                START TRANSACTION;
+
+                INSERT INTO products (SellerID, ProductName, Price, Amount, Discount, Description, Category)
+                SELECT SellerID, ProductName, Price, Amount, Discount, Description, Category
+                FROM banproducts
+                WHERE BanPID = :banPID;
+                
+                UPDATE images
+                SET ProductID = (SELECT ProductID 
+                    FROM products 
+                    WHERE ProductName = (SELECT ProductName 
+                        FROM banproducts 
+                        WHERE BanPID = :banPID) 
+                    LIMIT 1)  -- Ensures only one row is returned
+                WHERE ProductID = (SELECT ProductID 
+                    FROM banproducts 
+                    WHERE BanPID = :banPID
+                    LIMIT 1); -- Ensures only one row is returned
+
+                DELETE FROM banproducts
+                WHERE BanPID = :banPID;
+
+                COMMIT;
+            ";
+            $values = [':banPID' => $post['BanPID']];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->ExecuteDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => "Error: " . $e->getMessage()]);
         }
     }
 

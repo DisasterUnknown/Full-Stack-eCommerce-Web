@@ -13,6 +13,12 @@ class AdminController extends Admin
         return parent::AdminRemoveProduct($post);
     }
 
+    
+    // Restore Product 
+    public function RestoreProduct($post) {
+        return parent::AdminRestoreProduct($post);
+    }
+
 
     // View Ban Product 
     public function GetBanProducts() {

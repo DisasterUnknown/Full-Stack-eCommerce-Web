@@ -232,9 +232,9 @@ if (document.getElementById('viewProductDetails')) {
                 .then(data => {
                     data = JSON.parse(data);
                     console.log(data['msg']);
-                    
+
                     if (data['msg']) {
-                        window.location.href = "/WebProject/";                        
+                        window.location.href = "/WebProject/";
                     }
                 })
                 .catch(error => console.log("Error:", error));
@@ -323,6 +323,8 @@ if (document.getElementById('checkOutPage')) {
 // =======================================================================================================
 // View Ban Products Page
 if (document.getElementById('viewBannedProducts')) {
+    let banProductIdList = [];
+
     let params = new URLSearchParams();
     params.append('ViewBannedProductsPage', 1);
 
@@ -339,4 +341,28 @@ if (document.getElementById('viewBannedProducts')) {
             document.getElementById("responce").innerHTML = data['msg'];
         })
         .catch(error => console.log("Error:", error));
+
+
+    // restore Product activation function 
+    function restoreProductActivationFunction(BanPID) {
+        let formData = new FormData();
+        formData.append('BanPID', BanPID.innerHTML);
+        formData.append('RestoreBanProduct', 1);
+
+        // Getting the data from the backend
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                data = JSON.parse(data);
+                console.log(data['msg']);
+
+                if (data['msg']) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => console.log("Error:", error));
+    }
 }

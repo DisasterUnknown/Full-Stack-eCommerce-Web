@@ -94,6 +94,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // ===============================================
+    // ===============================================
+    // Admin Restore Product
+    if (!empty($_POST['RestoreBanProduct'])) {
+        try {
+            $adminController = new AdminController();
+            echo $adminController->RestoreProduct($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 
