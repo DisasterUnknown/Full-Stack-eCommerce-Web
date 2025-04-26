@@ -218,6 +218,16 @@ if (document.getElementById('viewProductDetails')) {
     if (adminID.startsWith("AD")) {
 
         document.getElementById('productActionBtn').addEventListener('click', () => {
+            // let localCart = localStorage.getItem('cartProducts');
+            // localCart = JSON.parse(localCart);
+
+            // if (localCart.hasOwnProperty(productID)) {
+            //     delete localCart[productID];
+            //     console.log(localCart);
+                
+            //     localStorage.setItem('cartProducts', JSON.stringify(localCart));
+            // }
+
             let formData = new FormData();
             formData.append('ProductID', productID);
             formData.append('AdminID', adminID);

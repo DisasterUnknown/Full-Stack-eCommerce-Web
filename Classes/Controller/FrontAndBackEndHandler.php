@@ -38,8 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // ===============================================
-    // ===============================================
     // User Login 
     if (!empty($_POST['Login'])) {
         try {
@@ -54,8 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // ===============================================
-    // ===============================================
     // Seller Add Product
     if (!empty($_POST['AddProduct'])) {
         try {
@@ -68,8 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // ===============================================
-    // ===============================================
     // User Check Out
     if (!empty($_POST['UserCheckOut'])) {
         try {
@@ -83,8 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // ===============================================
-    // ===============================================
     // Admin Remove Product
     if (!empty($_POST['AdminRemoveProduct'])) {
         try {
@@ -96,8 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
-    // ===============================================
-    // ===============================================
     // Admin Restore Product
     if (!empty($_POST['RestoreBanProduct'])) {
         try {

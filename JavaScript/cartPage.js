@@ -21,8 +21,8 @@ observer.observe(targetNode, config);
 // Page main function 
 function FillThePageContents(data) {
     // If the Cart is not empty
-    console.log(data);
-    
+    // console.log(data);
+
     if (JSON.parse(data)['msg'][0]) {
         // Displaying the Data         
         document.getElementById('containProductCartId').style.display = 'block';
@@ -31,18 +31,38 @@ function FillThePageContents(data) {
         let dispalyCartSection = document.getElementById('productCards');
         dispalyCartSection.innerHTML = "";
         data = JSON.parse(data);
+        data = data['msg'];
         let elementId = 0;
         let cartTotalPrice = 0;
 
         // Getting the product quantity list from the localStorage
         let productQuantityList = JSON.parse(localStorage.getItem('cartProducts'));
 
+        // Removing the data that has been removed!! 
+        for (let i = 0; i < data.length; i++) {
+            
+            if (data[i]['msg'].length == 0) {
+                data.splice(i, 1);
+            }
+        }
+        
+        // If no avalable data 
+        if (data.length == 0) {
+            document.getElementById('containProductCartId').style.display = 'none';
+            document.getElementById('productPriceCartId').style.display = 'none';
+            document.getElementById('payBtnDiv').style.display = 'none';
+            document.getElementById('noProductCartId').style.display = 'flex';
+
+            localStorage.removeItem('cartProducts');
+        }
+
+
         // Adding the product cards to the page 
-        data['msg'].forEach(element => {
+        data.forEach(element => {
             // console.log(element['msg'][0]['ProductID']);
             elementId++;
 
-            let productCardPrice = (parseFloat(element['msg'][0]['Price']) * productQuantityList[element['msg'][0]['ProductID']])/100 * (100 - element['msg'][0]['Discount']);
+            let productCardPrice = (parseFloat(element['msg'][0]['Price']) * productQuantityList[element['msg'][0]['ProductID']]) / 100 * (100 - element['msg'][0]['Discount']);
             dispalyCartSection.innerHTML += `<div id="cartProductCard${elementId}" class="relative border mb-10 mt-3 mx-3 h-40 md:h-60 lg:h-80 w-[40%] md:w-[20%] lg:w-[20%] xl:w-[15%] rounded-2xl hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">     
                     <img src=${element['msg'][0]['Content']} alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-xl" />
                     <div class="relative z-10 w-full h-full flex flex-col items-center justify-center">
@@ -55,19 +75,19 @@ function FillThePageContents(data) {
                     </div>
                 </div>`;
 
-            
-            cartTotalPrice = cartTotalPrice + productCardPrice;            
+
+            cartTotalPrice = cartTotalPrice + productCardPrice;
         });
 
         // Adding the Cart total price 
         document.getElementById('displayTotalProductCost').innerHTML = "Rs. " + parseInt(cartTotalPrice).toLocaleString() + "/=";
         // console.log(data['msg'][0]['msg'][0]['ProductID']);
 
-    
+
         for (let i = 1; i <= elementId; i++) {
             // Adding the product remove btn functions to the page 
             document.getElementById(`removeProductFromCart${i}`).addEventListener('click', (event) => {
-                event.stopPropagation(); 
+                event.stopPropagation();
                 let productID = document.querySelector(`#productIdContainer${i}`).innerHTML;
 
                 let cartProducts = JSON.parse(localStorage.getItem('cartProducts'));
@@ -81,7 +101,7 @@ function FillThePageContents(data) {
             document.getElementById(`cartProductCard${i}`).addEventListener('click', () => {
                 let productID = document.getElementById(`productIdContainer${i}`);
                 sessionStorage.setItem('ProductID', productID.innerHTML);
-                
+
                 window.location.href = "/WebProject/Pages/viewProductDetails";
             });
         }
@@ -100,7 +120,7 @@ function FillThePageContents(data) {
 document.getElementById('payBtnDiv').addEventListener('click', () => {
     let userId = sessionStorage.getItem('RoleID') || "null";
     console.log(userId);
-    
+
     if (userId == "null" || userId == 'undefined') {
         document.getElementById('noLoginErrorMsg').style.display = "block";
     } else {
