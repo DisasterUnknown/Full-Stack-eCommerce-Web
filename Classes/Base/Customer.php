@@ -15,7 +15,7 @@ class Customer extends User
     public function customerRegister($email = 'null', $password = 'null', $name = 'null', $role = 'null')
     {
         $user = new User($email, $password, $name, $role);
-        return $user->UserRegister();
+        return $user->UserRegister($user);
     }
 
 

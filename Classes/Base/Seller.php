@@ -9,8 +9,8 @@ class Seller extends User {
     // Calling the Register method from User class
     public function SellerRegister($email = 'null', $password = 'null', $name = 'null', $role = 'null', $address = 'null', $contact = 'null')
     {
-        $USER = NEW User($email, $password, $name, $role, $address, $contact);
-        return $USER->UserRegister();
+        $user = new User($email, $password, $name, $role, $address, $contact);
+        return $user->UserRegister($user);
     }
 
 

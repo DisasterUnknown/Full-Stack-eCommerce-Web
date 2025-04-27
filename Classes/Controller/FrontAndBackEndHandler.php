@@ -97,6 +97,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // User Set Pfp and Profile Picture
+    if (!empty($_POST['UserChangePfp&Name'])) {
+        try {
+            $user = new User();
+            echo $user->ChangeUnameAndPfp($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+    // User Change Password
+    if (!empty($_POST['UserChangePass'])) {
+        try {
+            $user = new User();
+            echo $user->ChangePassword($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 
@@ -140,6 +162,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $adminController = new adminController();
             // echo json_encode(['msg' => 'Wolf']);
             echo $adminController->GetBanProducts();
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error' . $e->getMessage()]);
+        }
+    }
+
+    // User Profile Page Onload
+    if (!empty($_GET['UserProfileOnload'])) {
+        try {
+            $user = new User();
+            echo $user->GetUnameAndPfp($_GET);
         } catch (Exception $e) {
             echo json_encode(['msg' => 'Error' . $e->getMessage()]);
         }

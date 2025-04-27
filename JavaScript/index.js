@@ -224,7 +224,7 @@ if (document.getElementById('viewProductDetails')) {
             // if (localCart.hasOwnProperty(productID)) {
             //     delete localCart[productID];
             //     console.log(localCart);
-                
+
             //     localStorage.setItem('cartProducts', JSON.stringify(localCart));
             // }
 
@@ -372,6 +372,96 @@ if (document.getElementById('viewBannedProducts')) {
                 if (data['msg']) {
                     window.location.reload();
                 }
+            })
+            .catch(error => console.log("Error:", error));
+    }
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View User Profile Page
+if (document.getElementById('userProfilePageView')) {
+    let RoleID = sessionStorage.getItem('RoleID') || '';
+
+    let params = new URLSearchParams();
+    params.append('roleID', RoleID);
+    params.append('UserProfileOnload', 1);
+
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+
+    // ==================
+    // Change PFP or Name 
+    document.getElementById('editUserName&PfpBtn').addEventListener('click', () => {
+        let nameIN = document.getElementById('userNameIN').value;
+        let pfpImgIN = document.getElementById('pfpbase64').innerHTML;
+        let RoleID = sessionStorage.getItem('RoleID') || '';
+
+        if (nameIN !== "" || pfpImgIN !== "null") {
+            let formData = new FormData();
+            if (pfpImgIN == "null") {
+                formData.append('userName', nameIN);
+                formData.append('roleID', RoleID);
+
+            } else {
+                formData.append('userName', nameIN);
+                formData.append('userImg', pfpImgIN);
+                formData.append('roleID', RoleID);
+            }
+            formData.append('UserChangePfp&Name', 1);
+
+            // Getting the data from the backend
+            SendDataToBackEnd(formData);
+        } else {
+            document.getElementById("compleateResponce").innerHTML = JSON.stringify({'msg': "Both PFP and name are Empty!!", 'changeNameAndPfp': 1});
+        }
+    });
+
+
+    // ==================
+    // Change Password 
+    document.getElementById('changePassBtn').addEventListener('click', () => {
+        let newPassIN = document.getElementById('newPassIN');
+        let confirmPassIN = document.getElementById('confirmPassIN');
+        let oldPassIN = document.getElementById('oldPassIN');
+
+        let formData = new FormData();
+        formData.append('roleID', RoleID);
+        formData.append('newPass', newPassIN.value);
+        formData.append('confirmPass', confirmPassIN.value);
+        formData.append('oldPass', oldPassIN.value);
+        formData.append('UserChangePass', 1);
+
+        SendDataToBackEnd(formData);
+    });
+
+
+    // ==================
+    // Data Send function 
+    function SendDataToBackEnd(formData) {
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("compleateResponce").innerHTML = data;
+                // console.log(data);
+
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
             })
             .catch(error => console.log("Error:", error));
     }

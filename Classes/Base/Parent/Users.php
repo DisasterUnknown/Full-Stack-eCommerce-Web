@@ -75,16 +75,8 @@ class User extends DataBaseHelper
     }
 
     // Constructor
-    public function __construct($email, $password, $name = "null", $role = "null", $address = "null", $contact = "null", $NIC = "null")
+    public function __construct($email = "null", $password = "null", $name = "null", $role = "null", $address = "null", $contact = "null", $NIC = "null")
     {
-        if (!$this->validateEmail($email) or $email == "null") {
-            throw new Exception("Invalid email.");
-        }
-        if (!$this->validatePassword($password) or $password == "null") {
-            throw new Exception("Password must be at least 6 characters.");
-        }
-
-
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
@@ -110,6 +102,13 @@ class User extends DataBaseHelper
     static function UserLogin(User $user)
     {
         try {
+            if (!$user->validateEmail($user->email) or $user->email == "null") {
+                throw new Exception("Invalid email.");
+            }
+            if (!$user->validatePassword($user->password) or $user->password == "null") {
+                throw new Exception("Password must be at least 6 characters.");
+            }
+
             $query = "SELECT UserID FROM user WHERE email = :email;";
             $values = [":email" => $user->getEmail()];
 
@@ -172,9 +171,16 @@ class User extends DataBaseHelper
 
 
     // Register
-    protected function UserRegister()
+    protected function UserRegister(User $user)
     {
         try {
+            if (!$user->validateEmail($user->email) or $user->email == "null") {
+                throw new Exception("Invalid email.");
+            }
+            if (!$user->validatePassword($user->password) or $user->password == "null") {
+                throw new Exception("Password must be at least 6 characters.");
+            }
+
             // Checking if the user is already there
             $query0 = "SELECT COUNT(*) as count FROM user WHERE email = :email;";
             $values0 = [":email" => $this->email];
@@ -228,7 +234,7 @@ class User extends DataBaseHelper
                         } else if ($tableName = "customer") {
                             $query4 = "SELECT CustomerID FROM customer WHERE UserID = :UserID";
                         }
-                        
+
                         $values4 = [":UserID" => $insertedUserID];
 
                         $DBHObject4 = new DataBaseHelper($query4, $values4);
@@ -250,10 +256,183 @@ class User extends DataBaseHelper
 
 
     // View profile
-    protected function ViewProfile()
+    static function ViewProfile()
     {
 
     }
+
+
+    // Change pfp and name in user profile
+    static function ChangeUnameAndPfp($post)
+    {
+        try {
+            // Getting the user ID from the user Role ID 
+            $roleID = $post['roleID'];
+
+            if (substr($roleID, 0, 2) == "AD") {
+                $query = "SELECT UserID FROM admin WHERE AdminID = :roleID";
+            } else if (substr($roleID, 0, 2) == "SE") {
+                $query = "SELECT UserID FROM seller WHERE SellerID = :roleID";
+            } else if (substr($roleID, 0, 2) == "CU") {
+                $query = "SELECT UserID FROM customer WHERE CustomerID = :roleID";
+            }
+
+            $values = [":roleID" => $roleID];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+
+            // Updating the tables 
+            // Both Img and the name 
+            if (isset($post['userImg']) and $post['userName'] !== "") {
+                $query1 = "
+                        START TRANSACTION;
+
+                        UPDATE pfpimages
+                        SET Content = :content
+                        WHERE UserID = :userid;
+
+                        INSERT INTO pfpimages (UserID, Content)
+                        SELECT :userid, :content
+                        WHERE NOT EXISTS (SELECT 1 FROM pfpimages WHERE UserID = :userid);
+
+                        UPDATE user
+                        SET Name = :name
+                        WHERE UserID = :userid;
+
+                        COMMIT;
+                ";
+                $values1 = [":userid" => $result[0]['UserID'], ":content" => $post['userImg'], ":name" => $post['userName']];
+                // Only the name 
+            } else if ($post['userName'] !== "") {
+                $query1 = "
+                        UPDATE user
+                        SET Name = :name
+                        WHERE UserID = :userid;
+                ";
+                $values1 = [":userid" => $result[0]['UserID'], ":name" => $post['userName']];
+                // Only the img 
+            } else if (isset($post['userImg'])) {
+                $query1 = "
+                        UPDATE pfpimages
+                        SET Content = :content
+                        WHERE UserID = :userid;
+
+                        INSERT INTO pfpimages (UserID, Content)
+                        SELECT :userid, :content
+                        WHERE NOT EXISTS (SELECT 1 FROM pfpimages WHERE UserID = :userid);
+                ";
+                $values1 = [":userid" => $result[0]['UserID'], ":content" => $post['userImg']];
+            }
+
+            $DBHObject1 = new DataBaseHelper($query1, $values1);
+            $result1 = $DBHObject1->ExecuteDB();
+
+            return json_encode(['msg' => $result1, 'changeNameAndPfp' => 1]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => "Error: " . $e->getMessage()]);
+        }
+    }
+
+
+    // User Profile Page onload
+    static function GetUnameAndPfp($get)
+    {
+        try {
+            $roleID = $get['roleID'];
+
+            if (substr($roleID, 0, 2) == "AD") {
+                $query = "SELECT UserID FROM admin WHERE AdminID = :roleID";
+            } else if (substr($roleID, 0, 2) == "SE") {
+                $query = "SELECT UserID FROM seller WHERE SellerID = :roleID";
+            } else if (substr($roleID, 0, 2) == "CU") {
+                $query = "SELECT UserID FROM customer WHERE CustomerID = :roleID";
+            }
+
+            $values = [":roleID" => $roleID];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+            $result = $result[0]['UserID'];
+
+            if (substr($result, 0, 2) == "UR") {
+                $query1 = "
+                        SELECT u.Name, p.Content 
+                        FROM user u
+                        LEFT JOIN pfpimages p ON u.UserID = p.UserID
+                        WHERE u.UserID = :userID;
+                ";
+                $values1 = [":userID" => $result];
+
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $result1 = $DBHObject1->SelectDB();
+
+                return json_encode(['msg' => $result1, 'pageOnload' => 1]);
+            } else {
+                return json_encode(['msg' => "User Not Found 404", 'pageOnload' => 1]);
+            }
+        } catch (Exception $e) {
+            return json_encode(['msg' => "Error: " . $e->getMessage()]);
+        }
+    }
+
+
+    // User Change Password 
+    static function ChangePassword($post)
+    {
+        try {
+            $roleID = $post['roleID'];
+
+            if (substr($roleID, 0, 2) == "AD") {
+                $query = "SELECT UserID FROM admin WHERE AdminID = :roleID";
+            } else if (substr($roleID, 0, 2) == "SE") {
+                $query = "SELECT UserID FROM seller WHERE SellerID = :roleID";
+            } else if (substr($roleID, 0, 2) == "CU") {
+                $query = "SELECT UserID FROM customer WHERE CustomerID = :roleID";
+            }
+
+            if ($post['newPass'] !== $post['confirmPass']) {
+                return json_encode(['msg' => 'Incorrect Confirmation Password!!', 'changePass' => 1, "error" => 1]);
+            } else if (strlen($post['newPass']) <= 6) {
+                return json_encode(['msg' => 'Password must be at least 6 characters.', 'changePass' => 1, "error" => 1]);
+            } else if ($post['oldPass'] == "") {
+                return json_encode(['msg' => 'Enter Old Password!!', 'changePass' => 1, "error" => 1]);
+            } else {
+                $values = [":roleID" => $roleID];
+
+                $DBHObject = new DataBaseHelper($query, $values);
+                $result = $DBHObject->SelectDB();
+                $result = $result[0]['UserID'];
+
+                // Sellecting the old pass validation 
+                $query1 = "SELECT Password FROM user WHERE UserID = :userID";
+                $values1 = [':userID' => $result];
+
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $result1 = $DBHObject1->SelectDB();
+
+                // Checking if the password is the same
+                if ($result1[0]['Password'] == $post['oldPass']) {
+                    $query2 = "
+                        UPDATE user
+                        SET Password = :newPass
+                        WHERE UserID = :userID AND Password = :oldPass;";
+                    $values2 = [':userID' => $result, ':newPass' => $post['newPass'], ':oldPass' => $post['oldPass']];
+
+                    $DBHObject2 = new DataBaseHelper($query2, $values2);
+                    $result2 = $DBHObject2->ExecuteDB();
+
+                    return json_encode(['msg' => "Password Successfully Changed!!", 'changePass' => 1, "error" => 0]);
+                } else {
+                    return json_encode(['msg' => "Incorrect Old Password!!", 'changePass' => 1, "error" => 1]);
+                }
+            }
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
 
     // Edit profile
     protected function EditProfile()
