@@ -52,7 +52,7 @@ observer.observe(targetNode, config);
 
 // Page main function 
 function FillThePageContents(data) {
-    data = JSON.parse(data);    
+    data = JSON.parse(data);
 
     // If it's the Chnage Pfp and Name method result
     if (data['changeNameAndPfp']) {
@@ -77,7 +77,10 @@ function FillThePageContents(data) {
         let userName = data['msg'][0]['Name'];
         let userPfp = data['msg'][0]['Content'];
 
-        UserPfpView.src = userPfp;
+        if (userPfp !== null) {
+            UserPfpView.src = userPfp;
+        }
+
         UserNameView.placeholder = userName;
         WelcomeMsg.innerHTML = `Welcome, ${userName}!`;
     }

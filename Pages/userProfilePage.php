@@ -9,7 +9,7 @@ $content = <<<HTML
         <div id="userProfile">
             <div class="flex flex-col md:flex-row items-center justify-center">
                 <div id="pfpDisplay" class="relative border-4 aspect-square w-[40%] sm:w-[20%] md:w-[20%] lg:w-[20%] xl:w-[12%] rounded-full hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.8)] transition-transform duration-300">    
-                        <img id="displayPFP" src="/WebProject/assets/collectebils1.avif" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-full" />
+                        <img id="displayPFP" src="/WebProject/assets/uploadImg.webp" alt="Background" class="absolute w-full h-full object-cover opacity-40 rounded-full" />
                         <input type="file" accept="image/*" id="pfpIN" class="hidden">
                         <p id="pfpbase64" class="hidden">null</p>
                         <div class="relative z-10 w-full h-full flex items-center justify-center">
