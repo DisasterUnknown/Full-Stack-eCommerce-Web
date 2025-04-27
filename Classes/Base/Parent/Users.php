@@ -255,13 +255,6 @@ class User extends DataBaseHelper
     }
 
 
-    // View profile
-    static function ViewProfile()
-    {
-
-    }
-
-
     // Change pfp and name in user profile
     static function ChangeUnameAndPfp($post)
     {
@@ -434,9 +427,34 @@ class User extends DataBaseHelper
     }
 
 
-    // Edit profile
-    protected function EditProfile()
-    {
+    // Admin View Users 
+    protected function AdminViewUsers($get){
+        try {
+            $query = "
+                SELECT 
+                    u.*,
+                    COALESCE(p.Content, '') AS ProfileImage,
+                    CASE 
+                        WHEN a.UserID IS NOT NULL THEN 'Admin'
+                        WHEN s.UserID IS NOT NULL THEN 'Seller'
+                        WHEN c.UserID IS NOT NULL THEN 'Customer'
+                        ELSE 'Unknown'
+                    END AS UserRole
+                FROM 
+                    user u
+                LEFT JOIN pfpimages p ON u.UserID = p.UserID
+                LEFT JOIN admin a ON u.UserID = a.UserID
+                LEFT JOIN seller s ON u.UserID = s.UserID
+                LEFT JOIN customer c ON u.UserID = c.UserID;
+            ";
+            $values = [];
 
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => "Error: " . $e->getMessage()]);
+        }
     }
 }

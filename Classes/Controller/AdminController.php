@@ -24,4 +24,10 @@ class AdminController extends Admin
     public function GetBanProducts() {
         return parent::GetBanProducts();
     }
+
+
+    // View Users 
+    public function GetUserDetails($get) {
+        return parent::AdminViewUsers($get);
+    }
 }

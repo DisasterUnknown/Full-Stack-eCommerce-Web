@@ -176,4 +176,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error' . $e->getMessage()]);
         }
     }
+
+    // View Users Page Onload (Admin)
+    if (!empty($_GET['ViewUsersPage'])) {
+        try {
+            $adminController = new AdminController();
+            echo $adminController->GetUserDetails($_GET);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error' . $e->getMessage()]);
+        }
+    }
 }

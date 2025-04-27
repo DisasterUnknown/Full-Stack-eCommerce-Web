@@ -10,13 +10,6 @@ class Admin extends User
     }
 
 
-    // Calling the Edit Profile method from User class
-    public function AdminEditProfile()
-    {
-
-    }
-
-
     // Calling the view buyers method from AdminSeller class
     public function AdminViewBuyers()
     {
@@ -49,9 +42,10 @@ class Admin extends User
 
 
     // Admin View users method
-    public function AdminViewUsers()
+    public function AdminViewUsers($get)
     {
-
+        $user = new User();
+        return $user->AdminViewUsers($get);
     }
 
 

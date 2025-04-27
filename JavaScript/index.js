@@ -333,8 +333,6 @@ if (document.getElementById('checkOutPage')) {
 // =======================================================================================================
 // View Ban Products Page
 if (document.getElementById('viewBannedProducts')) {
-    let banProductIdList = [];
-
     let params = new URLSearchParams();
     params.append('ViewBannedProductsPage', 1);
 
@@ -464,5 +462,33 @@ if (document.getElementById('userProfilePageView')) {
                 document.getElementById("responce").innerHTML = data['msg'];
             })
             .catch(error => console.log("Error:", error));
+    }
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View Users Page Admin
+if (document.getElementById('viewUsersPage')) {
+    let params = new URLSearchParams();
+    params.append('ViewUsersPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+    
+    function KickUser(userID) {
+        console.log(userID);
     }
 }
