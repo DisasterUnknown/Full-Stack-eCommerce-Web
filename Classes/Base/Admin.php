@@ -50,8 +50,8 @@ class Admin extends User
 
 
     // Admin kick users method
-    public function AdminKickUsers()
+    public function AdminKickUsers($post)
     {
-
+        return parent::AdminKickUsers($post);
     }
 }

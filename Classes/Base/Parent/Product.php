@@ -101,6 +101,7 @@ class Product extends DataBaseHelper
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->ExecuteDB();
 
+            // Removing the product from the products table
             if ($result == true) {
                 $query1 = "
                     SET FOREIGN_KEY_CHECKS = 0;

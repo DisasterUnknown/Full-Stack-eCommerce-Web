@@ -119,6 +119,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // Admin Kicking users
+    if (!empty($_POST['KickUsers'])) {
+        try {
+            $adminController = new AdminController();
+            echo $adminController->KickUsers($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 

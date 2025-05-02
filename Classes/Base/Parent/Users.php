@@ -457,4 +457,66 @@ class User extends DataBaseHelper
             return json_encode(['msg' => "Error: " . $e->getMessage()]);
         }
     }
+
+
+    // Admin Kick Users
+    protected function AdminKickUsers($post) {
+        try {
+            $userID = $post['userID'];
+            $adminID = $post['adminID'];
+
+            $query = "
+                        INSERT INTO kickusers (AdminID, UserID, Name, Email, Password)
+                        SELECT :adminId, UserID, Name, Email, Password
+                        FROM user
+                        WHERE UserID = :userid;
+                    ";
+
+            $values = [':adminId' => $adminID, ':userid' => $userID];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->ExecuteDB();
+
+            // Removing the product from the products table
+            if ($result == true) {
+                $query1 = "
+                    SET FOREIGN_KEY_CHECKS = 0;
+
+                    DELETE FROM user
+                    WHERE UserID = :userid;
+
+                    SET FOREIGN_KEY_CHECKS = 1;
+                ";
+
+                $values1 = [':userid' => $userID];
+
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $result1 = $DBHObject1->ExecuteDB();
+
+                // Checking if the user is a seller or not? 
+                $query2 = "
+                    SELECT SellerID 
+                    FROM seller 
+                    WHERE UserID = :userID;
+                ";
+
+                $values2 = [':userID' => $userID];
+
+                $DBHObject2 = new DataBaseHelper($query2, $values2);
+                $result2 = $DBHObject2->SelectDB();
+
+                // iF seller removing all the products
+                if ($result2) {
+                    return json_encode(['msg' => $result2]);
+                // IF not a seller simply reloading the page
+                } else {
+                    return json_encode(['msg' => $result1]);
+                }                
+            }
+
+            return json_encode(['msg' => "User Did Not Get Deleted"]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }

@@ -30,4 +30,10 @@ class AdminController extends Admin
     public function GetUserDetails($get) {
         return parent::AdminViewUsers($get);
     }
+
+
+    // Kick Users 
+    public function KickUsers($post) {
+        return parent::AdminKickUsers($post);
+    }
 }

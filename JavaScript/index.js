@@ -423,7 +423,7 @@ if (document.getElementById('userProfilePageView')) {
             // Getting the data from the backend
             SendDataToBackEnd(formData);
         } else {
-            document.getElementById("compleateResponce").innerHTML = JSON.stringify({'msg': "Both PFP and name are Empty!!", 'changeNameAndPfp': 1});
+            document.getElementById("compleateResponce").innerHTML = JSON.stringify({ 'msg': "Both PFP and name are Empty!!", 'changeNameAndPfp': 1 });
         }
     });
 
@@ -487,8 +487,35 @@ if (document.getElementById('viewUsersPage')) {
             document.getElementById("responce").innerHTML = data['msg'];
         })
         .catch(error => console.log("Error:", error));
-    
+
     function KickUser(userID) {
-        console.log(userID);
+        let adminID = sessionStorage.getItem('RoleID') || '';
+        // console.log(userID);
+
+        if (adminID.startsWith("AD")) {
+            let formData = new FormData();
+            formData.append('userID', userID);
+            formData.append('adminID', adminID);
+            formData.append('KickUsers', 1);
+
+            // Getting the data from the backend
+            fetch(fetchFile, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    
+                    data = JSON.parse(data);
+
+                    if (data['msg'] == true) {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.log("Error:", error));
+        } else {
+            console.log("Can't Continue with the action since the user is not an admin!!");
+        }
     }
 }
