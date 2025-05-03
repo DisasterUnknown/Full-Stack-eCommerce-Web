@@ -59,7 +59,7 @@ class Product extends DataBaseHelper
                     }
                 }
 
-                return json_encode(['msg' => 'Sucessfuly added the product!!']);
+                return json_encode(['msg' => 'Sucessfuly added the product!!', 'productID' => $newProductID]);
             }
         } catch (Exception $e) {
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
@@ -68,9 +68,19 @@ class Product extends DataBaseHelper
 
 
     // Edit product method
-    protected function EditProduct()
+    public function EditProduct($post)
     {
+        try {
+            $query = "";
+            $values = [];
 
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
     }
 
 
@@ -203,6 +213,7 @@ class Product extends DataBaseHelper
                         p.Description,
                         p.Price,
                         p.Discount,
+                        p.Category,
                         i.Content
                     FROM 
                         products p

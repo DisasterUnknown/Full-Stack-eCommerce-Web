@@ -105,3 +105,64 @@ discountIN.addEventListener('input', () => {
     discountIN.value = value;
 });
 
+
+
+
+
+
+// =============================================================================================
+if (sessionStorage.getItem('SellerProductMode') == 'Edit') {
+    let targetNode = document.getElementById('compleateResponce');
+
+    // Configuring observer for changes in child nodes and text content
+    const config = { childList: true, subtree: true, characterData: true };
+
+    // Exercuting the callback function when changes happen 
+    const callback = function (mutationsList, observer) {
+        FillThePageContents(targetNode.innerHTML);
+    }
+
+
+    // Create a MutationObserver with the callback
+    const observer = new MutationObserver(callback);
+
+    // Start observing the target node with the specified configuration
+    observer.observe(targetNode, config);
+
+
+    // Page main function 
+    function FillThePageContents(data) {
+        data = JSON.parse(data);
+        mainImgDisplayImg.src = data['msg'][0]['Content']
+
+        document.getElementById('productNameIN').placeholder = data['msg'][0]['ProductName']; 
+        document.getElementById('priceIN').placeholder = data['msg'][0]['Price']; 
+        document.getElementById('discountIN').placeholder = data['msg'][0]['Discount']; 
+        document.getElementById('categorySelect').value = data['msg'][0]['Category']; 
+        document.getElementById('descriptionIN').placeholder = data['msg'][0]['Description']; 
+
+        // Adding the extra Images if they exist
+        let image1 = data.msg?.[1]?.Content || "null";
+        let image2 = data.msg?.[2]?.Content || "null";
+        let image3 = data.msg?.[3]?.Content || "null";
+        let image4 = data.msg?.[4]?.Content || "null";
+
+        if (image1 !== "null") {
+            imgDisplayImg1.src = data['msg'][1]['Content'];
+        } 
+        if (image2 !== "null") {
+            imgDisplayImg2.src = data['msg'][2]['Content'];
+        } 
+        if (image3 !== "null") {
+            imgDisplayImg3.src = data['msg'][3]['Content'];
+        } 
+        if (image4 !== "null") {
+            imgDisplayImg4.src = data['msg'][4]['Content'];
+        }
+
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            SellerEditProductBtnClick();
+        })
+    }
+}
+

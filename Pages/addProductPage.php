@@ -1,7 +1,7 @@
 <?php
 $title = "View Product Page";
 $scriptIndex = "/WebProject/JavaScript/index.js";
-$scriptPage = "/WebProject/JavaScript/addNewProduct.js";
+$scriptPage = "/WebProject/JavaScript/addAndUpdateProduct.js";
 
 $content = <<<HTML
     <!-- Page Maintainence Section -->
@@ -104,8 +104,8 @@ $content = <<<HTML
     </div>
 
     <!-- Backend replay section -->
-    <div class="hidden" id="compleateResponce">null1</div>
-    <div class="hidden" id="responce">null</div>
+    <div class="" id="compleateResponce">null1</div>
+    <div class="" id="responce">null</div>
 HTML;
 include 'Components/layout.php';
 ?>

@@ -107,7 +107,7 @@ if (document.getElementById('loginForm')) {
 // =======================================================================================================
 // =======================================================================================================
 // Seller Add product
-if (document.getElementById('addNewProductPage')) {
+if (document.getElementById('addNewProductPage') && sessionStorage.getItem('SellerProductMode') == 'Add') {
     document.getElementById('addProductBtn').addEventListener('click', () => {
         let mainImage = document.getElementById('mainImageBase64');
         let productName = document.getElementById('productNameIN');
@@ -147,15 +147,60 @@ if (document.getElementById('addNewProductPage')) {
         })
             .then(response => response.text())
             .then(data => {
-                document.getElementById("compleateResponce").innerHTML = data;
+                if (empty(data['newProductID'])) {
+                    document.getElementById("compleateResponce").innerHTML = data;
 
-                data = JSON.parse(data);
-                document.getElementById("responce").innerHTML = data['msg'];
+                    data = JSON.parse(data);
+                    document.getElementById("responce").innerHTML = data['msg'];
+                } else {
+                    sessionStorage.setItem('ProductID', data['newProductID']);
+                    sessionStorage.setItem('SellerProductMode', 'Add');
+                    window.location.href = "/WebProject/Pages/viewProductDetails";
+                }
             })
             .catch(error => console.log("Error:", error));
     });
 }
 
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// Seller Edit product
+if (document.getElementById('addNewProductPage') && sessionStorage.getItem('SellerProductMode') == 'Edit') {
+    let productID = sessionStorage.getItem('ProductID') || 'null';
+    
+    if (productID == 'null') {
+        sessionStorage.setItem('SellerProductMode', 'Add');
+        location.reload();
+    }
+    
+    let params = new URLSearchParams();
+    params.append('ProductID', productID);
+    params.append('EditProduct', 1);
+    
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+
+
+    // Function for seller Edit Product
+    function SellerEditProductBtnClick() {
+        // Temp 
+        sessionStorage.setItem('SellerProductMode', 'Add');
+        location.reload();
+    }
+}
 
 // =======================================================================================================
 // =======================================================================================================
@@ -503,7 +548,7 @@ if (document.getElementById('viewUsersPage')) {
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    
+
                     data = JSON.parse(data);
 
                     if (data['msg'] == true) {
@@ -560,7 +605,7 @@ if (document.getElementById('viewKickUsersPage')) {
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    
+
                     data = JSON.parse(data);
 
                     if (data['msg'] == true) {
