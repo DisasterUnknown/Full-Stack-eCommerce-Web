@@ -75,7 +75,7 @@ function FillThePageContents(data) {
         let WelcomeMsg = document.getElementById('profileWelcome');
 
         let userName = data['msg'][0]['Name'];
-        let userPfp = data['msg'][0]['Content'];
+        let userPfp = data['msg'][0]['PFPdata'];
 
         if (userPfp !== null) {
             UserPfpView.src = userPfp;

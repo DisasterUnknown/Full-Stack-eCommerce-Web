@@ -75,13 +75,6 @@ class Product extends DataBaseHelper
     }
 
 
-    // Remove product method
-    protected function RemoveProduct()
-    {
-
-    }
-
-
     // Admin Ban product method
     public function BanProduct($post)
     {
@@ -89,36 +82,14 @@ class Product extends DataBaseHelper
             $adminID = $post['AdminID'];
             $productID = $post['ProductID'];
 
-            $query = "
-                        INSERT INTO banProducts (AdminID, ProductID, SellerID, ProductName, Price, Amount, Discount, Description, Category)
-                        SELECT :adminId, ProductID, SellerID, ProductName, Price, Amount, Discount, Description, Category
-                        FROM products
-                        WHERE ProductID = :productId;
-                    ";
+            $query = "UPDATE products SET Status = 'banned' WHERE ProductID = :productId;";
 
-            $values = [':adminId' => $adminID, ':productId' => $productID];
+            $values = [':productId' => $productID];
 
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->ExecuteDB();
 
-            // Removing the product from the products table
-            if ($result == true) {
-                $query1 = "
-                    SET FOREIGN_KEY_CHECKS = 0;
-
-                    DELETE FROM products
-                    WHERE ProductID = :productId;
-
-                    SET FOREIGN_KEY_CHECKS = 1;
-                ";
-
-                $values1 = [':productId' => $productID];
-
-                $DBHObject1 = new DataBaseHelper($query1, $values1);
-                $result1 = $DBHObject1->ExecuteDB();
-
-                return json_encode(['msg' => $result1]);
-            }
+            return json_encode(['msg' => $result]);
         } catch (Exception $e) {
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
@@ -126,19 +97,23 @@ class Product extends DataBaseHelper
 
 
     // Admin View Ban Product method
-    public function ViewBanProduct() {
+    public function ViewBanProduct()
+    {
         try {
-            $query = "SELECT 
-                        bp.BanPID,
-                        bp.ProductName,
-                        bp.Category,
+            $query = "
+                    SELECT 
+                        p.ProductID,
+                        p.ProductName,
+                        p.Category,
                         MIN(i.Content) AS FirstImageContent
                     FROM 
-                        banproducts bp
+                        products p
                     LEFT JOIN 
-                        images i ON i.ProductID = bp.ProductID
+                        images i ON i.ProductID = p.ProductID
+                    WHERE
+                        p.Status = 'banned'
                     GROUP BY 
-                        bp.BanPID, bp.ProductName, bp.Category;
+                        p.ProductID, p.ProductName, p.Category;
                     ";
 
             $values = [];
@@ -154,34 +129,11 @@ class Product extends DataBaseHelper
 
 
     // Admin Restore Ban Product 
-    public function RestoreBanProduct($post) {
+    public function RestoreBanProduct($post)
+    {
         try {
-            $query = "
-                START TRANSACTION;
-
-                INSERT INTO products (SellerID, ProductName, Price, Amount, Discount, Description, Category)
-                SELECT SellerID, ProductName, Price, Amount, Discount, Description, Category
-                FROM banproducts
-                WHERE BanPID = :banPID;
-                
-                UPDATE images
-                SET ProductID = (SELECT ProductID 
-                    FROM products 
-                    WHERE ProductName = (SELECT ProductName 
-                        FROM banproducts 
-                        WHERE BanPID = :banPID)
-                    ORDER BY ProductID DESC 
-                    LIMIT 1)  -- Ensures only one row is returned
-                WHERE ProductID = (SELECT ProductID 
-                    FROM banproducts 
-                    WHERE BanPID = :banPID);
-
-                DELETE FROM banproducts
-                WHERE BanPID = :banPID;
-
-                COMMIT;
-            ";
-            $values = [':banPID' => $post['BanPID']];
+            $query = "UPDATE products SET Status = 'active' WHERE ProductID = :productID;";
+            $values = [':productID' => $post['ProductID']];
 
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->ExecuteDB();
@@ -208,7 +160,7 @@ class Product extends DataBaseHelper
                         GROUP BY ProductID
                       ) img_min ON p.ProductID = img_min.ProductID
                       JOIN images i ON img_min.MinImageID = i.ImageID
-                      WHERE p.category = 'art'
+                      WHERE p.category = 'art' AND p.Status = 'active'
                       LIMIT 4;";
             $values = [];
 
@@ -224,7 +176,7 @@ class Product extends DataBaseHelper
                         GROUP BY ProductID
                       ) img_min ON p.ProductID = img_min.ProductID
                       JOIN images i ON img_min.MinImageID = i.ImageID
-                      WHERE p.category = 'collectibles'
+                      WHERE p.category = 'collectibles' AND p.Status = 'active'
                       LIMIT 4;";
             $values1 = [];
 

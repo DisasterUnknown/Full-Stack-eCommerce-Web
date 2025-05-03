@@ -36,4 +36,10 @@ class AdminController extends Admin
     public function KickUsers($post) {
         return parent::AdminKickUsers($post);
     }
+
+
+    // UnKick Users 
+    public function UnKickUsers($post) {
+        return parent::AdminUnKickUsers($post);
+    }
 }

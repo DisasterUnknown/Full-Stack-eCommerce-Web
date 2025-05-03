@@ -352,9 +352,9 @@ if (document.getElementById('viewBannedProducts')) {
 
 
     // restore Product activation function 
-    function restoreProductActivationFunction(BanPID) {
+    function restoreProductActivationFunction(ProductID) {
         let formData = new FormData();
-        formData.append('BanPID', BanPID.innerHTML);
+        formData.append('ProductID', ProductID.innerHTML);
         formData.append('RestoreBanProduct', 1);
 
         // Getting the data from the backend
@@ -472,6 +472,7 @@ if (document.getElementById('userProfilePageView')) {
 // View Users Page Admin
 if (document.getElementById('viewUsersPage')) {
     let params = new URLSearchParams();
+    params.append('ViewActiveUsers', 1);
     params.append('ViewUsersPage', 1);
 
     // Getting the data from the backend using GET
@@ -495,8 +496,64 @@ if (document.getElementById('viewUsersPage')) {
         if (adminID.startsWith("AD")) {
             let formData = new FormData();
             formData.append('userID', userID);
-            formData.append('adminID', adminID);
             formData.append('KickUsers', 1);
+
+            // Getting the data from the backend
+            fetch(fetchFile, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    
+                    data = JSON.parse(data);
+
+                    if (data['msg'] == true) {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.log("Error:", error));
+        } else {
+            console.log("Can't Continue with the action since the user is not an admin!!");
+        }
+    }
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View Kicked Users Page Admin
+if (document.getElementById('viewKickUsersPage')) {
+    let params = new URLSearchParams();
+    params.append('ViewKickedUsers', 1);
+    params.append('ViewUsersPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+
+
+    // Unkick user function 
+    function UnKickUser(UserID) {
+        let adminID = sessionStorage.getItem('RoleID') || '';
+        // console.log(userID);
+
+        if (adminID.startsWith("AD")) {
+            let formData = new FormData();
+            formData.append('UserID', UserID);
+            formData.append('UnKickUsers', 1);
 
             // Getting the data from the backend
             fetch(fetchFile, {

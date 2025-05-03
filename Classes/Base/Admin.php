@@ -54,4 +54,11 @@ class Admin extends User
     {
         return parent::AdminKickUsers($post);
     }
+
+
+    // Admin Unkick users method
+    public function AdminUnKickUsers($post)
+    {
+        return parent::AdminUnKickUsers($post);
+    }
 }

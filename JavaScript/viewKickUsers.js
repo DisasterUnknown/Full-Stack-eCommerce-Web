@@ -32,20 +32,19 @@ function FillThePageContents(data) {
                         <p class="text-left md:w-40 font-semibold hidden md:block">${data['msg'][i]['Email']}</p>
                         <p class="text-left md:w-40 font-semibold">${data['msg'][i]['UserRole']}</p>
                     </div>
-                    <div class="flex mt-5 md:mt-0 mx-5 w-[100%] md:w-[20%] xl:w-[10%] justify-center">
-                        <button id="kickUserBtn${i}" class="border w-[30%] md:w-[100%] xl:px-5 py-1 rounded-xl hover:bg-white/5 hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(0,0,255,0.8)] transition-transform duration-300">Kick</button>
+                    <div class="flex mt-5 md:mt-0 mx-5 w-[100%] md:w-[20%] xl:w-[15%] justify-center">
+                        <button id="kickUserBtn${i}" class="border w-[30%] md:w-[100%] xl:px-5 py-1 rounded-xl hover:bg-white/5 hover:scale-105 hover:shadow-[0_0_15px_2px_rgba(0,0,255,0.8)] transition-transform duration-300">UnKick&nbsp;User</button>
                     </div>
                 </div>`;
         }
     }
 
-    // Adding the kick EventListeners
+    // Adding the Unkick EventListeners
     for (let i = 0; i < data['msg'].length; i++) {
         if (data['msg'][i]['UserRole'] !== "Admin") {
             document.getElementById(`kickUserBtn${i}`).addEventListener('click', () => {
-                KickUser(data['msg'][i]['UserID']);
+                UnKickUser(data['msg'][i]['UserID']);
             });
         }
     }
-
 }

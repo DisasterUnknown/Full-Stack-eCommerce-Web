@@ -280,22 +280,10 @@ class User extends DataBaseHelper
             // Both Img and the name 
             if (isset($post['userImg']) and $post['userName'] !== "") {
                 $query1 = "
-                        START TRANSACTION;
-
-                        UPDATE pfpimages
-                        SET Content = :content
-                        WHERE UserID = :userid;
-
-                        INSERT INTO pfpimages (UserID, Content)
-                        SELECT :userid, :content
-                        WHERE NOT EXISTS (SELECT 1 FROM pfpimages WHERE UserID = :userid);
-
                         UPDATE user
-                        SET Name = :name
+                        SET PFPdata = :content, Name = :name
                         WHERE UserID = :userid;
-
-                        COMMIT;
-                ";
+                    ";
                 $values1 = [":userid" => $result[0]['UserID'], ":content" => $post['userImg'], ":name" => $post['userName']];
                 // Only the name 
             } else if ($post['userName'] !== "") {
@@ -308,13 +296,9 @@ class User extends DataBaseHelper
                 // Only the img 
             } else if (isset($post['userImg'])) {
                 $query1 = "
-                        UPDATE pfpimages
-                        SET Content = :content
+                        UPDATE user
+                        SET PFPdata = :content
                         WHERE UserID = :userid;
-
-                        INSERT INTO pfpimages (UserID, Content)
-                        SELECT :userid, :content
-                        WHERE NOT EXISTS (SELECT 1 FROM pfpimages WHERE UserID = :userid);
                 ";
                 $values1 = [":userid" => $result[0]['UserID'], ":content" => $post['userImg']];
             }
@@ -351,10 +335,9 @@ class User extends DataBaseHelper
 
             if (substr($result, 0, 2) == "UR") {
                 $query1 = "
-                        SELECT u.Name, p.Content 
-                        FROM user u
-                        LEFT JOIN pfpimages p ON u.UserID = p.UserID
-                        WHERE u.UserID = :userID;
+                        SELECT Name, PFPdata 
+                        FROM user
+                        WHERE UserID = :userID;
                 ";
                 $values1 = [":userID" => $result];
 
@@ -428,25 +411,44 @@ class User extends DataBaseHelper
 
 
     // Admin View Users 
-    protected function AdminViewUsers($get){
+    protected function AdminViewUsers($get)
+    {
         try {
-            $query = "
-                SELECT 
-                    u.*,
-                    COALESCE(p.Content, '') AS ProfileImage,
-                    CASE 
-                        WHEN a.UserID IS NOT NULL THEN 'Admin'
-                        WHEN s.UserID IS NOT NULL THEN 'Seller'
-                        WHEN c.UserID IS NOT NULL THEN 'Customer'
-                        ELSE 'Unknown'
-                    END AS UserRole
-                FROM 
-                    user u
-                LEFT JOIN pfpimages p ON u.UserID = p.UserID
-                LEFT JOIN admin a ON u.UserID = a.UserID
-                LEFT JOIN seller s ON u.UserID = s.UserID
-                LEFT JOIN customer c ON u.UserID = c.UserID;
-            ";
+            if (isset($get['ViewActiveUsers'])) {
+                $query = "
+                    SELECT 
+                        u.*,
+                        CASE 
+                            WHEN a.UserID IS NOT NULL THEN 'Admin'
+                            WHEN s.UserID IS NOT NULL THEN 'Seller'
+                            WHEN c.UserID IS NOT NULL THEN 'Customer'
+                            ELSE 'Unknown'
+                        END AS UserRole
+                    FROM 
+                        user u
+                    LEFT JOIN admin a ON u.UserID = a.UserID
+                    LEFT JOIN seller s ON u.UserID = s.UserID
+                    LEFT JOIN customer c ON u.UserID = c.UserID
+                    WHERE u.Status = 'active';
+                ";
+            } else if (isset($get['ViewKickedUsers'])) {
+                $query = "
+                    SELECT 
+                        u.*,
+                        CASE 
+                            WHEN a.UserID IS NOT NULL THEN 'Admin'
+                            WHEN s.UserID IS NOT NULL THEN 'Seller'
+                            WHEN c.UserID IS NOT NULL THEN 'Customer'
+                            ELSE 'Unknown'
+                        END AS UserRole
+                    FROM 
+                        user u
+                    LEFT JOIN admin a ON u.UserID = a.UserID
+                    LEFT JOIN seller s ON u.UserID = s.UserID
+                    LEFT JOIN customer c ON u.UserID = c.UserID
+                    WHERE u.Status = 'kicked';
+                ";
+            }
             $values = [];
 
             $DBHObject = new DataBaseHelper($query, $values);
@@ -460,61 +462,102 @@ class User extends DataBaseHelper
 
 
     // Admin Kick Users
-    protected function AdminKickUsers($post) {
+    protected function AdminKickUsers($post)
+    {
         try {
             $userID = $post['userID'];
-            $adminID = $post['adminID'];
 
             $query = "
-                        INSERT INTO kickusers (AdminID, UserID, Name, Email, Password)
-                        SELECT :adminId, UserID, Name, Email, Password
-                        FROM user
+                        UPDATE user
+                        SET Status = 'kicked'
                         WHERE UserID = :userid;
                     ";
 
-            $values = [':adminId' => $adminID, ':userid' => $userID];
+            $values = [':userid' => $userID];
 
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->ExecuteDB();
 
-            // Removing the product from the products table
-            if ($result == true) {
-                $query1 = "
-                    SET FOREIGN_KEY_CHECKS = 0;
-
-                    DELETE FROM user
-                    WHERE UserID = :userid;
-
-                    SET FOREIGN_KEY_CHECKS = 1;
-                ";
-
-                $values1 = [':userid' => $userID];
-
-                $DBHObject1 = new DataBaseHelper($query1, $values1);
-                $result1 = $DBHObject1->ExecuteDB();
-
-                // Checking if the user is a seller or not? 
-                $query2 = "
+            // Checking if the user is a seller or not? 
+            $query2 = "
                     SELECT SellerID 
                     FROM seller 
                     WHERE UserID = :userID;
                 ";
 
-                $values2 = [':userID' => $userID];
+            $values2 = [':userID' => $userID];
 
-                $DBHObject2 = new DataBaseHelper($query2, $values2);
-                $result2 = $DBHObject2->SelectDB();
+            $DBHObject2 = new DataBaseHelper($query2, $values2);
+            $result2 = $DBHObject2->SelectDB();
 
-                // iF seller removing all the products
-                if ($result2) {
-                    return json_encode(['msg' => $result2]);
+            // iF seller removing all the products
+            if ($result2) {
+                $query3 = "
+                    UPDATE products SET Status = 'banned' WHERE SellerID = (
+                        SELECT SellerID FROM seller WHERE UserID = :userid
+                    );
+                    ";
+                $values3 = [':userid' => $userID];
+
+                $DBHObject3 = new DataBaseHelper($query3, $values3);
+                $result3 = $DBHObject3->ExecuteDB();
+
+                return json_encode(['msg' => $result]);
                 // IF not a seller simply reloading the page
-                } else {
-                    return json_encode(['msg' => $result1]);
-                }                
+            } else {
+                return json_encode(['msg' => $result]);
             }
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 
-            return json_encode(['msg' => "User Did Not Get Deleted"]);
+
+    // Admin Unkick User
+    protected function AdminUnKickUsers($post)
+    {
+        try {
+            $userID = $post['UserID'];
+
+            $query = "
+                UPDATE user
+                SET Status = 'active'
+                WHERE UserID = :userid;
+            ";
+            $values = [':userid' => $userID];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->ExecuteDB();
+
+            // Checking if the user is a seller or not? 
+            $query2 = "
+                    SELECT SellerID 
+                    FROM seller 
+                    WHERE UserID = :userID;
+                ";
+
+            $values2 = [':userID' => $userID];
+
+            $DBHObject2 = new DataBaseHelper($query2, $values2);
+            $result2 = $DBHObject2->SelectDB();
+
+            // iF seller unbanning all the products
+            if ($result2) {
+                $query3 = "
+                    UPDATE products SET Status = 'active' WHERE SellerID = (
+                        SELECT SellerID FROM seller WHERE UserID = :userid
+                    );
+                    ";
+                $values3 = [':userid' => $userID];
+
+                $DBHObject3 = new DataBaseHelper($query3, $values3);
+                $result3 = $DBHObject3->ExecuteDB();
+
+                return json_encode(['msg' => $result]);
+                // IF not a seller simply reloading the page
+            } else {
+                return json_encode(['msg' => $result]);
+            }
         } catch (Exception $e) {
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
