@@ -67,7 +67,6 @@ if (document.getElementById('registerForm')) {
 }
 
 
-
 // =======================================================================================================
 // =======================================================================================================
 // =======================================================================================================
@@ -108,12 +107,11 @@ if (document.getElementById('loginForm')) {
 // =======================================================================================================
 // =======================================================================================================
 // Seller Add product
-if (document.getElementById('addProductForm')) {
+if (document.getElementById('addNewProductPage')) {
     document.getElementById('addProductBtn').addEventListener('click', () => {
         let mainImage = document.getElementById('mainImageBase64');
         let productName = document.getElementById('productNameIN');
         let price = document.getElementById('priceIN');
-        let amount = document.getElementById('amountIN');
         let discount = document.getElementById('discountIN');
         let category = document.getElementById('categorySelect');
         let description = document.getElementById('descriptionIN');
@@ -133,7 +131,6 @@ if (document.getElementById('addProductForm')) {
         formData.append('mainImgIN', mainImage.innerHTML);
         formData.append('productNameIN', productName.value);
         formData.append('priceIN', price.value);
-        formData.append('amountIN', amount.value);
         formData.append('discountIN', discount.value);
         formData.append('categorySelect', category.value);
         formData.append('descriptionIN', description.value);

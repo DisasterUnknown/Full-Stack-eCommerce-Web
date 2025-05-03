@@ -24,7 +24,6 @@ class Product extends DataBaseHelper
             $mainImg = $post['mainImgIN'];
             $productName = $post['productNameIN'];
             $price = $post['priceIN'];
-            $amount = $post['amountIN'];
             $category = $post['categorySelect'];
             $discount = $post['discountIN'];
             $description = $post['descriptionIN'];
@@ -34,8 +33,8 @@ class Product extends DataBaseHelper
             $img4 = $post['imgIN4'];
 
             // Inserting the product to the table 
-            $query0 = "INSERT INTO products (SellerID, ProductName, Price, Amount, Discount, Description, Category) VALUES (:sellerId, :productName, :price, :amount, :discount, :description, :category);";
-            $values0 = [":sellerId" => $sellerID, ":productName" => $productName, ":price" => $price, ":amount" => $amount, ":discount" => $discount, ":description" => $description, ":category" => $category];
+            $query0 = "INSERT INTO products (SellerID, ProductName, Price, Discount, Description, Category) VALUES (:sellerId, :productName, :price, :discount, :description, :category);";
+            $values0 = [":sellerId" => $sellerID, ":productName" => $productName, ":price" => $price, ":discount" => $discount, ":description" => $description, ":category" => $category];
 
             $DBHObject0 = new DataBaseHelper($query0, $values0);
             $result0 = $DBHObject0->ExecuteDB();

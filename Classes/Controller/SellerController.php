@@ -41,6 +41,8 @@ class SellerController extends Seller
         return $seller->SellerRegister($email, $password, $name, $role, $address, $contact);
     }
 
+
+    // Seller Add Product
     public function SellerControllerAddProduct($post)
     {
         if (empty($post['sellerID']) or $post['sellerID'] == 'null') {
@@ -57,10 +59,6 @@ class SellerController extends Seller
 
         if (empty($post['priceIN']) || !is_numeric($post['priceIN']) || $post['priceIN'] <= 0) {
             return json_encode(['msg' => 'Please enter a valid price greater than 0!']);
-        }
-
-        if (empty($post['amountIN']) || !is_numeric($post['amountIN']) || $post['amountIN'] <= 0) {
-            return json_encode(['msg' => 'Please enter a valid amount greater than 0!']);
         }
 
         if (empty($post['discountIN']) || !is_numeric($post['discountIN']) || $post['discountIN'] < 0) {
