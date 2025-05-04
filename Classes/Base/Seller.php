@@ -57,6 +57,14 @@ class Seller extends User {
     }
 
 
+    // Calling the Edit product method from Product class
+    public function SellerEditProduct($post)
+    {
+        $PRODUCT = new Product();
+        return $PRODUCT->EditProduct($post);
+    }
+
+
     // Calling the edit product method from Product class
     public function SellerEditProductViewDetails($get)
     {

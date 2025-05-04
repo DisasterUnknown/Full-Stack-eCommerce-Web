@@ -64,6 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
+    // Seller Edit Product
+    if (!empty($_POST['EditProduct'])) {
+        try {
+            $seller = new SellerController();
+            echo $seller->SellerControllerEditProduct($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
     // User Check Out
     if (!empty($_POST['UserCheckOut'])) {
         try {

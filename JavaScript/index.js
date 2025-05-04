@@ -108,6 +108,7 @@ if (document.getElementById('loginForm')) {
 // =======================================================================================================
 // Seller Add product
 if (document.getElementById('addNewProductPage') && sessionStorage.getItem('SellerProductMode') == 'Add') {
+
     document.getElementById('addProductBtn').addEventListener('click', () => {
         let mainImage = document.getElementById('mainImageBase64');
         let productName = document.getElementById('productNameIN');
@@ -130,8 +131,8 @@ if (document.getElementById('addNewProductPage') && sessionStorage.getItem('Sell
         formData.append('sellerID', sellerID);
         formData.append('mainImgIN', mainImage.innerHTML);
         formData.append('productNameIN', productName.value);
-        formData.append('priceIN', price.value);
-        formData.append('discountIN', discount.value);
+        formData.append('priceIN', price.value.replace(/,/g, ""));
+        formData.append('discountIN', parseFloat(discount.value));
         formData.append('categorySelect', category.value);
         formData.append('descriptionIN', description.value);
         formData.append('imgIN1', image1.innerHTML);
@@ -147,13 +148,13 @@ if (document.getElementById('addNewProductPage') && sessionStorage.getItem('Sell
         })
             .then(response => response.text())
             .then(data => {
-                if (empty(data['newProductID'])) {
-                    document.getElementById("compleateResponce").innerHTML = data;
+                document.getElementById("compleateResponce").innerHTML = data;
 
-                    data = JSON.parse(data);
-                    document.getElementById("responce").innerHTML = data['msg'];
-                } else {
-                    sessionStorage.setItem('ProductID', data['newProductID']);
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
+
+                if (data?.productID) {
+                    sessionStorage.setItem('ProductID', data['productID']);
                     sessionStorage.setItem('SellerProductMode', 'Add');
                     window.location.href = "/WebProject/Pages/viewProductDetails";
                 }
@@ -169,16 +170,16 @@ if (document.getElementById('addNewProductPage') && sessionStorage.getItem('Sell
 // Seller Edit product
 if (document.getElementById('addNewProductPage') && sessionStorage.getItem('SellerProductMode') == 'Edit') {
     let productID = sessionStorage.getItem('ProductID') || 'null';
-    
+
     if (productID == 'null') {
         sessionStorage.setItem('SellerProductMode', 'Add');
         location.reload();
     }
-    
+
     let params = new URLSearchParams();
     params.append('ProductID', productID);
     params.append('EditProduct', 1);
-    
+
     // Getting the data from the backend using GET
     fetch(`${fetchFile}?${params.toString()}`, {
         method: "GET"
@@ -196,9 +197,55 @@ if (document.getElementById('addNewProductPage') && sessionStorage.getItem('Sell
 
     // Function for seller Edit Product
     function SellerEditProductBtnClick() {
-        // Temp 
-        sessionStorage.setItem('SellerProductMode', 'Add');
-        location.reload();
+        let mainImage = document.getElementById('mainImageBase64');
+        let productName = document.getElementById('productNameIN');
+        let price = document.getElementById('priceIN');
+        let discount = document.getElementById('discountIN');
+        let category = document.getElementById('categorySelect');
+        let description = document.getElementById('descriptionIN');
+        let image1 = document.getElementById('image1Base64');
+        let image2 = document.getElementById('image2Base64');
+        let image3 = document.getElementById('image3Base64');
+        let image4 = document.getElementById('image4Base64');
+
+        // Getting the seller id from the section storage 
+        let sellerID = sessionStorage.getItem('RoleID') || "";
+        if (!sellerID.startsWith("SE")) {
+            sellerID = "";
+        }
+
+        let formData = new FormData();
+        formData.append('sellerID', sellerID);
+        formData.append('productID', productID);
+        formData.append('mainImgIN', mainImage.innerHTML);
+        formData.append('productNameIN', productName.value);
+        formData.append('priceIN', price.value.replace(/,/g, ""));
+        formData.append('discountIN', parseFloat(discount.value));
+        formData.append('categorySelect', category.value);
+        formData.append('descriptionIN', description.value);
+        formData.append('imgIN1', image1.innerHTML);
+        formData.append('imgIN2', image2.innerHTML);
+        formData.append('imgIN3', image3.innerHTML);
+        formData.append('imgIN4', image4.innerHTML);
+        formData.append('EditProduct', 1);
+
+        // Getting the data from the backend
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("compleateResponce").innerHTML = data;
+
+                data = JSON.parse(data);
+                document.getElementById("responce").innerHTML = data['msg'];
+                if (data?.success == 1) {
+                    sessionStorage.setItem('SellerProductMode', 'Add');
+                    window.location.href = "/WebProject/Pages/viewProductDetails";
+                }
+            })
+            .catch(error => console.log("Error:", error));
     }
 }
 

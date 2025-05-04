@@ -49,13 +49,19 @@ class Product extends DataBaseHelper
                 $newProductID = $result1[0]['ProductID'];
 
                 // inserting the product images to the images database 
-                foreach ([$mainImg, $img1, $img2, $img3, $img4] as $image) {
-                    if (!($image == 'null')) {
-                        $query2 = "INSERT INTO images (ProductID, Content) VALUES (:productId, :content);";
-                        $values2 = [":productId" => $newProductID, ":content" => $image];
+                $query2 = "INSERT INTO images (ProductID, Content, Level) VALUES (:productId, :content, 'main');";
+                $values2 = [":productId" => $newProductID, ":content" => $mainImg];
 
-                        $DBHObject2 = new DataBaseHelper($query2, $values2);
-                        $result2 = $DBHObject2->ExecuteDB();
+                $DBHObject2 = new DataBaseHelper($query2, $values2);
+                $result2 = $DBHObject2->ExecuteDB();
+
+                foreach ([$img1, $img2, $img3, $img4] as $image) {
+                    if (!($image == 'null')) {
+                        $query3 = "INSERT INTO images (ProductID, Content) VALUES (:productId, :content);";
+                        $values3 = [":productId" => $newProductID, ":content" => $image];
+
+                        $DBHObject3 = new DataBaseHelper($query3, $values3);
+                        $result3 = $DBHObject3->ExecuteDB();
                     }
                 }
 
@@ -71,13 +77,74 @@ class Product extends DataBaseHelper
     public function EditProduct($post)
     {
         try {
-            $query = "";
-            $values = [];
+            $sellerID = $post['sellerID'];
+            $productID = $post['productID'];
+            $mainImg = $post['mainImgIN'];
+            $productName = $post['productNameIN'];
+            $price = $post['priceIN'];
+            $category = $post['categorySelect'];
+            $discount = $post['discountIN'];
+            $description = $post['descriptionIN'];
+            $img1 = $post['imgIN1'];
+            $img2 = $post['imgIN2'];
+            $img3 = $post['imgIN3'];
+            $img4 = $post['imgIN4'];
+            // return json_encode(['msg' => $price]);
+            $query = "UPDATE products SET SellerID = :sellerId, ProductName = :productName, Price = :price, Discount = :discount, Description = :description, Category = :category WHERE ProductID = :productID;";
+            $values = [
+                ":sellerId" => $sellerID,
+                ":productID" => $productID,
+                ":productName" => $productName,
+                ":price" => $price,
+                ":discount" => $discount,
+                ":description" => $description,
+                ":category" => $category
+            ];
 
             $DBHObject = new DataBaseHelper($query, $values);
-            $result = $DBHObject->SelectDB();
+            $result = $DBHObject->ExecuteDB();
 
-            return json_encode(['msg' => $result]);
+            if ($result) {
+                // Adding the main Img
+                $query0 = "SELECT ImageID FROM images WHERE ProductID = :productid AND LEVEL = 'main' LIMIT 1;";
+                $values0 = [":productid" => $productID];
+                $DBHObject0 = new DataBaseHelper($query0, $values0);
+                $result0 = $DBHObject0->SelectDB();
+
+                $query1 = "UPDATE images SET Content = :content WHERE ImageID = :imageid;";
+                $values1 = [":content" => $mainImg, ":imageid" => $result0[0]['ImageID']];
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $DBHObject1->ExecuteDB();
+
+                // Getting all the image id's 
+                $query2 = "SELECT ImageID FROM images WHERE ProductID = :productid AND LEVEL = 'sub';";
+                $values2 = [":productid" => $productID];
+
+                $DBHObject2 = new DataBaseHelper($query2, $values2);
+                $result2 = $DBHObject2->SelectDB();
+
+                // inserting the product images to the images database
+                $imageBase64Values = [$img1, $img2, $img3, $img4];
+                $imageIDList = $result2;
+                foreach ($imageBase64Values as $index => $image) {
+                    if (!($image == 'null')) {
+                        if (isset($imageIDList[$index])) {
+                            $imageID = $imageIDList[$index]['ImageID'];
+
+                            $query3 = "UPDATE images SET Content = :content WHERE ImageID = :imageid;";
+                            $values3 = [":content" => $image, ":imageid" => $imageID];
+                        } else {
+                            $query3 = "INSERT INTO images (ProductID, Content) VALUES (:productId, :content);";
+                            $values3 = [":productId" => $productID, ":content" => $image];
+                        }
+
+                        $DBHObject3 = new DataBaseHelper($query3, $values3);
+                        $DBHObject3->ExecuteDB();
+                    }
+                }
+
+                return json_encode(['msg' => 'Sucessfuly Edited the product!!', 'success' => 1]);
+            }
         } catch (Exception $e) {
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
@@ -154,6 +221,36 @@ class Product extends DataBaseHelper
     }
 
 
+    // Admin Ban producst when user kicked method 
+    public function UserKickRemoveProducts($userID)
+    {
+        $query = "
+                    UPDATE products SET Status = 'userkick' WHERE SellerID = (
+                        SELECT SellerID FROM seller WHERE UserID = :userid
+                    );
+                    ";
+        $values = [':userid' => $userID];
+
+        $DBHObject = new DataBaseHelper($query, $values);
+        $DBHObject->ExecuteDB();
+    }
+
+
+    // Admin restore product when user unkicked method 
+    public function UserUnKickRestoreProducts($userID)
+    {
+        $query = "
+                    UPDATE products SET Status = 'active' WHERE SellerID = (
+                        SELECT SellerID FROM seller WHERE UserID = :userid
+                    ) AND Status = 'userkick';
+                    ";
+        $values = [':userid' => $userID];
+
+        $DBHObject = new DataBaseHelper($query, $values);
+        $DBHObject->ExecuteDB();
+    }
+
+
     // View product method
     static function ViewProduct(Product $product)
     {
@@ -169,7 +266,7 @@ class Product extends DataBaseHelper
                         GROUP BY ProductID
                       ) img_min ON p.ProductID = img_min.ProductID
                       JOIN images i ON img_min.MinImageID = i.ImageID
-                      WHERE p.category = 'art' AND p.Status = 'active'
+                      WHERE p.category = 'art' AND p.Status = 'active' AND i.Level = 'main'
                       LIMIT 4;";
             $values = [];
 
@@ -214,7 +311,8 @@ class Product extends DataBaseHelper
                         p.Price,
                         p.Discount,
                         p.Category,
-                        i.Content
+                        i.Content,
+                        i.Level
                     FROM 
                         products p
                     LEFT JOIN 

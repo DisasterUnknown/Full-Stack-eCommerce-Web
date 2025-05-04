@@ -46,31 +46,63 @@ class SellerController extends Seller
     public function SellerControllerAddProduct($post)
     {
         if (empty($post['sellerID']) or $post['sellerID'] == 'null') {
-            return json_encode(['msg' => 'Seller ID not found, Please Login Again!!']);
+            return json_encode(['msg' => 'Seller ID not found, Please Login Again!!', 'error' => 1]);
         }
 
         if (empty($post['mainImgIN']) or $post['mainImgIN'] == 'null') {
-            return json_encode(['msg' => 'Main Image not found, Please make sure to add an Image!!']);
+            return json_encode(['msg' => 'Main Image not found, Please make sure to add an Image!!', 'error' => 1]);
         }
 
         if (empty($post['productNameIN']) or strlen($post['productNameIN']) < 5) {
-            return json_encode(['msg' => 'Product name should be greater than 5 characters!!']);
+            return json_encode(['msg' => 'Product name should be greater than 5 characters!!', 'error' => 1]);
         }
 
         if (empty($post['priceIN']) || !is_numeric($post['priceIN']) || $post['priceIN'] <= 0) {
-            return json_encode(['msg' => 'Please enter a valid price greater than 0!']);
+            return json_encode(['msg' => 'Please enter a valid price greater than 0!', 'error' => 1]);
         }
 
         if (empty($post['discountIN']) || !is_numeric($post['discountIN']) || $post['discountIN'] < 0) {
-            return json_encode(['msg' => 'Please enter a valid discount amount!']);
+            return json_encode(['msg' => 'Please enter a valid discount amount!', 'error' => 1]);
         }
 
         if (empty($post['descriptionIN']) || strlen($post['descriptionIN']) < 100) {
-            return json_encode(['msg' => 'Please enter a product description with at least 100 characters!']);
+            return json_encode(['msg' => 'Please enter a product description with at least 100 characters!', 'error' => 1]);
         }
 
         $seller = new Seller();
         return $seller->SellerAddProduct($post);
+    }
+
+
+    // Seller Edit Product
+    public function SellerControllerEditProduct($post)
+    {
+        if (empty($post['sellerID']) or $post['sellerID'] == 'null') {
+            return json_encode(['msg' => 'Seller ID not found, Please Login Again!!', 'error' => 1]);
+        }
+
+        if (empty($post['mainImgIN']) or $post['mainImgIN'] == 'null') {
+            return json_encode(['msg' => 'Main Image not found, Please make sure to add an Image!!', 'error' => 1]);
+        }
+
+        if (empty($post['productNameIN']) or strlen($post['productNameIN']) < 5) {
+            return json_encode(['msg' => 'Product name should be greater than 5 characters!!', 'error' => 1]);
+        }
+
+        if (empty($post['priceIN']) || !is_numeric($post['priceIN']) || $post['priceIN'] <= 0) {
+            return json_encode(['msg' => 'Please enter a valid price greater than 0!', 'error' => 1]);
+        }
+
+        if (empty($post['discountIN']) || !is_numeric($post['discountIN']) || $post['discountIN'] < 0) {
+            return json_encode(['msg' => 'Please enter a valid discount amount!', 'error' => 1]);
+        }
+
+        if (empty($post['descriptionIN']) || strlen($post['descriptionIN']) < 100) {
+            return json_encode(['msg' => 'Please enter a product description with at least 100 characters!', 'error' => 1]);
+        }
+
+        $seller = new Seller();
+        return $seller->SellerEditProduct($post);
     }
 
 

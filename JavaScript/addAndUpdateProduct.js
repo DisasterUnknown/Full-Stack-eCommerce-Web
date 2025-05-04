@@ -110,6 +110,7 @@ discountIN.addEventListener('input', () => {
 
 
 
+
 // =============================================================================================
 if (sessionStorage.getItem('SellerProductMode') == 'Edit') {
     let targetNode = document.getElementById('compleateResponce');
@@ -133,36 +134,88 @@ if (sessionStorage.getItem('SellerProductMode') == 'Edit') {
     // Page main function 
     function FillThePageContents(data) {
         data = JSON.parse(data);
-        mainImgDisplayImg.src = data['msg'][0]['Content']
 
-        document.getElementById('productNameIN').placeholder = data['msg'][0]['ProductName']; 
-        document.getElementById('priceIN').placeholder = data['msg'][0]['Price']; 
-        document.getElementById('discountIN').placeholder = data['msg'][0]['Discount']; 
-        document.getElementById('categorySelect').value = data['msg'][0]['Category']; 
-        document.getElementById('descriptionIN').placeholder = data['msg'][0]['Description']; 
+        if (data?.error == 1) {
+            document.getElementById('errorDisplayMsg').innerHTML = data.msg;
+            document.getElementById('errorDisplayMsg').className = "block";
+            document.getElementById('errorDisplayMsg').style.color = "#FF0000";
+        } else {
+            let mainImg = data['msg'].find(img => img.Level === 'main');
 
-        // Adding the extra Images if they exist
-        let image1 = data.msg?.[1]?.Content || "null";
-        let image2 = data.msg?.[2]?.Content || "null";
-        let image3 = data.msg?.[3]?.Content || "null";
-        let image4 = data.msg?.[4]?.Content || "null";
+            mainImgDisplayImg.src = mainImg.Content;
 
-        if (image1 !== "null") {
-            imgDisplayImg1.src = data['msg'][1]['Content'];
-        } 
-        if (image2 !== "null") {
-            imgDisplayImg2.src = data['msg'][2]['Content'];
-        } 
-        if (image3 !== "null") {
-            imgDisplayImg3.src = data['msg'][3]['Content'];
-        } 
-        if (image4 !== "null") {
-            imgDisplayImg4.src = data['msg'][4]['Content'];
+            document.getElementById('AddUpdatePageTitle').innerHTML = 'Edit Product';
+            document.getElementById('productNameIN').value = data['msg'][0]['ProductName'];
+            document.getElementById('priceIN').placeholder = Number(data['msg'][0]['Price']).toLocaleString();
+            document.getElementById('discountIN').placeholder = data['msg'][0]['Discount'];
+            document.getElementById('categorySelect').value = data['msg'][0]['Category'];
+            document.getElementById('descriptionIN').value = data['msg'][0]['Description'];
+            mainImg64.innerHTML = data['msg'][0]['Content'];
+
+            // Adding the extra Images if they exist
+            let image1 = data.msg?.[1]?.Content || "null";
+            let image2 = data.msg?.[2]?.Content || "null";
+            let image3 = data.msg?.[3]?.Content || "null";
+            let image4 = data.msg?.[4]?.Content || "null";
+
+            if (image1 !== "null") {
+                imgDisplayImg1.src = data['msg'][1]['Content'];
+                img1_64.innerHTML = data['msg'][1]['Content'];
+            }
+            if (image2 !== "null") {
+                imgDisplayImg2.src = data['msg'][2]['Content'];
+                img2_64.innerHTML = data['msg'][2]['Content'];
+            }
+            if (image3 !== "null") {
+                imgDisplayImg3.src = data['msg'][3]['Content'];
+                img3_64.innerHTML = data['msg'][3]['Content'];
+            }
+            if (image4 !== "null") {
+                imgDisplayImg4.src = data['msg'][4]['Content'];
+                img4_64.innerHTML = data['msg'][4]['Content'];
+            }
         }
 
         document.getElementById('addProductBtn').addEventListener('click', () => {
             SellerEditProductBtnClick();
-        })
+        });
     }
 }
 
+
+
+
+// =============================================================================================
+// =============================================================================================
+// =============================================================================================
+// =============================================================================================
+if (sessionStorage.getItem('SellerProductMode') == 'Add') {
+    let targetNode = document.getElementById('compleateResponce');
+
+    // Configuring observer for changes in child nodes and text content
+    const config = { childList: true, subtree: true, characterData: true };
+
+    // Exercuting the callback function when changes happen 
+    const callback = function (mutationsList, observer) {
+        FillThePageContentsInAdd(targetNode.innerHTML);
+    }
+
+
+    // Create a MutationObserver with the callback
+    const observer = new MutationObserver(callback);
+
+    // Start observing the target node with the specified configuration
+    observer.observe(targetNode, config);
+
+
+    // Page main function 
+    function FillThePageContentsInAdd(data) {
+        data = JSON.parse(data);
+        
+        if (data?.error == 1) {
+            document.getElementById('errorDisplayMsg').innerHTML = data.msg;
+            document.getElementById('errorDisplayMsg').className += " block";
+            document.getElementById('errorDisplayMsg').style.color = "#FF0000";
+        }
+    }
+}

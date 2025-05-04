@@ -2,6 +2,7 @@
 
 // Calling the database helper class
 require_once 'DataBaseHelper.php';
+require_once 'Product.php';
 
 
 class User extends DataBaseHelper
@@ -109,7 +110,7 @@ class User extends DataBaseHelper
                 throw new Exception("Password must be at least 6 characters.");
             }
 
-            $query = "SELECT UserID FROM user WHERE email = :email;";
+            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'active';";
             $values = [":email" => $user->getEmail()];
 
             // Data Base Helper class object
@@ -492,15 +493,8 @@ class User extends DataBaseHelper
 
             // iF seller removing all the products
             if ($result2) {
-                $query3 = "
-                    UPDATE products SET Status = 'banned' WHERE SellerID = (
-                        SELECT SellerID FROM seller WHERE UserID = :userid
-                    );
-                    ";
-                $values3 = [':userid' => $userID];
-
-                $DBHObject3 = new DataBaseHelper($query3, $values3);
-                $result3 = $DBHObject3->ExecuteDB();
+                $product = new Product();
+                $product->UserKickRemoveProducts($userID);
 
                 return json_encode(['msg' => $result]);
                 // IF not a seller simply reloading the page
@@ -543,15 +537,9 @@ class User extends DataBaseHelper
 
             // iF seller unbanning all the products
             if ($result2) {
-                $query3 = "
-                    UPDATE products SET Status = 'active' WHERE SellerID = (
-                        SELECT SellerID FROM seller WHERE UserID = :userid
-                    );
-                    ";
-                $values3 = [':userid' => $userID];
-
-                $DBHObject3 = new DataBaseHelper($query3, $values3);
-                $result3 = $DBHObject3->ExecuteDB();
+                $product = new Product();
+                $product->UserUnKickRestoreProducts($userID);
+                
 
                 return json_encode(['msg' => $result]);
                 // IF not a seller simply reloading the page

@@ -20,7 +20,7 @@ $content = <<<HTML
     </div>
 
     <div class="space-y-4 min-h-[calc(100vh-92px)]" id="addNewProductPage">
-        <p class="text-2xl font-bold text-center mt-8 mb-10">Add Product</p>
+        <p id="AddUpdatePageTitle" class="text-2xl font-bold text-center mt-8 mb-10">Add Product</p>
 
         <!-- Product Card Section -->
         <div class="flex flex-col md:flex-row justify-center">
@@ -98,14 +98,15 @@ $content = <<<HTML
         </div>
 
         <!-- Page Add Product Btn -->
-        <div class="flex items-center justify-center pt-20">
+        <div class="flex flex-col items-center justify-center pt-20">
+            <p id="errorDisplayMsg" class="mb-1 text-center"></p>
             <button type="button" id="addProductBtn" class="border text-3xl font-bold py-4 px-4 w-[220px] rounded-xl hover:scale-101 hover:bg-green-600/10 hover:shadow-[0_0_15px_2px_rgba(100,255,0,0.8)] transition-colors duration-500">Submit</button>
         </div>
     </div>
 
     <!-- Backend replay section -->
-    <div class="" id="compleateResponce">null1</div>
-    <div class="" id="responce">null</div>
+    <div class="hidden" id="compleateResponce">null1</div>
+    <div class="hidden" id="responce">null</div>
 HTML;
 include 'Components/layout.php';
 ?>
