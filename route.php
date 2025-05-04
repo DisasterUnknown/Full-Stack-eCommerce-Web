@@ -17,6 +17,8 @@ $routs = array(
     "$routeHeader/Pages/userProfilePage" => "Pages/userProfilePage.php",
     "$routeHeader/Pages/viewUsers" => "Pages/viewUsers.php",
     "$routeHeader/Pages/viewKickUsers" => "Pages/viewKickUsers.php",
+    "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php",
+    "$routeHeader/Pages/sellerShop" => "Pages/sellerShop.php",
 );
 
 foreach ($routs as $key => $value) {

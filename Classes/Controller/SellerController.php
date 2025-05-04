@@ -112,4 +112,20 @@ class SellerController extends Seller
         $seller = new Seller();
         return $seller->SellerEditProductViewDetails($get);
     }
+
+
+    // Seller View Products in shop
+    public function SellerViewShopPage($get)
+    {
+        $seller = new Seller();
+        return $seller->SellerViewShopPage($get);
+    }
+
+
+    // Seller Remove Product
+    public function SellerControllerRemoveProduct($post)
+    {
+        $seller = new Seller();
+        return $seller->SellerRemoveProduct($post);
+    }
 }

@@ -152,6 +152,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+
+    // Seller Remove Product
+    if (!empty($_POST['SellerRemoveProduct'])) {
+        try {
+            $sellerController = new SellerController();
+            echo $sellerController->SellerControllerRemoveProduct($_POST);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
 
@@ -225,6 +236,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         try {
             $sellerController = new SellerController();
             echo $sellerController->SellerControllerEditProductViewDetails($_GET);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+    // Seller View Products in Shop
+    if (!empty($_GET['SellerShopPage'])) {
+        try {
+            $sellerController = new SellerController();
+            echo $sellerController->SellerViewShopPage($_GET);
         } catch (Exception $e) {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }

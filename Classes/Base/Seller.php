@@ -14,20 +14,6 @@ class Seller extends User {
     }
 
 
-    // Calling the Edit Profile method from User class
-    public function SellerEditProfile()
-    {
-
-    }
-
-
-    // Calling the View Profile method from User class
-    public function SellerViewProfile()
-    {
-
-    }
-
-
     // Calling the view buyers method from AdminSeller class
     public function SellerViewBuyers()
     {
@@ -35,17 +21,11 @@ class Seller extends User {
     }
 
 
-    // Calling the view product method from Product class
-    public function SellerViewProduct()
-    {
-
-    }
-
-
     // Calling the remove product method from Product class
-    public function SellerRemoveProduct()
+    public function SellerRemoveProduct($post)
     {
-
+        $product = new Product();
+        return $product->SellerRemoveProduct($post);
     }
 
 
@@ -72,4 +52,11 @@ class Seller extends User {
         return $PRODUCT->ViewProductDetails($get['ProductID']);
     }
 
+
+    // Calling the Producst to fill the seller shop page
+    public function SellerViewShopPage($get)
+    {
+        $PRODUCT = new Product();
+        return $PRODUCT->SellerViewShopPage($get);
+    }
 }

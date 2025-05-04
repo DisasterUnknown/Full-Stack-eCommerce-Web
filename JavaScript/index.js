@@ -108,7 +108,6 @@ if (document.getElementById('loginForm')) {
 // =======================================================================================================
 // Seller Add product
 if (document.getElementById('addNewProductPage') && sessionStorage.getItem('SellerProductMode') == 'Add') {
-
     document.getElementById('addProductBtn').addEventListener('click', () => {
         let mainImage = document.getElementById('mainImageBase64');
         let productName = document.getElementById('productNameIN');
@@ -663,5 +662,52 @@ if (document.getElementById('viewKickUsersPage')) {
         } else {
             console.log("Can't Continue with the action since the user is not an admin!!");
         }
+    }
+}
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View Products Seller Shop Page
+if (document.getElementById('sellerShopPage')) {
+    let sellerID = sessionStorage.getItem('RoleID') || "";
+    
+    let params = new URLSearchParams();
+    params.append('SellerID', sellerID);
+    params.append('SellerShopPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+
+    function RemoveProduct(productID) {
+        let formData = new FormData();
+        formData.append('productID', productID);
+        formData.append('SellerRemoveProduct', 1);
+
+        // Getting the data from the backend
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                data = JSON.parse(data);
+                if (data?.msg == true) {
+                    location.reload();
+                }
+            })
+            .catch(error => console.log("Error:", error));
     }
 }

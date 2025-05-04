@@ -41,7 +41,14 @@ class Product extends DataBaseHelper
 
             if ($result0) {
                 // Getting the product ID
-                $query1 = "SELECT ProductID FROM products WHERE SellerID = :sellerId ORDER BY ProductID DESC LIMIT 1";
+                $query1 = "
+                        SELECT ProductID 
+                        FROM products 
+                        WHERE SellerID = :sellerId 
+                        ORDER BY CAST(SUBSTRING(ProductID, 3) AS UNSIGNED) DESC 
+                        LIMIT 1;
+                    ";
+                    
                 $values1 = [":sellerId" => $sellerID];
 
                 $DBHObject1 = new DataBaseHelper($query1, $values1);
@@ -337,6 +344,56 @@ class Product extends DataBaseHelper
 
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+    // Seller view products in shop page get data method
+    public function SellerViewShopPage($get)
+    {
+        try {
+            $query = "
+                    SELECT 
+                        p.*,
+                        i.Content 
+                    FROM 
+                        products p 
+                    LEFT JOIN 
+                        images i ON i.ProductID = p.ProductID
+                    WHERE 
+                        p.SellerID = :sellerid AND i.Level = 'main' AND p.Status = 'active';
+                    ";
+            $values = [":sellerid" => $get['SellerID']];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+    // Seller Remove products
+    public function SellerRemoveProduct($post)
+    {
+        try {
+            $query = "
+                DELETE FROM images
+                WHERE ProductID = :productID;
+
+                DELETE FROM products
+                WHERE ProductID = :productID;
+            ";
+            $values = [":productID" => $post['productID']];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->ExecuteDB();
 
             return json_encode(['msg' => $result]);
         } catch (Exception $e) {
