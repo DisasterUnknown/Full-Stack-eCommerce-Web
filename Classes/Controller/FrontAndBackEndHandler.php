@@ -250,4 +250,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+    // Seller View Products in Shop
+    if (!empty($_GET['ViewCategoryPage'])) {
+        try {
+            $product = new Product();
+            echo $product->GetCategoryProducts($_GET);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }

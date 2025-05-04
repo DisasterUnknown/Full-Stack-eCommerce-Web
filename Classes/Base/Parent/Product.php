@@ -400,4 +400,45 @@ class Product extends DataBaseHelper
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+    
+
+    // Getting the products for categories
+    public function GetCategoryProducts($get) {
+        try {
+            if ($get['categoryType'] == 'art') {
+                $query = "
+                    SELECT 
+                        p.*,
+                        i.Content 
+                    FROM 
+                        products p 
+                    LEFT JOIN 
+                        images i ON i.ProductID = p.ProductID
+                    WHERE 
+                        i.Level = 'main' AND p.Status = 'active' AND p.Category = 'art';
+                ";
+            } else {
+                $query = "
+                    SELECT 
+                        p.*,
+                        i.Content 
+                    FROM 
+                        products p 
+                    LEFT JOIN 
+                        images i ON i.ProductID = p.ProductID
+                    WHERE 
+                        i.Level = 'main' AND p.Status = 'active' AND p.Category = 'collectibles';
+                ";
+            }
+
+            $values = [];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    } 
 }

@@ -711,3 +711,30 @@ if (document.getElementById('sellerShopPage')) {
             .catch(error => console.log("Error:", error));
     }
 }
+
+
+// =======================================================================================================
+// =======================================================================================================
+// =======================================================================================================
+// View Products Category page 
+if (document.getElementById('categoriesPage')) {
+    let Category = sessionStorage.getItem('Category') || "";
+
+    let params = new URLSearchParams();
+    params.append('categoryType', Category);
+    params.append('ViewCategoryPage', 1);
+
+    // Getting the data from the backend using GET
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("compleateResponce").innerHTML = data;
+            // console.log(data);
+
+            data = JSON.parse(data);
+            document.getElementById("responce").innerHTML = data['msg'];
+        })
+        .catch(error => console.log("Error:", error));
+}
