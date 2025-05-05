@@ -9,14 +9,21 @@ $role = $_SESSION['RoleID'] ?? '';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= $title ?? 'Page' ?></title>
+
+    <!-- Google Font Link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="/WebProject/css/output.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="min-h-screen bg-gradient-to-b from-[#01002e] to-black text-white">
 
     <!-- Hamburger Icon (mobile only) -->
-    
+
 
     <!-- Calling the sidebar -->
     <?php include 'Includes/sidebar.php'; ?>
