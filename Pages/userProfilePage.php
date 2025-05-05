@@ -1,5 +1,5 @@
 <?php
-$title = "View Product Page";
+$title = "Profile Page";
 $scriptIndex = "/WebProject/JavaScript/index.js";
 $scriptPage = "/WebProject/JavaScript/userProfilePage.js";
 

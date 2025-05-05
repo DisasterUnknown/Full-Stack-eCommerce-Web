@@ -1,5 +1,5 @@
 <?php
-$title = "View Product Page";
+$title = "View Product";
 $scriptIndex = "/WebProject/JavaScript/index.js";
 $scriptPage = "/WebProject/JavaScript/viewProductDetails.js";
 
@@ -57,6 +57,14 @@ $content = <<<HTML
             </div>
         </div>
 
+        <!-- Seller View Sales Section -->
+        <div id="productDiaplaySales" class="hidden">
+            <p class="text-2xl text-center font-bold text-white mt-10 md:mt-20 mb-10">Product Sales</p>
+            <div id="salesDisplaySection" class="flex flex-col items-center justify-center">
+                <!-- Sales Data -->
+            </div>
+        </div>
+
     </div>
 
     <!-- Storing the Seller ID -->
@@ -64,6 +72,9 @@ $content = <<<HTML
 
     <!-- Getting admin remove sucess msg -->
     <div class="hidden" id="adminRemoveResponce">null</div>
+
+    <!-- Getting product sales msg -->
+    <div class="hidden" id="productSalesResponce">null</div>
 
     <!-- Backend replay section -->
     <div class="hidden" id="compleateResponce">null1</div>

@@ -2,8 +2,11 @@
 require_once "../Base/Parent/Users.php";
 require_once "../Base/Parent/Product.php";
 
-class Seller extends User {
-    public function __construct() {}
+class Seller extends User
+{
+    public function __construct()
+    {
+    }
 
 
     // Calling the Register method from User class
@@ -15,9 +18,10 @@ class Seller extends User {
 
 
     // Calling the view buyers method from AdminSeller class
-    public function SellerViewBuyers()
+    protected function SellerViewBuyers($get)
     {
-
+        $product = new Product();
+        return $product->SellerGetBuyers($get);
     }
 
 

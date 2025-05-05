@@ -77,6 +77,8 @@ function UserPageInteractions() {
 
     // When the user role is the same as the owner of the product
     if (userRole == sellerId) {
+        GetProductSales();
+        document.getElementById('productDiaplaySales').className = 'block';
         productActionBtn.innerHTML = "Edit Product";
         document.getElementById('quantityDiv').style.display = "none";
         productActionBtn.addEventListener('click', () => {
@@ -163,4 +165,56 @@ function UserPageInteractions() {
             productQuantity.innerHTML = '1';
         }
     });
+}
+
+
+
+// =================================================================================================
+// =================================================================================================
+// Updating Sales Section 
+let targetNode1 = document.getElementById('productSalesResponce');
+
+// Configuring observer for changes in child nodes and text content
+const config1 = { childList: true, subtree: true, characterData: true };
+
+// Exercuting the callback function when changes happen 
+const callback1 = function (mutationsList, observer1) {
+    FillThePageContents(targetNode1.innerHTML);
+}
+
+
+// Create a MutationObserver with the callback
+const observer1 = new MutationObserver(callback1);
+
+// Start observing the target node with the specified configuration
+observer1.observe(targetNode1, config1);
+
+
+// Page main function 
+function FillThePageContents(data) {
+    let pageDataElement = document.getElementById('salesDisplaySection');
+    data = JSON.parse(data);
+
+    pageDataElement.innerHTML = `
+        <div class="border flex flex-row px-5 py-2 w-[90%] md:w-[80%] mb-2 rounded-xl hover:scale-101 hover:shadow-[0_0_15px_2px_rgba(100,100,255,0.8)] transition-colors duration-500">
+            <p class="basis-1/4 text-center hidden md:block">UserName</p>
+            <p class="basis-2/4 md:basis-1/4 text-center">Quantity</p>
+            <p class="basis-2/4 md:basis-1/4 text-center">Profit</p>
+            <p class="basis-1/4 text-center hidden md:block">DateTime</p>
+        </div>
+    `;
+
+    for (let i = 0; i < data['msg'].length; i++) {
+        console.log(data['msg'][i]);
+        
+        pageDataElement.innerHTML += `
+            <div class="border flex flex-row px-5 py-2 w-[90%] md:w-[80%] mb-2 rounded-xl hover:scale-101 hover:shadow-[0_0_15px_2px_rgba(100,100,255,0.8)] transition-colors duration-500">
+                <p class="basis-1/4 text-center hidden md:block">${data['msg'][i]['Name']}</p>
+                <p class="basis-2/4 md:basis-1/4 text-center">${data['msg'][i]['Amount']}</p>
+                <p class="basis-2/4 md:basis-1/4 text-center">Rs. ${Number((data['msg'][i]['Price']/100 * data['msg'][i]['Discount']) * data['msg'][i]['Amount']).toLocaleString()}</p>
+                <p class="basis-1/4 text-center hidden md:block">${data['msg'][i]['SalesDateTime']}</p>
+            </div>
+        `;
+    }
+
 }

@@ -128,4 +128,12 @@ class SellerController extends Seller
         $seller = new Seller();
         return $seller->SellerRemoveProduct($post);
     }
+
+
+    // Seller Get Product Sales
+    public function GetProductsSales($get)
+    {
+        $seller = new Seller();
+        return $seller->SellerViewBuyers($get);
+    }
 }

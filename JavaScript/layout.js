@@ -21,21 +21,31 @@ hamburger.addEventListener('click', () => {
 
 // Change login logout btn acording to the user login
 window.onload = () => {
-    let logInOutLink = document.getElementById('logInOut');
-    let sellerID = sessionStorage.getItem('RoleID') || "";
-    if (sellerID == "") {
-        document.querySelector('#logInOut span:nth-of-type(1)').innerHTML = "Login";
-        document.querySelector('#logInOut span:nth-of-type(2)').innerHTML = "Login";
-    }
+  let roleID = sessionStorage.getItem('RoleID') || "";
+  if (roleID == "") {
+    document.querySelector('#logInOut span:nth-of-type(1)').innerHTML = "Login";
+    document.querySelector('#logInOut span:nth-of-type(2)').innerHTML = "Login";
+    document.getElementById('logInOutMobile').innerHTML = "Login";
+  }
 }
 
+// ====================================================================================
 // Navigating to seller add product page
-document.getElementById('addNewProductNav').addEventListener('click', () => {
-  sessionStorage.setItem('SellerProductMode', 'Add');
-  window.location = '/WebProject/Pages/addProduct';
-});
+if (document.getElementById('addNewProductNav')) {
+  document.getElementById('addNewProductNav').addEventListener('click', () => {
+    sessionStorage.setItem('SellerProductMode', 'Add');
+    window.location = '/WebProject/Pages/addProduct';
+  });
 
-document.getElementById('topBarAddProducts').addEventListener('click', () => {
-  sessionStorage.setItem('SellerProductMode', 'Add');
-  window.location = '/WebProject/Pages/addProduct';
-});
+  document.getElementById('topBarAddProducts').addEventListener('click', () => {
+    sessionStorage.setItem('SellerProductMode', 'Add');
+    window.location = '/WebProject/Pages/addProduct';
+  });
+}
+
+if (document.getElementById('addNewProductNavMobile')) {
+  document.getElementById('addNewProductNavMobile').addEventListener('click', () => {
+    sessionStorage.setItem('SellerProductMode', 'Add');
+    window.location = '/WebProject/Pages/addProduct';
+  });
+}

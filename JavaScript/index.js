@@ -306,16 +306,6 @@ if (document.getElementById('viewProductDetails')) {
     if (adminID.startsWith("AD")) {
 
         document.getElementById('productActionBtn').addEventListener('click', () => {
-            // let localCart = localStorage.getItem('cartProducts');
-            // localCart = JSON.parse(localCart);
-
-            // if (localCart.hasOwnProperty(productID)) {
-            //     delete localCart[productID];
-            //     console.log(localCart);
-
-            //     localStorage.setItem('cartProducts', JSON.stringify(localCart));
-            // }
-
             let formData = new FormData();
             formData.append('ProductID', productID);
             formData.append('AdminID', adminID);
@@ -337,6 +327,23 @@ if (document.getElementById('viewProductDetails')) {
                 })
                 .catch(error => console.log("Error:", error));
         });
+    }
+
+    // If the product belongs to the same seller 
+    function GetProductSales() {
+        let params = new URLSearchParams();
+        params.append('ProductID', productID);
+        params.append('ViewProductSales', 1);
+
+        // Getting the data from the backend using GET
+        fetch(`${fetchFile}?${params.toString()}`, {
+            method: "GET"
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("productSalesResponce").innerHTML = data;
+            })
+            .catch(error => console.log("Error:", error));
     }
 }
 
@@ -672,7 +679,7 @@ if (document.getElementById('viewKickUsersPage')) {
 // View Products Seller Shop Page
 if (document.getElementById('sellerShopPage')) {
     let sellerID = sessionStorage.getItem('RoleID') || "";
-    
+
     let params = new URLSearchParams();
     params.append('SellerID', sellerID);
     params.append('SellerShopPage', 1);

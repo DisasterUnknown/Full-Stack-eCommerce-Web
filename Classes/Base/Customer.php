@@ -19,20 +19,6 @@ class Customer extends User
     }
 
 
-    // Calling the Edit Profile
-    public function customerEditProfile()
-    {
-
-    }
-
-
-    // Calling the View Profile
-    public function customerViewProfile()
-    {
-
-    }
-
-
     // Calling the View Product in the Cart Page
     protected function GetCartProductDetails($get)
     {

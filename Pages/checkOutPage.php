@@ -22,9 +22,9 @@ $content = <<<HTML
                     <label class="text-white mr-5 ml-1">Shipping&nbsp;Method:</label>
                     <select id="shipppingMethodSelect"
                         class="border border-white/60 border-r-10 bg-white text-white/60 bg-opacity-5 mb-1 px-1.5 pb-0.5 w-full rounded-full hover:bg-opacity-10">
-                        <option value="customer" class="bg-white text-black">Standard</option>
-                        <option value="seller" class="bg-white text-black">Express</option>
-                        <option value="seller" class="bg-white text-black">Next-Day</option>
+                        <option value="standard" class="bg-white text-black">Standard</option>
+                        <option value="express" class="bg-white text-black">Express</option>
+                        <option value="nextDay" class="bg-white text-black">Next-Day</option>
                     </select>
                 </div>
                 <hr class="my-10">

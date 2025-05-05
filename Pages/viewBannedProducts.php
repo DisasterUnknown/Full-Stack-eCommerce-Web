@@ -1,5 +1,5 @@
 <?php
-$title = "View Product Page";
+$title = "View Banned Products";
 $scriptIndex = "/WebProject/JavaScript/index.js";
 $scriptPage = "/WebProject/JavaScript/viewBannedProducts.js";
 

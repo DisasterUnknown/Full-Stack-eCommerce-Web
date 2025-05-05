@@ -260,4 +260,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+    // Seller View Products Sales
+    if (!empty($_GET['ViewProductSales'])) {
+        try {
+            $sellerControler = new SellerController();
+            echo $sellerControler->GetProductsSales($_GET);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }

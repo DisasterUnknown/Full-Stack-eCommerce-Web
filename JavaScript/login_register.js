@@ -1,5 +1,6 @@
 // Login Page JavaScript 
 if (document.getElementById('loginPage')) {
+    sessionStorage.removeItem('RoleID');
     let phpResponce = document.getElementById('responce');
     let loginBtn = document.getElementById('loginBtn');
     let errorOutput = document.getElementById('errorOut');

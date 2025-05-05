@@ -1,5 +1,5 @@
 <?php
-$title = "View Product Page";
+$title = "Add Product";
 $scriptIndex = "/WebProject/JavaScript/index.js";
 $scriptPage = "/WebProject/JavaScript/addAndUpdateProduct.js";
 

@@ -6,11 +6,6 @@ require_once 'DataBaseHelper.php';
 
 class Product extends DataBaseHelper
 {
-    private $productName;
-    private $price;
-    private $discription;
-    private $seller;
-
     public function __construct()
     {
     }
@@ -441,4 +436,38 @@ class Product extends DataBaseHelper
             return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }
     } 
+
+
+    // Getting product Sales 
+    public function SellerGetBuyers($get) {
+        try {
+            $query = "
+                SELECT 
+                    s.SalesDateTime,
+                    s.Amount,
+                    s.CustomerID,
+                    u.Name,
+                    p.Price,
+                    p.Discount
+                FROM 
+                    sales s
+                JOIN 
+                    customer c ON s.CustomerID = c.CustomerID
+                JOIN 
+                    user u ON c.UserID = u.UserID
+                JOIN 
+                    products p ON s.ProductID = p.ProductID
+                WHERE 
+                    s.ProductID = :productid;
+            ";
+            $values = [':productid' => $get['ProductID']];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            return json_encode(['msg' => $result]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
