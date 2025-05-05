@@ -19,7 +19,7 @@
             <div class="mt-2">
                 <a href="/WebProject/Pages/login"
                     class="border bg-white bg-opacity-5 backdrop-blur-lg mr-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">Login</a>
-                <a href=""
+                <a href="/WebProject/Pages/aboutUsPage"
                     class="border bg-white bg-opacity-5 backdrop-blur-lg mr-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">About
                     Us</a>
             </div>

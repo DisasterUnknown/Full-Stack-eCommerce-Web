@@ -25,6 +25,8 @@
             <li><a href="/WebProject/Pages/userProfilePage" class="block text-gray-300 hover:text-white transition">Profile</a></li>
         <?php endif; ?>
 
+        <!-- Always Show -->
         <li><a id="logInOutMobile" href="/WebProject/Pages/login" class="block text-gray-300 hover:text-white transition">Logout</a></li>
+        <li><a href="/WebProject/Pages/aboutUsPage" class="block text-gray-300 hover:text-white transition">About Us</a></li>
     </ul>
 </div>

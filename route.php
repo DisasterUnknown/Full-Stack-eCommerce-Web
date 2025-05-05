@@ -17,7 +17,8 @@ if (!str_starts_with($role, 'AD') && !str_starts_with($role, 'SE')) {
         "$routeHeader/Pages/cartPage" => "Pages/cartPage.php",
         "$routeHeader/Pages/checkOutPage" => "Pages/checkOutPage.php",
         "$routeHeader/Pages/userProfilePage" => "Pages/userProfilePage.php",
-        "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php"
+        "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php",
+        "$routeHeader/Pages/aboutUsPage" => "Pages/aboutUsPage.php"
     );
 // If the user is an seller
 } else if (str_starts_with($role, 'SE')) {
@@ -30,7 +31,8 @@ if (!str_starts_with($role, 'AD') && !str_starts_with($role, 'SE')) {
         "$routeHeader/Pages/viewProductDetails" => "Pages/viewProductDetails.php",
         "$routeHeader/Pages/userProfilePage" => "Pages/userProfilePage.php",
         "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php",
-        "$routeHeader/Pages/sellerShop" => "Pages/sellerShop.php"
+        "$routeHeader/Pages/sellerShop" => "Pages/sellerShop.php",
+        "$routeHeader/Pages/aboutUsPage" => "Pages/aboutUsPage.php"
     );
 // If the user is an admin
 } else if (str_starts_with($role, 'AD')) {
@@ -43,7 +45,8 @@ if (!str_starts_with($role, 'AD') && !str_starts_with($role, 'SE')) {
         "$routeHeader/Pages/userProfilePage" => "Pages/userProfilePage.php",
         "$routeHeader/Pages/viewUsers" => "Pages/viewUsers.php",
         "$routeHeader/Pages/viewKickUsers" => "Pages/viewKickUsers.php",
-        "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php"
+        "$routeHeader/Pages/categoriesPage" => "Pages/categoriesPage.php",
+        "$routeHeader/Pages/aboutUsPage" => "Pages/aboutUsPage.php"
     );
 }
 

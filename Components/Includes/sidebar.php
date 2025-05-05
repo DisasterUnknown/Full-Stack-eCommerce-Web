@@ -68,7 +68,16 @@
             </li>
         <?php endif; ?>
 
-        <!-- Always shown: Logout -->
+        <!-- Always Show About Us -->
+        <li>
+            <a href="/WebProject/Pages/aboutUsPage"
+                class="flex items-center text-gray-300 font-sans rounded-full hover:bg-black transition-colors duration-500">
+                <span class="material-symbols-outlined p-2 text-xl rounded-full bg-black">groups</span>
+                <span class="menu-text hidden ml-4">About Us</span>
+            </a>
+        </li>
+
+        <!-- Always show Logout -->
         <li>
             <a href="/WebProject/Pages/login"
                 class="flex items-center text-gray-300 font-sans rounded-full hover:bg-black transition-colors duration-500"
