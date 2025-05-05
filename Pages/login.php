@@ -1,3 +1,9 @@
+<!-- Removing existing sesstions -->
+<?php
+session_unset();
+session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +18,7 @@
     <div class="bg-cover bg-center h-screen" style="background-image: url('/WebProject/assets/LoginBackground.gif')">
         <!-- Top Nav Bar      -->
         <div class="flex justify-between absolute top-0 left-0 w-full">
-            <a href=""
+            <a href="/WebProject/"
                 class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 ml-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">BlueArt</a>
             <a href=""
                 class="border bg-white bg-opacity-5 backdrop-blur-lg mt-2 mr-2 py-0.5 pb-1 px-3 text-white font-semibold rounded">About

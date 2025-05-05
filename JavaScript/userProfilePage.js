@@ -77,7 +77,7 @@ function FillThePageContents(data) {
         let userName = data['msg'][0]['Name'];
         let userPfp = data['msg'][0]['PFPdata'];
 
-        if (userPfp !== null) {
+        if (userPfp !== "null") {
             UserPfpView.src = userPfp;
         }
 

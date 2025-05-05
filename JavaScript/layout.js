@@ -28,3 +28,14 @@ window.onload = () => {
         document.querySelector('#logInOut span:nth-of-type(2)').innerHTML = "Login";
     }
 }
+
+// Navigating to seller add product page
+document.getElementById('addNewProductNav').addEventListener('click', () => {
+  sessionStorage.setItem('SellerProductMode', 'Add');
+  window.location = '/WebProject/Pages/addProduct';
+});
+
+document.getElementById('topBarAddProducts').addEventListener('click', () => {
+  sessionStorage.setItem('SellerProductMode', 'Add');
+  window.location = '/WebProject/Pages/addProduct';
+});

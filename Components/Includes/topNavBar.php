@@ -5,6 +5,22 @@
         </button>
         <a href="/WebProject/" class="text-xl py-1 px-3 text-white font-bold">BlueArt</a>
     </div>
-    <a href="/WebProject/Pages/cartPage"
-        class="border bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">Cart</a>
+
+    <!-- Customer and Guest view cart -->
+    <?php if (!str_starts_with($role, 'SE') && !str_starts_with($role, 'AD')): ?>
+        <a href="/WebProject/Pages/cartPage"
+            class="border bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">Cart</a>
+    <?php endif; ?>
+
+    <!-- Admin View Users -->
+    <?php if (str_starts_with($role, 'AD')): ?>
+        <a href="/WebProject/Pages/viewUsers"
+            class="border bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">View Users</a>
+    <?php endif; ?>
+
+    <!-- Seller Add Product -->
+    <?php if (str_starts_with($role, 'SE')): ?>
+        <a id="topBarAddProducts"
+            class="border cursor-pointer bg-white bg-opacity-5 backdrop-blur-lg py-1 px-3 text-white font-semibold rounded hover:bg-opacity-10">Add Product</a>
+    <?php endif; ?>
 </div>

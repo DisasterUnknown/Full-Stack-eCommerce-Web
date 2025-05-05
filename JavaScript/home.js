@@ -89,3 +89,20 @@ const observer = new MutationObserver(callback);
 
 // Start observing the target node with the specified configuration
 observer.observe(targetNode, config);
+
+
+
+
+// ===============================================================================
+// ===============================================================================
+// ===============================================================================
+// Navigating to the art and collectables pages 
+document.getElementById('artCategory').addEventListener('click', () => {
+    sessionStorage.setItem('Category', 'art');
+    window.location = '/WebProject/Pages/categoriesPage';
+});
+
+document.getElementById('collectablesCategory').addEventListener('click', () => {
+    sessionStorage.setItem('Category', 'collectables');
+    window.location = '/WebProject/Pages/categoriesPage';
+});

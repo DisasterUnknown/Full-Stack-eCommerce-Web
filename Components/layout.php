@@ -1,3 +1,7 @@
+<?php
+$role = $_SESSION['RoleID'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

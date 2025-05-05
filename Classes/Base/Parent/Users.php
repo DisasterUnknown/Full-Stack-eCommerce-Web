@@ -4,6 +4,15 @@
 require_once 'DataBaseHelper.php';
 require_once 'Product.php';
 
+// Creating a sesstion
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+session_start();
 
 class User extends DataBaseHelper
 {
@@ -155,6 +164,8 @@ class User extends DataBaseHelper
                     $DataBaseEmail = $result3[0]['Email'];
                     $DataBasePass = $result3[0]['Password'];
                     if (($DataBaseEmail == $user->getEmail()) and ($DataBasePass == $user->getPassword())) {
+                        // Adding the role to the sesstion
+                        $_SESSION['RoleID'] = $UserRoleID;
                         return json_encode(['msg' => 'Login SucessFull!!', 'roleId' => $UserRoleID]);
                     } else {
                         return json_encode(['msg' => 'Incorect Email or Password!!']);
@@ -240,6 +251,9 @@ class User extends DataBaseHelper
 
                         $DBHObject4 = new DataBaseHelper($query4, $values4);
                         $result3 = $DBHObject4->SelectDB();
+
+                        // Adding the role to the sesstion
+                        $_SESSION['RoleID'] = reset($result3[0]);
 
                         return json_encode(['msg' => 'User Registered Sucessfully!', 'roleId' => reset($result3[0])]);
                     } else {
@@ -539,7 +553,7 @@ class User extends DataBaseHelper
             if ($result2) {
                 $product = new Product();
                 $product->UserUnKickRestoreProducts($userID);
-                
+
 
                 return json_encode(['msg' => $result]);
                 // IF not a seller simply reloading the page
