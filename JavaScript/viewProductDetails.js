@@ -211,7 +211,7 @@ function FillThePageContents(data) {
             <div class="border flex flex-row px-5 py-2 w-[90%] md:w-[80%] mb-2 rounded-xl hover:scale-101 hover:shadow-[0_0_15px_2px_rgba(100,100,255,0.8)] transition-colors duration-500">
                 <p class="basis-1/4 text-center hidden md:block">${data['msg'][i]['Name']}</p>
                 <p class="basis-2/4 md:basis-1/4 text-center">${data['msg'][i]['Amount']}</p>
-                <p class="basis-2/4 md:basis-1/4 text-center">Rs. ${Number((data['msg'][i]['Price']/100 * data['msg'][i]['Discount']) * data['msg'][i]['Amount']).toLocaleString()}</p>
+                <p class="basis-2/4 md:basis-1/4 text-center">Rs. ${Number((data['msg'][i]['Price'] - (data['msg'][i]['Price']/100 * data['msg'][i]['Discount'])) * data['msg'][i]['Amount']).toLocaleString()}</p>
                 <p class="basis-1/4 text-center hidden md:block">${data['msg'][i]['SalesDateTime']}</p>
             </div>
         `;
