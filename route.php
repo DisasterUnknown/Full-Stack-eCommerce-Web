@@ -5,6 +5,7 @@ $role = $_SESSION['RoleID'] ?? '';
 // var_dump($_SESSION); // Debug view sesstion data
 
 $requestURL = trim($_SERVER['REQUEST_URI'], '/');
+$requestURL = preg_replace('/\.php$/', '', $requestURL);
 $routeHeader = "WebProject";
 
 // If the user is an customer or guest
@@ -60,4 +61,5 @@ foreach ($routs as $key => $value) {
 
 
 http_response_code(404);
-echo "Route not found: Error 404";
+include "Pages/page404.php";
+exit;
