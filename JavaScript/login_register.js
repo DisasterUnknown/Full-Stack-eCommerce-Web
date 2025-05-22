@@ -16,6 +16,25 @@ if (document.getElementById('loginPage')) {
             }
         }, 500);
     });
+
+    // google Login
+    let GoogleOauthError = document.getElementById('googleErrorOut');
+    const config = { childList: true, subtree: true, characterData: true };
+
+    const callback = function (mutationsList, observer) {
+        let data = GoogleOauthError.innerHTML;        
+
+        if (data !== 'null') {
+            if (data == 'Login SucessFull!!') {
+                window.location.href = "/WebProject/index";
+            } else {
+                errorOutput.innerHTML = data;
+            }
+        }
+    }
+
+    const observer = new MutationObserver(callback);
+    observer.observe(GoogleOauthError, config);
 }
 
 

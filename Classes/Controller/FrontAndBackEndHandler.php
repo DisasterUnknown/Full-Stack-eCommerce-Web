@@ -5,6 +5,7 @@ require_once "SellerController.php";
 require_once "CustomerController.php";
 require_once "../Base/Parent/Users.php";
 require_once "../Base/Parent/Product.php";
+require_once "../Base/GoogleOauth/GoogleOauthHelper.php";
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Get POST Request from the front-end
@@ -44,6 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Pass form data to User class and validate
             $user = new User($_POST['emailIN'], $_POST['passIN']);
             echo $user->UserLogin($user); // Output user info if valid
+
+        } catch (Exception $e) {
+            // Output validation errors
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+    // User Google Login 
+    if (!empty($_POST['GoogleLogin'])) {
+        try {
+            // Pass form data to User class and validate
+            $user = new User($_POST['emailIN'], null, $_POST['nameIN']);
+            echo $user->UserGoogleLogin($user);
 
         } catch (Exception $e) {
             // Output validation errors
@@ -266,6 +281,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         try {
             $sellerControler = new SellerController();
             echo $sellerControler->GetProductsSales($_GET);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+    // Getting the Login PAge Oauth URL
+    if (!empty($_GET['LoginPageOauthURL'])) {
+        try {
+            $GoogleOauthHelper = new GoogleOauthHelper();
+            echo $GoogleOauthHelper->OauthUrl();
         } catch (Exception $e) {
             echo json_encode(['msg' => 'Error: ' . $e->getMessage()]);
         }

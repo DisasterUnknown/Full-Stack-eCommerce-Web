@@ -119,7 +119,7 @@ class User extends DataBaseHelper
                 throw new Exception("Password must be at least 6 characters.");
             }
 
-            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'active';";
+            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'active' AND OAUTH = 'application';";
             $values = [":email" => $user->getEmail()];
 
             // Data Base Helper class object
@@ -182,6 +182,63 @@ class User extends DataBaseHelper
     }
 
 
+    // Google Login
+    static function UserGoogleLogin(User $user)
+    {
+        try {
+            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'active' AND OAUTH = 'google';";
+            $values = [':email' => $user->getEmail()];
+
+            $DBHObject = new DataBaseHelper($query, $values);
+            $result = $DBHObject->SelectDB();
+
+            // If user is not there inserting the user to the DB 
+            if (empty($result[0]['UserID'])) {
+                $query1 = "INSERT INTO user (Name, Email, Password, OAUTH) VALUES (:username, :email, :pass, :oath);";
+                $values1 = [':username' => $user->getName(), ':email' => $user->getEmail(), ':pass' => 'GoogleOauth', ':oath' => 'google'];
+
+                $DBHObject1 = new DataBaseHelper($query1, $values1);
+                $result1 = $DBHObject1->ExecuteDB();
+
+                // Selecting the user Id of the user
+                $query2 = "SELECT UserID FROM user WHERE email = :email AND Status = 'active' AND OAUTH = 'google';";
+                $values2 = [':email' => $user->getEmail()];
+
+                $DBHObject2 = new DataBaseHelper($query2, $values2);
+                $result2 = $DBHObject2->SelectDB();
+
+                // Adding the ID
+                $query3 = "INSERT INTO customer (UserID) VALUES (:userID)";
+                $values3 = [':userID' => $result2[0]['UserID']];
+
+                $DBHObject3 = new DataBaseHelper($query3, $values3);
+                $result3 = $DBHObject3->ExecuteDB();
+            }
+
+            // Selecting the Customer ID
+            $query4 = "
+                SELECT 
+                    c.CustomerID 
+                FROM customer c
+                    JOIN user u ON c.UserID = u.UserID
+                WHERE
+                    u.email = :email AND u.Status = 'active' AND u.OAUTH = 'google';
+            ";
+            $values4 = [':email' => $user->getEmail()];
+
+            $DBHObject4 = new DataBaseHelper($query4, $values4);
+            $UserRoleID = $DBHObject4->SelectDB();
+
+            // String the user Session
+            $_SESSION['RoleID'] = $UserRoleID[0]['CustomerID'];
+
+            return json_encode(['msg' => 'Login SucessFull!!', 'roleId' => $UserRoleID[0]['CustomerID']]);
+        } catch (Exception $e) {
+            return json_encode(['msg' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
     // Register
     protected function UserRegister(User $user)
     {
@@ -202,6 +259,7 @@ class User extends DataBaseHelper
 
             // If user does not exist register user
             if ($result0[0]["count"] == 0) {
+                // If the account is there adding it to the BlueArt Database
                 $query1 = "INSERT INTO user (Name, Email, Password) VALUES (:username, :email, :pwd);";
                 $values1 = [":username" => $this->name, ":email" => $this->email, ":pwd" => $this->password];
 
@@ -243,7 +301,7 @@ class User extends DataBaseHelper
                     if ($result3) {
                         if ($tableName == "seller") {
                             $query4 = "SELECT SellerID FROM seller WHERE UserID = :UserID";
-                        } else if ($tableName = "customer") {
+                        } else if ($tableName == "customer") {
                             $query4 = "SELECT CustomerID FROM customer WHERE UserID = :UserID";
                         }
 

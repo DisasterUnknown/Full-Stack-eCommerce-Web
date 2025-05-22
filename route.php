@@ -59,6 +59,12 @@ foreach ($routs as $key => $value) {
     }
 }
 
+// If defalt
+if ($requestURL === "$routeHeader") {
+    include "index.php";
+    exit;
+}
+
 
 http_response_code(404);
 include "Pages/page404.php";

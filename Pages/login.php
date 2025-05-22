@@ -6,6 +6,29 @@ if (!empty($_SESSION)) {
 }
 ?>
 
+<?php
+require_once __DIR__ . '/../Classes/Base/GoogleOauth/GoogleOauthHelper.php';
+
+try {
+    $GoogleOauthHelper = new GoogleOauthHelper();
+    $clientConnection = $GoogleOauthHelper->GoogleOauthConnect();
+
+    if (isset($_GET['code'])) {
+        $token = $clientConnection->fetchAccessTokenWithAuthCode($_GET['code']);
+
+        if (isset($token['access_token'])) {
+            $clientConnection->setAccessToken($token['access_token']);
+
+            $oauth = new Google\Service\Oauth2($clientConnection);
+
+            $userInfo = $oauth->userinfo->get();
+        }
+    }
+} catch (Exception $e) {
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,10 +75,24 @@ if (!empty($_SESSION)) {
                 <p class="text-white text-sm text-center mt-2 mb-0.5 opacity-80">Don't have an account?
                     <a href="/WebProject/Pages/register" class="font-semibold hover:font-bold">Register</a>
                 </p>
+
+                <hr class="my-5">
+
+                <p class="mb-2 text-white text-sm text-center hidden" id="googleErrorOut">&nbsp;</p>
+                <a href="" id="googleOauthBtn"
+                    class="bg-white px-4 py-1 block text-center mx-auto w-full rounded-full font-bold hover:bg-white hover:bg-opacity-70">Sign
+                    in with Google</a>
             </form>
 
             <div class="hidden" id="compleateResponce">null</div>
             <div class="hidden" id="responce">null</div>
+            <?php
+            if (isset($userInfo)) {
+                echo "<p class='mb-2 text-white text-sm text-center hidden' id='googleDataResponce'>$userInfo->email, $userInfo->name</p>";
+            } else {
+                echo "<p class='mb-2 text-white text-sm text-center hidden' id='googleDataResponce'>null</p>";
+            }
+            ?>
         </div>
 
         <!-- Footer with absolute positioning -->

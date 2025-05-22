@@ -72,6 +72,59 @@ if (document.getElementById('registerForm')) {
 // =======================================================================================================
 // User Login 
 if (document.getElementById('loginForm')) {
+    // Requesting for the google Oauth url
+    let params = new URLSearchParams();
+    params.append('LoginPageOauthURL', 1);
+
+    fetch(`${fetchFile}?${params.toString()}`, {
+        method: "GET"
+    })
+        .then(response => response.text())
+        .then(data => {
+            // console.log(data);
+            data = JSON.parse(data);
+            document.getElementById("googleOauthBtn").href = data['msg'];
+
+            // Debug
+            // document.getElementById("responce").innerHTML = data;
+        })
+        .catch(error => console.log("Error:", error));
+
+    // Login Using Google Oauth
+    let userGoogleData = document.getElementById('googleDataResponce');
+    if (userGoogleData.innerHTML != 'null') {
+        let [email, name] = userGoogleData.innerHTML.split(', ');
+        // console.log(email);
+        // console.log(name);
+        
+        let formData = new FormData();
+        formData.append('emailIN', email);
+        formData.append('nameIN', name);
+        formData.append('GoogleLogin', 1);
+
+        // Getting the data from the backend
+        fetch(fetchFile, {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                data = JSON.parse(data);
+                document.getElementById("googleErrorOut").className = 'mb-2 text-white text-sm text-center';
+                document.getElementById("googleErrorOut").innerHTML = data['msg'];
+
+                // Storing the user role id in section storage for furthor use
+                console.log(data['roleId']);
+                
+                sessionStorage.setItem('RoleID', data['roleId']);
+                // Debug
+                // document.getElementById("responce").innerHTML = data;
+            })
+            .catch(error => console.log("Error:", error));
+    }
+
+    // When Application login clicked
     document.getElementById('loginBtn').addEventListener('click', () => {
         let email = document.getElementById('emailIN');
         let pass = document.getElementById('passIN');
