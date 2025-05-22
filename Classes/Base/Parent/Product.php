@@ -227,7 +227,7 @@ class Product extends DataBaseHelper
     public function UserKickRemoveProducts($userID)
     {
         $query = "
-                    UPDATE products SET Status = 'userkick' WHERE SellerID = (
+                    UPDATE products SET Status = 'active' WHERE SellerID = (
                         SELECT SellerID FROM seller WHERE UserID = :userid
                     );
                     ";
