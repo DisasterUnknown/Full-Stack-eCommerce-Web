@@ -115,7 +115,7 @@ if (document.getElementById('loginForm')) {
                 document.getElementById("googleErrorOut").innerHTML = data['msg'];
 
                 // Storing the user role id in section storage for furthor use
-                console.log(data['roleId']);
+                // console.log(data['roleId']);
                 
                 sessionStorage.setItem('RoleID', data['roleId']);
                 // Debug

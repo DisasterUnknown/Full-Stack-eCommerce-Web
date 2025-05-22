@@ -186,14 +186,24 @@ class User extends DataBaseHelper
     static function UserGoogleLogin(User $user)
     {
         try {
-            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'active' AND OAUTH = 'google';";
+            $query = "SELECT UserID FROM user WHERE email = :email AND Status = 'kicked' AND OAUTH = 'google';";
             $values = [':email' => $user->getEmail()];
 
             $DBHObject = new DataBaseHelper($query, $values);
             $result = $DBHObject->SelectDB();
 
+            if (!empty($result[0]['UserID'])) {
+                return json_encode(['msg' => 'Account Disabled Please Contact system.administrator!']);
+            }
+
+            $query0 = "SELECT UserID FROM user WHERE email = :email AND Status = 'active' AND OAUTH = 'google';";
+            $values0 = [':email' => $user->getEmail()];
+
+            $DBHObject0 = new DataBaseHelper($query0, $values0);
+            $result0 = $DBHObject0->SelectDB();
+
             // If user is not there inserting the user to the DB 
-            if (empty($result[0]['UserID'])) {
+            if (empty($result0[0]['UserID'])) {
                 $query1 = "INSERT INTO user (Name, Email, Password, OAUTH) VALUES (:username, :email, :pass, :oath);";
                 $values1 = [':username' => $user->getName(), ':email' => $user->getEmail(), ':pass' => 'GoogleOauth', ':oath' => 'google'];
 

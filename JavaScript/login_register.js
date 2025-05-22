@@ -27,8 +27,6 @@ if (document.getElementById('loginPage')) {
         if (data !== 'null') {
             if (data == 'Login SucessFull!!') {
                 window.location.href = "/WebProject/index";
-            } else {
-                errorOutput.innerHTML = data;
             }
         }
     }
